@@ -1,0 +1,11 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    i18n_domain="optilux.cinemacontent">
+
+    <permission
+        id="g24.AddBasetype"
+        title="g24.at Add Basetype"
+        />
+
+</configure>

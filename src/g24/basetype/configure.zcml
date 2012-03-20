@@ -3,6 +3,8 @@
            xmlns:i18n="http://namespaces.zope.org/i18n"
            i18n_domain="g24.basetype">
 
+  <adapter factory=".instancebehaviors.DexterityInstanceBehaviorAssignable" />
+
   <genericsetup:registerProfile
     name="default"
     title="g24.basetype"
