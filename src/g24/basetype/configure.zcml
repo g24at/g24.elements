@@ -1,0 +1,14 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+           xmlns:i18n="http://namespaces.zope.org/i18n"
+           i18n_domain="g24.basetype">
+
+  <genericsetup:registerProfile
+    name="default"
+    title="g24.basetype"
+    directory="profile"
+    description="Extension profile for g24.basetype."
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+  />
+
+</configure>
