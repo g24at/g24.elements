@@ -1,0 +1,12 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser">
+    
+    <browser:page
+        name="enable_event"
+        for=".basetype.IBasetype"
+        class=".basetype.EnableEvent"
+        permission="cmf.ModifyPortalContent"
+        /><!-- change to specific permission from g24.basetype then -->
+
+</configure>

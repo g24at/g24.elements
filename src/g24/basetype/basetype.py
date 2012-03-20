@@ -2,7 +2,7 @@ from plone.directives import form
 from plone.app.textfield import RichText
 from g24.basetype import messageFactory as _
 
-class ICinemaFolder(form.Schema):
+class IBasetype(form.Schema):
     """A folder that can contain cinemas
     """
 

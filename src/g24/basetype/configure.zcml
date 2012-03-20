@@ -3,6 +3,9 @@
            xmlns:i18n="http://namespaces.zope.org/i18n"
            i18n_domain="g24.basetype">
 
+  <include file="browser.zcml" />
+  <include file="permissions.zcml" />
+
   <adapter factory=".instancebehaviors.DexterityInstanceBehaviorAssignable" />
 
   <genericsetup:registerProfile
