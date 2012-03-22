@@ -5,7 +5,7 @@
 
     <permission
         id="g24.AddBasetype"
-        title="g24.at Add Basetype"
+        title="g24: Add Basetype"
         />
 
 </configure>
