@@ -1,4 +1,4 @@
-g24.basetype Installation
+g24.elements Installation
 -------------------------
 
 Use zc.buildout to install the package or depend in your integration product's
@@ -12,10 +12,10 @@ setup.py on it.
     [instance]
     eggs =
         ...
-        g24.basetype
+        g24.elements
     zcml =
         ...
-        g24.basetype
+        g24.elements
       
 
 * Re-run buildout, e.g. with:

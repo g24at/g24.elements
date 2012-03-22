@@ -9,7 +9,7 @@
    <property
       name="url_expr">string:$object_url/@@enable_project</property>
    <property
-     name="available_expr">python:context.portal_type == 'g24.basetype' or False</property>
+     name="available_expr">python:context.portal_type == 'g24.elements.basetype' or False</property>
       <!-- TODO: enable only for non-eventish IBasetype instances -->
    <property name="permissions">
     <element value="Modify portal content"/>

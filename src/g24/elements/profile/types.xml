@@ -1,3 +1,3 @@
 <object name="portal_types">
- <object name="g24.basetype" meta_type="Dexterity FTI"/>
+ <object name="g24.elements" meta_type="Dexterity FTI"/>
 </object>

@@ -4,9 +4,9 @@
     
     <browser:page
         name="enable_event"
-        for=".basetype.IBasetype"
-        class=".basetype.EnableEvent"
+        for=".content.IBasetype"
+        class=".content.EnableEvent"
         permission="cmf.ModifyPortalContent"
-        /><!-- change to specific permission from g24.basetype then -->
+        /><!-- change to specific permission from g24.elements then -->
 
 </configure>

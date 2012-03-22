@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<object name="g24.basetype" meta_type="Dexterity FTI"
+<object name="g24.elements.basetype" meta_type="Dexterity FTI"
     xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-    i18n:domain="g24.basetype">
+    i18n:domain="g24.elements">
     
     <!-- Basic properties -->
     <property name="title" i18n:translate="">Basetype</property>
@@ -19,7 +19,7 @@
     </property>
     
     <!-- Schema, class and security -->
-    <property name="schema">g24.basetype.basetype.IBasetype</property> 
+    <property name="schema">g24.elements.content.IBasetype</property> 
     <property name="klass">plone.dexterity.content.Container</property>
     <property name="add_permission">g24.AddBasetype</property>
  

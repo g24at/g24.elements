@@ -8,9 +8,9 @@ from zope.component import adapts, queryUtility
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.behavior import DexterityBehaviorAssignable
 
-from g24.basetype.basetype import IBasetype
-from g24.basetype import INSTANCE_BEHAVIORS_KEY as KEY
-from g24.basetype import messageFactory as _
+from g24.elements.content import IBasetype
+from g24.elements import INSTANCE_BEHAVIORS_KEY as KEY
+from g24.elements import messageFactory as _
 
 class DexterityInstanceBehaviorAssignable(DexterityBehaviorAssignable):
     """ Support per instance specification of plone.behavior behaviors

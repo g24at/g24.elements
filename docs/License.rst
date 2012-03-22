@@ -1,4 +1,4 @@
-  g24.basetype is copyright by the author
+  g24.elements is copyright by the author
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by

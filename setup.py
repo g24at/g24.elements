@@ -1,10 +1,10 @@
 from setuptools import setup, find_packages
 
 version = '1.0'
-shortdesc = "g24 basetype"
+shortdesc = "g24 elements"
 longdesc = """"""
 
-setup(name='g24.basetype',
+setup(name='g24.elements',
       version=version,
       description=shortdesc,
       long_description=longdesc,
