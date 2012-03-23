@@ -7,7 +7,7 @@
    <property name="title" i18n:translate="">Enable event</property>
    <property name="description" i18n:translate=""></property>
    <property
-      name="url_expr">string:$object_url/@@enable_project</property>
+      name="url_expr">string:$object_url/@@enable_event</property>
    <property
      name="available_expr">python:context.portal_type == 'g24.elements.basetype' or False</property>
       <!-- TODO: enable only for non-eventish IBasetype instances -->
