@@ -13,7 +13,7 @@
     <property name="global_allow">True</property>
     <property name="filter_content_types">True</property>
     <property name="allowed_content_types">
-        <element value="Basetype" />
+        <element value="g24.elements.basetype" />
         <element value="Image" />
         <element value="File" />
     </property>
@@ -26,7 +26,7 @@
     <!-- enabled behaviors -->
     <property name="behaviors">
         <element value="plone.app.content.interfaces.INameFromTitle" />
-        <element value="plone.app.referenceablebehavior.referenceable.IReferenceable" />
+        <!-- element value="plone.app.referenceablebehavior.referenceable.IReferenceable"/-->
         <element value="plone.app.dexterity.behaviors.metadata.IDublinCore" />
     </property>
     
