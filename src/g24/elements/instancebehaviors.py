@@ -3,11 +3,17 @@ from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
 
 from zope.annotation import IAnnotations
+from zope.interfaces import alsoProvides
 from zope.component import adapts, queryUtility
 
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.behavior import DexterityBehaviorAssignable
 
+from plone.app.event.dx.interfaces import (
+    IDXEvent,
+    IDXEventRecurrence,
+    IDXEventLocation
+)
 from g24.elements.content import IBasetype
 from g24.elements import INSTANCE_BEHAVIORS_KEY as KEY
 from g24.elements import messageFactory as _
@@ -40,6 +46,8 @@ class EnableEvent(BrowserView):
                                'plone.app.event.dx.behaviors.IEventRecurrence',
                                'plone.app.event.dx.behaviors.IEventLocation',)
         annotations[KEY] = instance_behaviors
+
+        alsoProvides(context, IDXEvent, IDXEventRecurrence, IDXEventLocation)
 
         IStatusMessage(self.request).add(
             _(u"Event behavior is enabled for this content."), u"info")
