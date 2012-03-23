@@ -32,7 +32,7 @@ class DexterityInstanceBehaviorAssignable(DexterityBehaviorAssignable):
 
 class EnableEvent(BrowserView):
 
-    def render(self):
+    def __call__(self):
         context = aq_inner(self.context)
         annotations = IAnnotations(context)
         instance_behaviors = annotations.get(KEY, ())
@@ -43,5 +43,5 @@ class EnableEvent(BrowserView):
 
         IStatusMessage(self.request).add(
             _(u"Event behavior is enabled for this content."), u"info")
-        return self.request.RESPONSE.redirect(
+        return self.request.RESPONSE.redirect('%s/edit' %
                     '/'.join(context.getPhysicalPath()))
