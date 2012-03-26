@@ -9,4 +9,11 @@
         permission="cmf.ModifyPortalContent"
         /><!-- change to specific permission from g24.elements then -->
 
+    <browser:page
+        name="disable_event"
+        for=".content.IBasetype"
+        class=".instancebehaviors.DisableEvent"
+        permission="cmf.ModifyPortalContent"
+        /><!-- change to specific permission from g24.elements then -->
+
 </configure>
