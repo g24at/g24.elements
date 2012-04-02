@@ -18,7 +18,7 @@
    <property name="visible">True</property>
   </object>
 
-  <object name="enable_event" meta_type="CMF Action" i18n:domain="plone">
+  <object name="disable_event" meta_type="CMF Action" i18n:domain="plone">
    <property name="title" i18n:translate="">Disable event</property>
    <property name="description" i18n:translate=""></property>
    <property

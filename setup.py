@@ -28,5 +28,6 @@ setup(name='g24.elements',
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'plone.app.event[dexterity]',
       ],
       )

@@ -3,7 +3,7 @@ from Products.Five.browser import BrowserView
 from Products.statusmessages.interfaces import IStatusMessage
 
 from zope.annotation import IAnnotations
-from zope.interfaces import alsoProvides, noLongerProvides
+from zope.interface import alsoProvides, noLongerProvides
 from zope.component import adapts, queryUtility
 
 from plone.behavior.interfaces import IBehavior
