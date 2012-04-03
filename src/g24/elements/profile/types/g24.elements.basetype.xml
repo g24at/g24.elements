@@ -35,6 +35,7 @@
     <property name="default_view_fallback">False</property>
     <property name="view_methods">
         <element value="view"/>
+        <element value="flatview"/>
     </property>
     
     <alias from="(Default)" to="(selected layout)"/>
