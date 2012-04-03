@@ -14,7 +14,9 @@
     <article tal:define="obj item/getObject;
                          base_url item/getURL">
       <header>
-        <h1 tal:content="item/Title"/>
+        <h1>
+          <a href="" tal:attributes="href string:${base_url}/threadview" tal:content="item/Title">Title</a>
+        </h1>
       </header>
       <p tal:replace="structure obj/text/output|nothing">Text</p>
 

@@ -8,19 +8,26 @@
     <tal:item define="children node/children;
                       item node/item;
                       obj item/getObject;
-                      heading_level python:level + 1"
+                      heading_level python:level + 1;
+                      base_url item/getURL"
               condition="python:bottomLevel &lt;= 0 or level &lt;= bottomLevel">
 
 <li class=""
   tal:attributes="class string:threadview-level-${level}">
 
-  <h1 tal:content="item/Title" />
+  <header>
+    <h1>
+      <a href="" tal:attributes="href string:${base_url}/threadview" tal:content="item/Title">Title</a>
+    </h1>
+  </header>
   <p tal:replace="structure obj/text/output|nothing">Text</p>
-  <emph tal:content="item/Creator"/><br/>
-  <emph tal:content="item/created"/><br/>
-  <tal:tags repeat="tag item/Subject">
-    <emph tal:content="tag"/>
-  </tal:tags>
+  <footer>
+    <a href="" tal:attributes="href string:${base_url}/streamview?user=${item/Creator}" tal:content="item/Creator">Creator</a><br/>
+    <tal:tags repeat="tag item/Subject">
+      <a href="" tal:attributes="href string:${base_url}/streamview?tag=${tag}" tal:content="tag">Tag</a><br/>
+    </tal:tags>
+    <em tal:content="item/created"/><br/>
+  </footer>
 
   <ul><!-- TODO: make me conditional -->
   <tal:recur
