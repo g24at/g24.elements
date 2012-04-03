@@ -2,7 +2,7 @@ from Products.Five.browser import BrowserView
 from Products.CMFCore.utils import getToolByName
 from g24.elements.content import IBasetype
 
-class FlatView(BrowserView):
+class StreamView(BrowserView):
 
     def __init__(self, context, request):
         self.context = context

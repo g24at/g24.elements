@@ -4,9 +4,9 @@
 
     <browser:page
         for="g24.elements.content.IBasetype"
-        name="flatview"
-        class=".flatview.FlatView"
-        template="flatview.pt"
+        name="streamview"
+        class=".streamview.StreamView"
+        template="streamview.pt"
         permission="zope2.View"
         />
 
