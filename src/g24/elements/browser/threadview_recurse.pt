@@ -1,0 +1,36 @@
+<tal:master define="level options/level|python:0;
+                    children options/children | nothing;
+                    bottomLevel options/bottomLevel | nothing;"
+            i18n:domain="g24.basetype">
+
+<metal:main define-macro="threadview_main">
+  <tal:navitem repeat="node children">
+    <tal:item define="children node/children;
+                      item node/item;
+                      obj item/getObject;
+                      heading_level python:level + 1"
+              condition="python:bottomLevel &lt;= 0 or level &lt;= bottomLevel">
+
+<li class=""
+  tal:attributes="class string:threadview-level-${level}">
+
+  <h1 tal:content="item/Title" />
+  <p tal:replace="structure obj/text/output|nothing">Text</p>
+  <emph tal:content="item/Creator"/><br/>
+  <emph tal:content="item/created"/><br/>
+  <tal:tags repeat="tag item/Subject">
+    <emph tal:content="tag"/>
+  </tal:tags>
+
+  <ul><!-- TODO: make me conditional -->
+  <tal:recur
+      replace="structure python:view.recurse(children=children, level=level+1, bottomLevel=bottomLevel)" />
+  </ul>
+
+</li>
+
+    </tal:item>
+  </tal:navitem>
+</metal:main>
+</tal:master>
+
