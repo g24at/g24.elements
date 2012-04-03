@@ -9,20 +9,24 @@
 
 <!--metal:content-core fill-slot="content-core">
   <metal:content-core define-macro="content-core" -->
-                  
-    <tal:items tal:define="items view/items" repeat="item items">
-    
-     <h1 tal:content="item/Title"/>
-     <tal:obj define="obj item/getObject">
-        <p tal:replace="structure obj/text/output|nothing">Text</p>
-     </tal:obj>
-     <emph tal:content="item/Creator"/><br/>
-     <emph tal:content="item/created"/><br/>
-     <tal:tags repeat="tag item/Subject">
-       <emph tal:content="tag"/>
-     </tal:tags>
 
-    </tal:items>
+  <tal:items tal:define="items view/items" repeat="item items">
+    <article tal:define="obj item/getObject;
+                         base_url item/getURL">
+      <header>
+        <h1 tal:content="item/Title"/>
+      </header>
+      <p tal:replace="structure obj/text/output|nothing">Text</p>
+
+      <footer>
+        <a href="" tal:attributes="href string:?user=${item/Creator}" tal:content="item/Creator">Creator</a><br/>
+        <tal:tags repeat="tag item/Subject">
+          <a href="" tal:attributes="href string:?tag=${tag}" tal:content="tag">Tag</a><br/>
+        </tal:tags>
+      </footer>
+      <em tal:content="item/created"/><br/>
+    </article>
+  </tal:items>
 
   <!--/metal:content-core>
 </metal:content-core-->
