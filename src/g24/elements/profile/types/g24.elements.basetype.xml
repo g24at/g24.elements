@@ -36,6 +36,7 @@
     <property name="view_methods">
         <element value="view"/>
         <element value="streamview"/>
+        <element value="threadview"/>
     </property>
     
     <alias from="(Default)" to="(selected layout)"/>

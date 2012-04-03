@@ -4,10 +4,6 @@ from g24.elements.content import IBasetype
 
 class StreamView(BrowserView):
 
-    def __init__(self, context, request):
-        self.context = context
-        self.request = request
-
     def items(self):
         # TODO: get parameters from request or pass as arguments
         

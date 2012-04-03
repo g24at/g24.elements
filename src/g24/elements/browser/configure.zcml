@@ -10,4 +10,12 @@
         permission="zope2.View"
         />
 
+    <browser:page
+        for="g24.elements.content.IBasetype"
+        name="threadview"
+        class=".threadview.ThreadView"
+        template="threadview.pt"
+        permission="zope2.View"
+        />
+
 </configure>

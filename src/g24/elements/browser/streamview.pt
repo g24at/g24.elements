@@ -16,8 +16,8 @@
      <tal:obj define="obj item/getObject">
         <p tal:replace="structure obj/text/output|nothing">Text</p>
      </tal:obj>
-     <emph tal:content="item/Creator"/>
-     <emph tal:content="item/created"/>
+     <emph tal:content="item/Creator"/><br/>
+     <emph tal:content="item/created"/><br/>
      <tal:tags repeat="tag item/Subject">
        <emph tal:content="tag"/>
      </tal:tags>
