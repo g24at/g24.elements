@@ -19,9 +19,18 @@
         />
 
     <browser:page
+        for="*"
+        name="sharingbox"
+        class=".sharingbox.SharingBoxFormView"
+        permission="zope2.View"
+        />
+
+    <browser:viewlet
+        name="g24.elements.sharingbox"
         for="g24.elements.content.IBasetype"
-        name="bareform"
-        class="..content.BasetypeFormView"
+        manager="plone.app.layout.viewlets.interfaces.IContentViews"
+        class=".sharingbox.SharingBoxViewlet"
+        template="sharingbox.pt"
         permission="zope2.View"
         />
 

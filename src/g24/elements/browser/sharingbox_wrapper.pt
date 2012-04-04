@@ -1,0 +1,3 @@
+<div class="sharingbox_formwrapper">
+  <form tal:replace="structure view/contents" />
+</div>
