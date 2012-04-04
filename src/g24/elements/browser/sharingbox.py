@@ -15,7 +15,9 @@ class SharingBoxForm(form.Form):
     description = _(u"Share some content with us...")
     #ignoreContext = True
 
-    def __init__(self, context, request, returnURLHint=None, full=True):
+    def __init__(self, context, request,
+                 schema_blacklist=None, field_blacklist=None,
+                 returnURLHint=None, full=True):
         """
         @param returnURLHint: Should we enforce return URL for this form
         @param full: Show all available fields or just required ones.
@@ -28,7 +30,8 @@ class SharingBoxForm(form.Form):
         else:
             # default portal type
             more_schemata = getAdditionalSchemata(portal_type='g24.elements.basetype')
-        fields = [IBasetype,] + [it for it in more_schemata]
+        import pdb;pdb.set_trace()
+        fields = [IBasetype,] + [it for it in more_schemata if it.getName() not in schema_blacklist]
         self.fields = field.Fields(*fields) # * expands argument list
 
         super(SharingBoxForm, self).__init__(context, request)
@@ -77,7 +80,7 @@ class SharingBoxViewlet(BrowserView):
         context = self.context.aq_inner
         returnURL = self.context.absolute_url()
 
-        form = SharingBoxForm(context, self.request)
+        form = SharingBoxForm(context, self.request, schema_blacklist='IDublinCore')
         #form = SharingBoxForm(context, self.request, returnURLHint=returnURL, full=False)
 
         view = SharingBoxFormViewFrameless(self.context, self.request)
