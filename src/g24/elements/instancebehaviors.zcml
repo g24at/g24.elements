@@ -1,7 +1,9 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:browser="http://namespaces.zope.org/browser">
-    
+
+    <adapter factory=".instancebehaviors.DexterityInstanceBehaviorAssignable" />
+
     <browser:page
         name="enable_event"
         for=".content.IBasetype"

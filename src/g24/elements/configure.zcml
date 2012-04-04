@@ -8,8 +8,6 @@
   <include file="instancebehaviors.zcml" />
   <include package=".browser"/>
 
-  <adapter factory=".instancebehaviors.DexterityInstanceBehaviorAssignable" />
-
   <genericsetup:registerProfile
       name="default"
       title="g24.elements"
