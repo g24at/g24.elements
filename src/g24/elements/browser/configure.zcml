@@ -4,7 +4,7 @@
 
     <browser:page
         for="g24.elements.content.IBasetype"
-        name="streamview"
+        name="stream"
         class=".streamview.StreamView"
         template="streamview.pt"
         permission="zope2.View"
@@ -12,9 +12,16 @@
 
     <browser:page
         for="g24.elements.content.IBasetype"
-        name="threadview"
+        name="thread"
         class=".threadview.ThreadView"
         template="threadview.pt"
+        permission="zope2.View"
+        />
+
+    <browser:page
+        for="g24.elements.content.IBasetype"
+        name="bareform"
+        class="..content.BasetypeFormView"
         permission="zope2.View"
         />
 
