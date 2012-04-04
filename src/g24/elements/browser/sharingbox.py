@@ -4,7 +4,9 @@ from zope.interface import implements
 from zope.viewlet.interfaces import IViewlet
 from z3c.form import form, field, button
 from plone.z3cform.layout import FormWrapper, wrap_form
+from plone.dexterity.utils import getAdditionalSchemata
 from g24.elements.content import IBasetype
+from g24.elements.instancebehaviors import DexterityInstanceBehaviorAssignable
 from g24.elements import messageFactory as _
 
 class SharingBoxForm(form.Form):
@@ -18,6 +20,13 @@ class SharingBoxForm(form.Form):
         @param returnURLHint: Should we enforce return URL for this form
         @param full: Show all available fields or just required ones.
         """
+        fields = [IBasetype,]
+        if IBasetype.providedBy(context):
+            behaviors = DexterityInstanceBehaviorAssignable(context)
+            fields = fields + [behavior.interface for behavior in\
+                               behaviors.enumerateBehaviors()]
+        self.fields = field.Fields(*fields) # * expands argument list
+
         super(SharingBoxForm, self).__init__(context, request)
         self.all_fields = full
         self.returnURLHint = returnURLHint
@@ -30,12 +39,13 @@ class SharingBoxForm(form.Form):
         make sure the form is posted through the same view always,
         instead of making HTTP POST to the page where the form was rendered.
         """
-        return self.context.portal_url() + "/@@sharingbox-form"
+        return self.context.absolute_url() + "/@@sharingbox"
 
     @button.buttonAndHandler(u'Submit')
     def handleApply(self, action):
         data, errors = self.extractData()
         # do something
+
 
 class SharingBoxFormViewFrameless(FormWrapper):
      """ Form view which renders embedded z3c.forms.
