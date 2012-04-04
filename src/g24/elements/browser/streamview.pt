@@ -18,7 +18,7 @@
           <a href="" tal:attributes="href string:${base_url}/threadview" tal:content="item/Title">Title</a>
         </h1>
       </header>
-      <p tal:replace="structure obj/text|nothing">Text</p>
+      <p tal:replace="structure obj/text/output|nothing">Text</p>
 
       <footer>
         <a href="" tal:attributes="href string:?user=${item/Creator}" tal:content="item/Creator">Creator</a><br/>
