@@ -13,18 +13,22 @@ class SharingBoxForm(form.Form):
     fields = field.Fields(IBasetype)
     label = _(u"Sharing Box")
     description = _(u"Share some content with us...")
-    ignoreContext = True
+    #ignoreContext = True
 
     def __init__(self, context, request, returnURLHint=None, full=True):
         """
         @param returnURLHint: Should we enforce return URL for this form
         @param full: Show all available fields or just required ones.
         """
-        fields = [IBasetype,]
+
+        # expand the list of schematas with those provided by the context
+        more_schemata = []
         if IBasetype.providedBy(context):
-            behaviors = DexterityInstanceBehaviorAssignable(context)
-            fields = fields + [behavior.interface for behavior in\
-                               behaviors.enumerateBehaviors()]
+            more_schemata = getAdditionalSchemata(context=context)
+        else:
+            # default portal type
+            more_schemata = getAdditionalSchemata(portal_type='g24.elements.basetype')
+        fields = [IBasetype,] + [it for it in more_schemata]
         self.fields = field.Fields(*fields) # * expands argument list
 
         super(SharingBoxForm, self).__init__(context, request)
@@ -73,8 +77,9 @@ class SharingBoxViewlet(BrowserView):
         context = self.context.aq_inner
         returnURL = self.context.absolute_url()
 
-        form = SharingBoxForm(context, self.request, returnURLHint=returnURL, full=False)
-        
+        form = SharingBoxForm(context, self.request)
+        #form = SharingBoxForm(context, self.request, returnURLHint=returnURL, full=False)
+
         view = SharingBoxFormViewFrameless(self.context, self.request)
         view = view.__of__(context) # Make sure acquisition chain is respected
         view.form_instance = form
