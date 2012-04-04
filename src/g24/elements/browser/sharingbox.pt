@@ -1,3 +1,3 @@
 <div class="sharingbox_viewlet">
-  <form tal:replace="structure python:view.createForm()()" />
+  <form tal:replace="structure python:view.create_form()()" />
 </div>
