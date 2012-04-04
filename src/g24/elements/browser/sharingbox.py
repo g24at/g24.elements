@@ -30,7 +30,6 @@ class SharingBoxForm(form.Form):
         else:
             # default portal type
             more_schemata = getAdditionalSchemata(portal_type='g24.elements.basetype')
-        import pdb;pdb.set_trace()
         fields = [IBasetype,] + [it for it in more_schemata if it.getName() not in schema_blacklist]
         self.fields = field.Fields(*fields) # * expands argument list
 
@@ -47,6 +46,14 @@ class SharingBoxForm(form.Form):
         instead of making HTTP POST to the page where the form was rendered.
         """
         return self.context.absolute_url() + "/@@sharingbox"
+
+    def updateFields(self):
+        import pdb;pdb.set_trace()
+        pass
+
+    def updateWidgets(self):
+        import pdb;pdb.set_trace()
+        pass
 
     @button.buttonAndHandler(u'Submit')
     def handleApply(self, action):
