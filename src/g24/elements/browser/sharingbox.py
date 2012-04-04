@@ -2,7 +2,8 @@ from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.interface import implements
 from zope.viewlet.interfaces import IViewlet
-from z3c.form import form, field, button
+from plone.directives import form
+from z3c.form import field, button
 from plone.z3cform.layout import FormWrapper, wrap_form
 from plone.dexterity.utils import getAdditionalSchemata
 from g24.elements.content import IBasetype
