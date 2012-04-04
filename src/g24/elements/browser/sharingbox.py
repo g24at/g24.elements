@@ -6,7 +6,6 @@ from z3c.form import form, field, button
 from plone.z3cform.layout import FormWrapper, wrap_form
 from plone.dexterity.utils import getAdditionalSchemata
 from g24.elements.content import IBasetype
-from g24.elements.instancebehaviors import DexterityInstanceBehaviorAssignable
 from g24.elements import messageFactory as _
 
 class SharingBoxForm(form.Form):
