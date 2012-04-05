@@ -51,18 +51,21 @@ class SharingBoxEditForm(SharingBoxBaseForm, EditForm):
 
 class SharingBoxAddForm(SharingBoxBaseForm, AddForm):
 
+    portal_type = 'g24.elements.basetype'
+
     def __init__(self, context, request,
                  schema_blacklist=[], field_blacklist=[], *args, **kwargs):
         self.schema_blacklist = schema_blacklist
         self.field_blacklist = field_blacklist
         super(SharingBoxAddForm, self).__init__(context, request, *args, **kwargs)
 
+    """
     def updateFields(self):
         super(SharingBoxAddForm, self).updateFields()
         for key in self.fields.keys():
             if key in self.field_blacklist:
                 form.omitted(key) # TODO: test multiple field_blacklist keys
-
+    """
 
 SharingBoxFormView = wrap_form(SharingBoxEditForm)
 class SharingBoxFormViewFrameless(FormWrapper):
@@ -89,7 +92,7 @@ class SharingBoxViewlet(BrowserView):
         context = self.context.aq_inner
         returnURL = self.context.absolute_url()
 
-        form = SharingBoxEditForm(context, self.request, schema_blacklist='IDublinCore')
+        form = SharingBoxAddForm(context, self.request, schema_blacklist='IDublinCore')
 
         view = SharingBoxFormViewFrameless(self.context, self.request)
         view = view.__of__(context) # Make sure acquisition chain is respected
