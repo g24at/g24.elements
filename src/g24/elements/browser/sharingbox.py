@@ -64,7 +64,7 @@ class SharingBoxAddForm(SharingBoxBaseForm, AddForm):
                 form.omitted(key) # TODO: test multiple field_blacklist keys
 
 
-SharingBoxFormView = wrap_form(SharingBoxForm)
+SharingBoxFormView = wrap_form(SharingBoxEditForm)
 class SharingBoxFormViewFrameless(FormWrapper):
      """ Form view which renders embedded z3c.forms.
      It subclasses FormWrapper so that we can use custom frame template.
@@ -90,7 +90,6 @@ class SharingBoxViewlet(BrowserView):
         returnURL = self.context.absolute_url()
 
         form = SharingBoxEditForm(context, self.request, schema_blacklist='IDublinCore')
-        #form = SharingBoxForm(context, self.request, returnURLHint=returnURL, full=False)
 
         view = SharingBoxFormViewFrameless(self.context, self.request)
         view = view.__of__(context) # Make sure acquisition chain is respected
