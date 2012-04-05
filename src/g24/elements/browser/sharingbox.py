@@ -3,71 +3,73 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from zope.interface import implements
 from zope.viewlet.interfaces import IViewlet
 from plone.directives import form
-from z3c.form import field, button
 from plone.z3cform.layout import FormWrapper, wrap_form
 from plone.dexterity.utils import getAdditionalSchemata
 from g24.elements.content import IBasetype
 from g24.elements import messageFactory as _
 
-class SharingBoxForm(form.Form):
-    fields = field.Fields(IBasetype)
-    label = _(u"Sharing Box")
-    description = _(u"Share some content with us...")
-    #ignoreContext = True
+from plone.directives.dexterity import AddForm, EditForm
 
-    def __init__(self, context, request,
-                 schema_blacklist=None, field_blacklist=None,
-                 returnURLHint=None, full=True):
-        """
-        @param returnURLHint: Should we enforce return URL for this form
-        @param full: Show all available fields or just required ones.
-        """
 
-        # expand the list of schematas with those provided by the context
-        more_schemata = []
-        if IBasetype.providedBy(context):
-            more_schemata = getAdditionalSchemata(context=context)
-        else:
-            # default portal type
-            more_schemata = getAdditionalSchemata(portal_type='g24.elements.basetype')
-        fields = [IBasetype,] + [it for it in more_schemata if it.getName() not in schema_blacklist]
-        self.fields = field.Fields(*fields) # * expands argument list
-
-        super(SharingBoxForm, self).__init__(context, request)
-        self.all_fields = full
-        self.returnURLHint = returnURLHint
+class SharingBoxBaseForm(object):
+    #label = _(u"Sharing Box")
+    #description = _(u"Share some content with us...")
 
     @property
-    def action(self):
-        """ Rewrite HTTP POST action.
+    def additionalSchemata(self):
+        # TODO: cache me! i'm called 2 times when rendering and 6 times when
+        # saved + rendered
 
-        If the form is rendered embedded on the others pages we
-        make sure the form is posted through the same view always,
-        instead of making HTTP POST to the page where the form was rendered.
-        """
-        return self.context.absolute_url() + "/@@sharingbox"
+        # expand the list of schematas with those provided by the context
+        context = self.context
+        add_schemata = []
+        if IBasetype.providedBy(context):
+            add_schemata = getAdditionalSchemata(context=context)
+        else:
+            # default portal type
+            add_schemata = getAdditionalSchemata(
+                                portal_type='g24.elements.basetype')
+        add_schemata = [sch for sch in add_schemata if sch.getName() not in
+                        self.schema_blacklist]
+        return add_schemata
+
+
+class SharingBoxEditForm(SharingBoxBaseForm, EditForm):
+
+    def __init__(self, context, request,
+                 schema_blacklist=[], field_blacklist=[], *args, **kwargs):
+        self.schema_blacklist = schema_blacklist
+        self.field_blacklist = field_blacklist
+        super(SharingBoxEditForm, self).__init__(context, request, *args, **kwargs)
 
     def updateFields(self):
-        import pdb;pdb.set_trace()
-        pass
-
-    def updateWidgets(self):
-        import pdb;pdb.set_trace()
-        pass
-
-    @button.buttonAndHandler(u'Submit')
-    def handleApply(self, action):
-        data, errors = self.extractData()
-        # do something
+        super(SharingBoxEditForm, self).updateFields()
+        for key in self.fields.keys():
+            if key in self.field_blacklist:
+                form.omitted(key) # TODO: test multiple field_blacklist keys
 
 
+class SharingBoxAddForm(SharingBoxBaseForm, AddForm):
+
+    def __init__(self, context, request,
+                 schema_blacklist=[], field_blacklist=[], *args, **kwargs):
+        self.schema_blacklist = schema_blacklist
+        self.field_blacklist = field_blacklist
+        super(SharingBoxAddForm, self).__init__(context, request, *args, **kwargs)
+
+    def updateFields(self):
+        super(SharingBoxAddForm, self).updateFields()
+        for key in self.fields.keys():
+            if key in self.field_blacklist:
+                form.omitted(key) # TODO: test multiple field_blacklist keys
+
+
+SharingBoxFormView = wrap_form(SharingBoxForm)
 class SharingBoxFormViewFrameless(FormWrapper):
      """ Form view which renders embedded z3c.forms.
      It subclasses FormWrapper so that we can use custom frame template.
      """
      index = ViewPageTemplateFile("sharingbox_wrapper.pt")
-
-SharingBoxFormView = wrap_form(SharingBoxForm)
 
 
 class SharingBoxViewlet(BrowserView):
@@ -87,7 +89,7 @@ class SharingBoxViewlet(BrowserView):
         context = self.context.aq_inner
         returnURL = self.context.absolute_url()
 
-        form = SharingBoxForm(context, self.request, schema_blacklist='IDublinCore')
+        form = SharingBoxEditForm(context, self.request, schema_blacklist='IDublinCore')
         #form = SharingBoxForm(context, self.request, returnURLHint=returnURL, full=False)
 
         view = SharingBoxFormViewFrameless(self.context, self.request)
