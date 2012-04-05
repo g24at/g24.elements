@@ -4,11 +4,11 @@
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
       i18n:domain="g24.elements">
-      <!-- metal:use-macro="context/main_template/macros/master"-->
+      <metal:use-macro="context/main_template/macros/master">
 <body>
 
-<!--metal:content-core fill-slot="content-core">
-  <metal:content-core define-macro="content-core" -->
+<metal:content-core fill-slot="content-core">
+  <metal:content-core define-macro="content-core">
 
   <tal:items tal:define="items view/items" repeat="item items">
     <article tal:define="obj item/getObject;
@@ -30,8 +30,8 @@
     </article>
   </tal:items>
 
-  <!--/metal:content-core>
-</metal:content-core-->
+  </metal:content-core>
+</metal:content-core>
 
 </body>
 </html>
