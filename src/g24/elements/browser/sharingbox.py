@@ -59,13 +59,12 @@ class SharingBoxAddForm(SharingBoxBaseForm, AddForm):
         self.field_blacklist = field_blacklist
         super(SharingBoxAddForm, self).__init__(context, request, *args, **kwargs)
 
-    """
     def updateFields(self):
         super(SharingBoxAddForm, self).updateFields()
         for key in self.fields.keys():
             if key in self.field_blacklist:
                 form.omitted(key) # TODO: test multiple field_blacklist keys
-    """
+
 
 SharingBoxFormView = wrap_form(SharingBoxEditForm)
 class SharingBoxFormViewFrameless(FormWrapper):
