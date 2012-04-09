@@ -4,6 +4,7 @@
 
   <include package="plone.app.event"/>
 
+  <include file="behaviors.zcml" />
   <include file="permissions.zcml" />
   <include file="instancebehaviors.zcml" />
   <include package=".browser"/>

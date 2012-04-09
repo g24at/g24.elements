@@ -25,9 +25,10 @@
  
     <!-- enabled behaviors -->
     <property name="behaviors">
-        <element value="plone.app.content.interfaces.INameFromTitle" />
+        <element value="g24.elements.behaviors.IRichText"/> 
+        <!--element value="plone.app.content.interfaces.INameFromTitle" /-->
         <!-- element value="plone.app.referenceablebehavior.referenceable.IReferenceable"/-->
-        <element value="plone.app.dexterity.behaviors.metadata.IDublinCore" />
+        <!-- element value="plone.app.dexterity.behaviors.metadata.IDublinCore" /-->
     </property>
     
     <!-- Views and aliases -->
