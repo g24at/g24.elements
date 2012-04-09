@@ -1,0 +1,30 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    xmlns:grok="http://namespaces.zope.org/grok"
+    i18n_domain="g24.elements">
+
+    <include package="plone.dexterity" />
+    <include package="plone.behavior" file="meta.zcml" />
+    <include package="plone.directives.form" file="meta.zcml" />
+    <include package="plone.directives.form" />
+    <grok:grok package=".behaviors" />
+
+    <plone:behavior
+        title="Title"
+        description="Title for the Basetype."
+        provides=".behaviors.ITitle"
+        factory="plone.behavior.AnnotationStorage"
+        for=".content.IBasetype"
+        marker=".behaviors.ITitle"
+        />
+    <plone:behavior
+        title="Rich Text"
+        description="Text with formating options for the Basetype."
+        provides=".behaviors.IRichText"
+        factory="plone.behavior.AnnotationStorage"
+        for=".content.IBasetype"
+        marker=".behaviors.IRichText"
+        />
+
+</configure>
