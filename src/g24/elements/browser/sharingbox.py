@@ -66,13 +66,18 @@ class SharingBoxAddForm(SharingBoxBaseForm, AddForm):
                 form.omitted(key) # TODO: test multiple field_blacklist keys
 
 
-SharingBoxFormView = wrap_form(SharingBoxEditForm)
-class SharingBoxFormViewFrameless(FormWrapper):
-     """ Form view which renders embedded z3c.forms.
-     It subclasses FormWrapper so that we can use custom frame template.
-     """
-     index = ViewPageTemplateFile("sharingbox_wrapper.pt")
+SharingBoxAddFormView = wrap_form(SharingBoxAddForm)
+SharingBoxEditFormView = wrap_form(SharingBoxEditForm)
 
+class SharingBoxAddFormViewFrameless(SharingBoxAddFormView):
+    """ BaseType add form without rendering in main template.
+    """
+    index = ViewPageTemplateFile("sharingbox_wrapper.pt")
+
+class SharingBoxEditFormViewFrameless(SharingBoxEditFormView):
+    """ BaseType edit form without rendering in main template.
+    """
+    index = ViewPageTemplateFile("sharingbox_wrapper.pt")
 
 class SharingBoxViewlet(BrowserView):
     implements(IViewlet)
