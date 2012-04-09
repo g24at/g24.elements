@@ -98,7 +98,7 @@ class SharingBoxViewlet(BrowserView):
 
         form = SharingBoxAddForm(context, self.request, schema_blacklist='IDublinCore')
 
-        view = SharingBoxFormViewFrameless(self.context, self.request)
+        view = SharingBoxAddFormViewFrameless(self.context, self.request)
         view = view.__of__(context) # Make sure acquisition chain is respected
         view.form_instance = form
 
