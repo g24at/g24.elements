@@ -7,5 +7,9 @@
         id="g24.AddBasetype"
         title="g24: Add Basetype"
         />
+    <permission
+        id="g24.ModifyBasetype"
+        title="g24: Modify Basetype"
+        />
 
 </configure>

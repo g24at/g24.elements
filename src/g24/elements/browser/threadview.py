@@ -24,10 +24,10 @@ class ThreadView(BrowserView):
             level=1, bottomLevel=self.bottomlevel)
 
     def can_add(self, parent):
-        return checkPermission('cmf.AddPortalContent', parent)
+        return checkPermission('g24.AddBasetype', parent)
 
     def can_edit(self, context):
-        return checkPermission('cmf.ModifyPortalContent', context)
+        return checkPermission('g24.ModifyBasetype', context)
 
     bottomlevel = BOTTOMLEVEL
     recurse = ViewPageTemplateFile('threadview_recurse.pt')
