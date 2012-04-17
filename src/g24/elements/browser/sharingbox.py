@@ -1,9 +1,6 @@
-from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-from zope.interface import implements
-from zope.viewlet.interfaces import IViewlet
 from plone.directives import form
-from plone.z3cform.layout import FormWrapper, wrap_form
+from plone.z3cform.layout import wrap_form
 from plone.dexterity.utils import getAdditionalSchemata
 from g24.elements.content import IBasetype
 from g24.elements import messageFactory as _
@@ -78,28 +75,3 @@ class SharingBoxEditFormViewFrameless(SharingBoxEditFormView):
     """ BaseType edit form without rendering in main template.
     """
     index = ViewPageTemplateFile("sharingbox_wrapper.pt")
-
-class SharingBoxViewlet(BrowserView):
-    implements(IViewlet)
-
-    def __init__(self, context, request, view, manager):
-        self.context = context
-        self.request = request
-        self.__parent__ = view
-        self.manager = manager
-
-    def create_form(self):
-        """ Create a form instance.
-
-        @return: z3c.form wrapped for view in Plone.
-        """
-        context = self.context.aq_inner
-        returnURL = self.context.absolute_url()
-
-        form = SharingBoxAddForm(context, self.request, schema_blacklist='IDublinCore')
-
-        view = SharingBoxAddFormViewFrameless(self.context, self.request)
-        view = view.__of__(context) # Make sure acquisition chain is respected
-        view.form_instance = form
-
-        return view

@@ -18,15 +18,6 @@
         permission="zope2.View"
         />
 
-    <browser:viewlet
-        name="g24.elements.sharingbox"
-        for="g24.elements.content.IBasetype"
-        manager="plone.app.layout.viewlets.interfaces.IContentViews"
-        class=".sharingbox.SharingBoxViewlet"
-        template="sharingbox.pt"
-        permission="zope2.View"
-        />
-
     <browser:page
         for="g24.elements.content.IBasetype"
         name="sharingbox"
