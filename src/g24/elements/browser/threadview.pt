@@ -14,6 +14,19 @@
       <tal:threadrunner replace="structure view/start_recurse" />
     </ul>
 
+    <script type="text/javascript" charset="utf-8">
+      (function ($) {
+        $('a.sharingbox_edit').click(function(event){
+          event.preventDefault();
+          $(this).parent().parent().load($(this).attr('href'));
+        });
+        $('a.sharingbox_add').click(function(event){
+          event.preventDefault();
+          $(this).parent().parent().load($(this).attr('href'));
+        });
+      }(jQuery));
+    </script>
+
     </metal:block>
 </metal:content-core>
 
