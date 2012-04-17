@@ -3,21 +3,17 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     package="g24.elements">
 
-    <include file="sharingbox.zcml"/>
-
     <browser:page
         for="g24.elements.content.IBasetype"
-        name="stream"
-        class=".streamview.StreamView"
-        template="streamview.pt"
+        name="sharingbox"
+        class=".sharingbox.SharingBoxAddFormViewFrameless"
         permission="zope2.View"
         />
 
     <browser:page
         for="g24.elements.content.IBasetype"
-        name="thread"
-        class=".threadview.ThreadView"
-        template="threadview.pt"
+        name="sharingbox_edit"
+        class=".sharingbox.SharingBoxEditFormViewFrameless"
         permission="zope2.View"
         />
 
