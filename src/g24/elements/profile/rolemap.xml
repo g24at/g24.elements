@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <rolemap>
   <permissions>
-    <permission name="g24: Add Basetype" acquire="False">
+    <permission name="g24: Add Basetype" acquire="True">
         <role name="Manager" />
         <role name="Site Administrator" />
         <role name="Owner" />
         <role name="Contributor" />
         <role name="Member" />
     </permission>
-    <permission name="g24: Modify Basetype" acquire="False">
+    <permission name="g24: Modify Basetype" acquire="True">
         <role name="Manager" />
         <role name="Site Administrator" />
         <role name="Owner" />
