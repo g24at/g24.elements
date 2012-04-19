@@ -69,9 +69,11 @@ SharingBoxEditFormView = wrap_form(SharingBoxEditForm)
 class SharingBoxAddFormViewFrameless(SharingBoxAddFormView):
     """ BaseType add form without rendering in main template.
     """
-    index = ViewPageTemplateFile("sharingbox.pt")
+    #index = ViewPageTemplateFile("sharingbox.pt")
+    index = ViewPageTemplateFile("sharingbox_custom.pt")
 
 class SharingBoxEditFormViewFrameless(SharingBoxEditFormView):
     """ BaseType edit form without rendering in main template.
     """
-    index = ViewPageTemplateFile("sharingbox.pt")
+    #index = ViewPageTemplateFile("sharingbox.pt")
+    index = ViewPageTemplateFile("sharingbox_custom.pt")
