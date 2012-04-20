@@ -3,16 +3,18 @@
     /*
      * SHARINGBOX INTEGRATION
      * */
+    /*
     var last_context=null;
     function sharingbox_inserter(linkel, event) {
         event.preventDefault();
-        $('#sharingbox').remove(); // remove first any sharingbox instance
+        $('#sharingbox').remove(); // first remove any sharingbox instance
         var context = $(linkel).parent().parent();
         if (last_context !== null) { $('#'+last_context).show(); }
         last_context = context.attr('id');
         context.hide();
         $.get($(linkel).attr('href'), function(data){
             context.after($(data));
+            sharingbox_init();
         });
     }
 
@@ -24,5 +26,5 @@
           sharingbox_inserter(this, event);
         });
     });
-
+    */
 }(jQuery));
