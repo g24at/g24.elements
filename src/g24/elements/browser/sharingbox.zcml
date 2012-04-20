@@ -3,6 +3,11 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="g24.elements">
 
+    <browser:resourceDirectory
+        name="resources"
+        directory="resources"
+        />
+
     <browser:page
         for="g24.elements.content.IBasetype"
         name="sharingbox"
