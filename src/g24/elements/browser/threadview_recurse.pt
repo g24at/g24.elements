@@ -33,7 +33,11 @@
     </footer>
   </article>
 
-  <ul class="threadview" tal:replace="structure python:view.recurse(children=children, level=level+1, bottomLevel=bottomLevel)" />
+  <ul
+    class="threadview"
+    tal:define="subthread python:view.recurse(children=children, level=level+1, bottomLevel=bottomLevel)"
+    tal:condition="subthread"
+    tal:content="structure subthread" />
 
 </li>
 
