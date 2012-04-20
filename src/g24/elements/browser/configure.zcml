@@ -11,6 +11,7 @@
         class=".streamview.StreamView"
         template="streamview.pt"
         permission="zope2.View"
+        layer="g24.elements.interfaces.IG24Elements"
         />
 
     <browser:page
@@ -19,6 +20,7 @@
         class=".threadview.ThreadView"
         template="threadview.pt"
         permission="zope2.View"
+        layer="g24.elements.interfaces.IG24Elements"
         />
 
 </configure>
