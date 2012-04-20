@@ -3,8 +3,6 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="g24.elements">
 
-    <include file="sharingbox.zcml"/>
-
     <browser:page
         for="g24.elements.content.IBasetype"
         name="stream"
