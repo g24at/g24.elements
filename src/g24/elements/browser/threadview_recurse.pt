@@ -33,7 +33,7 @@
     </footer>
   </article>
 
-  <ul tal:replace="structure python:view.recurse(children=children, level=level+1, bottomLevel=bottomLevel)" />
+  <ul class="threadview" tal:replace="structure python:view.recurse(children=children, level=level+1, bottomLevel=bottomLevel)" />
 
 </li>
 
@@ -41,4 +41,3 @@
   </tal:navitem>
 </metal:main>
 </tal:master>
-

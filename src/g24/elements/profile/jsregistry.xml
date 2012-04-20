@@ -1,6 +1,11 @@
 <?xml version="1.0"?>
 <object name="portal_javascripts" meta_type="JavaScripts Registry">
   <javascript
+      id="++resource++g24.elements/views.js"
+      cacheable="True" compression="safe" cookable="True" inline="False"
+      enabled="True"
+      />
+  <javascript
       id="++resource++g24.elements/sharingbox.js"
       cacheable="True" compression="safe" cookable="True" inline="False"
       enabled="True"
