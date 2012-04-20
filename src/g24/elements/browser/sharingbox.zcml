@@ -4,7 +4,7 @@
     i18n_domain="g24.elements">
 
     <browser:resourceDirectory
-        name="resources"
+        name="g24.elements"
         directory="resources"
         layer="g24.elements.interfaces.IG24Elements"
         />

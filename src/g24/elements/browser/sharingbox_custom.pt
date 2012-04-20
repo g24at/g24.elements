@@ -13,14 +13,13 @@
     <script src="http://cdn.jquerytools.org/1.2.7/form/jquery.tools.min.js"></script>
     <script src="resources/sharingbox.js" type="text/javascript" charset="utf-8"></script>
 
-    <!--link rel="stylesheet" href="Aloha-Editor/src/css/aloha.css" type="text/css"-->
-    <!--script src="Aloha-Editor/src/lib/aloha.js"
-      data-aloha-plugins="common/format,common/highlighteditables,common/link"></script-->
   </head>
 
   <body>
 
-    <form id="sharingbox" action="" method="get" accept-charset="utf-8">
+  <div id="sharingbox">
+    
+    <form id="sharingbox-form" action="" method="get" accept-charset="utf-8">
       <fieldset id="sharingbox-fieldset-features">
           <label for="sharingbox-features-title">Create a Thread</label>
           <input type="checkbox" id="sharingbox-features-title" name="sharingbox-features-title"/>
@@ -85,11 +84,7 @@
 
     </form>
 
-    <!-- script type="text/javascript">
-      Aloha.ready( function() {
-          Aloha.jQuery('#content').aloha();
-      });
-    </script-->
+  </div>
 
   </body>
 </html>
