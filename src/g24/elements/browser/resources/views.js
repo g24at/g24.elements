@@ -14,17 +14,6 @@
         $.get($(linkel).attr('href'), function(data){
             context.after($(data));
         });
-        /*
-        $.ajax({
-          dataType : 'html',
-          data     : {},
-          url      : $(linkel).attr('href'),
-          success  : function(data) {
-            $('#sharingbox').remove(); // remove first any sharingbox instance
-            $(linkel).parent().parent().hide(); 
-            $(linkel).parent().parent().append($(data).find('#sharingbox'));
-          }
-        });*/
     }
 
     $(document).ready(function() {
