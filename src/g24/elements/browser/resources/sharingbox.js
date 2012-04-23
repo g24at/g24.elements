@@ -27,7 +27,6 @@ function urlify(text) {
     });
 }
 
-
 function sharingbox_init() {
     (function ($) {
         $('#sharingbox-facade-content').html($('#sharingbox-text').val());
