@@ -1,35 +1,35 @@
-(function ($) {
+/*
+ * SHARINGBOX FEATURES
+ * */
+function urlify(text) {
+    /* based on:
+       http://stackoverflow.com/questions/1500260/detect-urls-in-text-with-javascript
+       http://www.codinghorror.com/blog/2008/10/the-problem-with-urls.html
 
-    /*
-     * SHARINGBOX FEATURES
-     * */
-    function urlify(text) {
-        /* based on:
-           http://stackoverflow.com/questions/1500260/detect-urls-in-text-with-javascript
-           http://www.codinghorror.com/blog/2008/10/the-problem-with-urls.html
+       The following RegExp matches only URLs after an whitespace or
+       newline character or at the beginning of the text. It doesn't match
+       any URLs with preceding characters like: src="http://test nor URLs
+       in parenthesis (http://...)
 
-           The following RegExp matches only URLs after an whitespace or
-           newline character or at the beginning of the text. It doesn't match
-           any URLs with preceding characters like: src="http://test nor URLs
-           in parenthesis (http://...)
+       ^(https?://[^\s]+)|[\s\n](https?://[^\s]+)
+       */
+    //var urlRegex = /[^"'](https?:\/\/[^\s<]+)/g;
+    var urlRegex = /[^"']?(https?:\/\/[^\s<]+)/g;
+    return text.replace(urlRegex, function(url) {
+        if (url.substr(0,5) == 'https') { urlnoprot = url.substr(9); }
+        else { urlnoprot = url.substr(8); }
+        var urlpart = url.substr(-4);
+        if (urlpart === '.png' | urlpart === '.gif' | urlpart === '.jpg') {
+            return '<img src="' + url + '"/>';
+        } else {
+            return '<a href="' + url + '">' + urlnoprot + '</a>';
+        }
+    });
+}
 
-           ^(https?://[^\s]+)|[\s\n](https?://[^\s]+)
-           */
-        //var urlRegex = /[^"'](https?:\/\/[^\s<]+)/g;
-        var urlRegex = /[^"']?(https?:\/\/[^\s<]+)/g;
-        return text.replace(urlRegex, function(url) {
-            if (url.substr(0,5) == 'https') { urlnoprot = url.substr(9); }
-            else { urlnoprot = url.substr(8); }
-            var urlpart = url.substr(-4);
-            if (urlpart === '.png' | urlpart === '.gif' | urlpart === '.jpg') {
-                return '<img src="' + url + '"/>';
-            } else {
-                return '<a href="' + url + '">' + urlnoprot + '</a>';
-            }
-        });
-    }
 
-    function sharingbox_init() {
+function sharingbox_init() {
+    (function ($) {
         $('#sharingbox-facade-content').html($('#sharingbox-text').val());
         $('#sharingbox-facade-content').show();
         $('#sharingbox-text').hide();
@@ -67,34 +67,5 @@
         $('#sharingbox-features-location').change(function(event){
             $('#sharingbox-fieldset-location').toggle();
         });
-    }
-
-    $(document).ready(function() { sharingbox_init(); });
-
-    var last_context=null;
-    function sharingbox_inserter(linkel, event) {
-        event.preventDefault();
-        $('#sharingbox').remove(); // first remove any sharingbox instance
-        var context = $(linkel).parent().parent();
-        if (last_context !== null) { $('#'+last_context).show(); }
-        last_context = context.attr('id');
-        context.hide();
-        $.get($(linkel).attr('href'), function(data){
-            context.after($(data));
-            sharingbox_init();
-        });
-    }
-
-    $(document).ready(function() {
-        $('a.sharingbox_edit').click(function(event){
-          sharingbox_inserter(this, event);
-        });
-        $('a.sharingbox_add').click(function(event){
-          sharingbox_inserter(this, event);
-        });
-    });
-
-
-
-
-}(jQuery));
+    }(jQuery));
+}

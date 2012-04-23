@@ -1,9 +1,8 @@
+/*
+ * SHARINGBOX INTEGRATION
+ * */
 (function ($) {
 
-    /*
-     * SHARINGBOX INTEGRATION
-     * */
-    /*
     var last_context=null;
     function sharingbox_inserter(linkel, event) {
         event.preventDefault();
@@ -26,5 +25,5 @@
           sharingbox_inserter(this, event);
         });
     });
-    */
+
 }(jQuery));
