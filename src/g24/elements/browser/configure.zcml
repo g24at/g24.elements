@@ -3,6 +3,12 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="g24.elements">
 
+    <browser:resourceDirectory
+        name="g24.elements"
+        directory="resources"
+        layer="g24.elements.interfaces.IG24Elements"
+        />
+
     <browser:page
         for="g24.elements.content.IBasetype"
         name="stream"
