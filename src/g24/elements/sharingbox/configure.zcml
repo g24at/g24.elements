@@ -6,14 +6,14 @@
   <include package="Products.CMFCore" file="permissions.zcml"/>
 
   <browser:page
-    name="element_edit"
+    name="sharingbox_edit"
     for="g24.elements.interfaces.IBasetype"
     layer="g24.elements.interfaces.IG24ElementsLayer"    
     class=".form.SharingboxEdit"
     permission="cmf.ModifyPortalContent"
   />
   <browser:page
-    name="element_add"
+    name="sharingbox_add"
     for="*"
     layer="g24.elements.interfaces.IG24ElementsLayer"    
     class=".form.SharingboxAdd"

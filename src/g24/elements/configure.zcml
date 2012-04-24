@@ -8,7 +8,7 @@
   <include file="permissions.zcml" />
   <include file="instancebehaviors.zcml" />
   <include package=".browser"/>
-  <include package=".browser" file="sharingbox.zcml"/>
+  <include package=".sharingbox"/>
 
   <genericsetup:registerProfile
       name="default"

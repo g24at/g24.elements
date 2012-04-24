@@ -1,161 +1,110 @@
 factory: form
-name: soundcloud_add_edit
+name: sharingbox_add_edit
 props:
     action: expr:context.action
     class: edit-form enableUnloadProtection
 widgets:
+
+- is_thread:
+    factory: field:label:checkbox
+    value: expr:context.is_thread
+    props:
+        label: Thread
+        help: I want to create a thread...
+        help_class: formHelp
+
+- is_event:
+    factory: field:label:checkbox
+    value: expr:context.is_event
+    props:
+        label: Event
+        help: I want to create an event...
+        help_class: formHelp
+
+- is_location:
+    factory: field:label:checkbox
+    value: expr:context.is_location
+    props:
+        label: Location
+        help: I want to add location...
+        help_class: formHelp
+
+- is_organizer:
+    factory: field:label:checkbox
+    value: expr:context.is_organizer
+    props:
+        label: Location
+        help: I want to add an organizer...
+        help_class: formHelp
+
+
 - title:
     factory: field:label:error:text
-    value: expr:context.trackdata['title']
+    value: expr:context.data['title']
     props:
         label: Title
-        required: Title needed.
+
 - description:
     factory: field:label:error:textarea
-    value: expr:context.trackdata['description']
+    value: expr:context.data['text']
     props:
-        label: Description
-        help: describe the sound
+        label: Text
+        help: Share some content with us!
         help_class: formHelp
         rows: 5
-- asset_data:
-    factory: field:label:file
-    value: expr:context.trackdata['asset_data']
+
+- start:
+    factory: field:label:error:datetime
+    value: expr:context.data['start']
     props:
-        label: Sound Asset
-        vocabulary: expr:context.vocab_fileopts
-        help: sound in a format accepted by soundcloud
+        label: Start Date and Time
+        help: Date and Time, when the Event begins. E.g. 10.10.2010 10:00
         help_class: formHelp
-        required: No sound without a file.        
-- track_type:
-    factory: field:label:error:select
-    value: expr:context.trackdata['track_type']
+        format: '%d.%m.%Y - %H:%M'
+
+- end:
+    factory: field:label:error:datetime
+    value: expr:context.data['end']
     props:
-        label: Track Type
-        vocabulary: expr:context.vocab_track_types
-        help: select one of the types
+        label: End Date and Time
+        help: Date and Time, when the Event ends. E.g. 10.10.2010 11:00. It's the single's event end, not of a recurrence, if one is defined.
         help_class: formHelp
-- genre:
-    factory: field:label:error:text
-    value: expr:context.trackdata['genre']
+        format: '%d.%m.%Y - %H:%M'
+
+- whole_day:
+    factory: field:label:error:checkbox
+    value: expr:context.data['whole_day']
     props:
-        label: Genre
-        help: select one genre
+        label: Whole Day
+        help: The event lasts the whole day. Start and end times are not used.
         help_class: formHelp
-- tag_list:
-    factory: field:label:error:text
-    value: expr:context.trackdata['tag_list']
+
+- recurrence:
+    factory: field:label:error:textarea
+    value: expr:context.data['recurrence']
     props:
-        label: Tags
-        help: Separate with spaces or use quotation marks (e.g. "spoken word")
+        label: Text
+        help: This event has a recurrence rule.
         help_class: formHelp
-- license:
-    factory: field:label:error:select
-    value: expr:context.trackdata['license']
+        rows: 2
+
+- location:
+    factory: field:label:error:textarea
+    value: expr:context.data['location']
     props:
-        label: License
-        vocabulary: expr:context.vocab_licenses
-        help: select one of the licenses
+        label: Text
+        help: The location of this event.
         help_class: formHelp
-- label_name:
-    factory: field:label:error:text
-    value: expr:context.trackdata['label_name']
+        rows: 3
+
+- organizer:
+    factory: field:label:error:textarea
+    value: expr:context.data['organizer']
     props:
-        label: Label
-        help: name of the label
+        label: Text
+        help: The organizer of this event.
         help_class: formHelp
-- release_date:
-    factory: field:label:compound
-    value: unused
-    props:
-        label: Release Date
-        help: date of the release, format is YEAR MONTH DAY
-        help_class: formHelp
-        structural: 1 
-    widgets:
-    - release_year:
-        factory: error:number
-        value: expr:context.trackdata['release_year']
-        props:
-            size: 4
-            datatype: integer
-            min: expr:1800
-            max: expr:2100
-    - release_month:
-        factory: error:number
-        value: expr:context.trackdata['release_month']
-        props:
-            size: 2
-            datatype: integer
-            min: expr:1
-            max: expr:12
-    - release_day:
-        factory: error:number
-        value: expr:context.trackdata['release_day']
-        props:
-            size: 2
-            datatype: integer
-            min: expr:1
-        
-            max: expr:31
-- release:
-    factory: field:label:error:text
-    value: expr:context.trackdata['release']
-    props:
-        label: Release/catalogue number
-        help: number of the release in (your) catalog
-        help_class: formHelp   
-- isrc:
-    factory: field:label:error:text
-    value: expr:context.trackdata['isrc']
-    props:
-        label: ISRC
-        help: The International Standard Recording Code (ISRC) is an international standard code for uniquely identifying sound and music video recordings. ISRC's are used by distributors, download sites, retailers and labels to manage digital repertoire. Format is CC-XXX-YY-NNNNN 
-        help_class: formHelp   
-- bpm:
-    factory: field:label:error:number
-    value: expr:context.trackdata['bpm']
-    props:
-        label: BPM
-        help: beats per minute 
-        help_class: formHelp   
-        datatype: float
-        min: expr:1
-- key_signature:
-    factory: field:label:error:text
-    value: expr:context.trackdata['key_signature']
-    props:
-        label: Keys
-        help: track key, i.e. Cmaj
-        help_class: formHelp         
-- purchase_url:
-    factory: field:label:error:text
-    value: expr:context.trackdata['purchase_url']
-    props:
-        label: Buy Link
-        help: purchase URL, i.e. http://amazon.com/buy/a46aj0c03
-        help_class: formHelp
-- video_url:
-    factory: field:label:error:text
-    value: expr:context.trackdata['video_url']
-    props:
-        label: Video Link
-        help: Youtube, Vimeo, Dailymotion and Viddler videos will appear in an on-site player
-        help_class: formHelp
-- sharing:
-    factory: field:label:error:select
-    value: expr:context.trackdata['sharing']
-    props:
-        label: Permissions
-        help: Share public to everyone or private for you only?
-        help_class: formHelp
-        vocabulary: expr:context.vocab_sharing        
-- downloadable:
-    factory: field:label:error:select
-    value: expr:context.trackdata['downloadable']
-    props:
-        label: Downloads
-        vocabulary: expr:context.vocab_download        
+        rows: 3
 
 - save:
     factory: submit
@@ -165,4 +114,3 @@ widgets:
         handler: context.save
         next: context.next
         label: Save
-
