@@ -45,6 +45,11 @@ class SharingBoxEditForm(SharingBoxBaseForm, EditForm):
             if key in self.field_blacklist:
                 form.omitted(key) # TODO: test multiple field_blacklist keys
 
+    """
+    def updateActions(self):
+        super(SharingBoxEditForm, self).updateActions()
+        import pdb;pdb.set_trace()
+    """
 
 class SharingBoxAddForm(SharingBoxBaseForm, AddForm):
 
@@ -72,8 +77,21 @@ class SharingBoxAddFormViewFrameless(SharingBoxAddFormView):
     #index = ViewPageTemplateFile("sharingbox.pt")
     index = ViewPageTemplateFile("sharingbox_custom.pt")
 
+    """
+    def update(self):
+        super(SharingBoxAddFormViewFrameless, self).update()
+        import pdb;pdb.set_trace()
+    """
+
 class SharingBoxEditFormViewFrameless(SharingBoxEditFormView):
     """ BaseType edit form without rendering in main template.
     """
     #index = ViewPageTemplateFile("sharingbox.pt")
     index = ViewPageTemplateFile("sharingbox_custom.pt")
+
+    """
+    def update(self):
+        super(SharingBoxEditFormViewFrameless, self).update()
+        import pdb;pdb.set_trace()
+        self.widgets = self.form_instance.widgets
+    """
