@@ -2,6 +2,6 @@
 <layers>
   <layer
     name="g24.elements"
-    interface="g24.elements.interfaces.IG24Elements"
+    interface="g24.elements.interfaces.IG24ElementsLayer"
   />
 </layers>

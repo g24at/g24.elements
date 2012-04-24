@@ -3,12 +3,11 @@ from zope.i18nmessageid import MessageFactory
 from zExceptions import Unauthorized
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
-import yafowil.loader
 from yafowil.base import UNSET
 from yafowil.controller import Controller
 from yafowil.yaml import parse_from_YAML
 """
-from g24.elements.interfaces import IBasetype
+from g24.elements.content import IBasetype
 from g24.elements.events import (
     ElementCreatedEvent,
     ElementModifiedEvent

@@ -7,7 +7,7 @@
 
   <browser:page
     name="sharingbox_edit"
-    for="g24.elements.interfaces.IBasetype"
+    for="g24.elements.content.IBasetype"
     layer="g24.elements.interfaces.IG24ElementsLayer"    
     class=".form.SharingboxEdit"
     permission="cmf.ModifyPortalContent"
