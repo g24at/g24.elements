@@ -66,5 +66,18 @@ function sharingbox_init() {
         $('#sharingbox-features-location').change(function(event){
             $('#sharingbox-fieldset-location').toggle();
         });
+
+        /* submit */
+        $('#sharingbox-form').submit(function(event){
+            event.preventDefault();
+            $.post(
+                $('#sharingbox-form').attr('action'),
+                $('#sharingbox-form').serialize(),
+                function(data) {
+                    alert('done!' + data);
+                }
+            );
+        });
+
     }(jQuery));
 }
