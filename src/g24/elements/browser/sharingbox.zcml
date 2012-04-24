@@ -25,4 +25,19 @@
         layer="g24.elements.interfaces.IG24Elements"
         />
 
+    <browser:page
+        for="g24.elements.content.IBasetype"
+        name="sharingbox_auto"
+        class=".sharingbox.SharingBoxAddFormView"
+        permission="zope2.View"
+        layer="g24.elements.interfaces.IG24Elements"
+        />
+    <browser:page
+        for="g24.elements.content.IBasetype"
+        name="sharingbox_edit_auto"
+        class=".sharingbox.SharingBoxEditFormView"
+        permission="zope2.View"
+        layer="g24.elements.interfaces.IG24Elements"
+        />
+
 </configure>
