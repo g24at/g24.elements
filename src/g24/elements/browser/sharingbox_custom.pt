@@ -20,9 +20,11 @@
     </fieldset>
 
     <fieldset id="sharingbox-fieldset-text">
-      <input type="hidden" name="form.widgets.IRichText.text.mimeType" value="text/html"/>`    <input type="hidden" name="form.widgets.IRichText.text.mimeType" value="text/html"/>
+      <input type="hidden" name="form.widgets.IRichText.text.mimeType" value="text/html"/>
       <textarea name="sharingbox-text" id="sharingbox-text" rows="8" cols="40"
-          tal:attributes="name widgets/IRichText.text/name"><tal:txt replace="widgets/IRichText.text/value/output|nothing"><h1>lemme see</h1><p>nothing special</p></tal:txt></textarea>
+        tal:attributes="name widgets/IRichText.text/name">
+        <tal:txt replace="structure widgets/IRichText.text/value/output|nothing"><h1>lemme see</h1><p>nothing special</p></tal:txt>
+      </textarea>
     </fieldset>
 
     <div id="sharingbox-facade">
