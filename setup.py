@@ -29,5 +29,7 @@ setup(name='g24.elements',
       install_requires=[
           'setuptools',
           'plone.app.event[dexterity]',
+          'yafowil.plone',
+          'yafowil.yaml',
       ],
       )

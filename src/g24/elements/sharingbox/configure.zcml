@@ -1,0 +1,23 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="g24.elements">
+
+  <include package="Products.CMFCore" file="permissions.zcml"/>
+
+  <browser:page
+    name="element_edit"
+    for="g24.elements.interfaces.IBasetype"
+    layer="g24.elements.interfaces.IG24ElementsLayer"    
+    class=".form.SharingboxEdit"
+    permission="cmf.ModifyPortalContent"
+  />
+  <browser:page
+    name="element_add"
+    for="*"
+    layer="g24.elements.interfaces.IG24ElementsLayer"    
+    class=".form.SharingboxAdd"
+    permission="cmf.AddPortalContent"
+  />
+
+</configure>
