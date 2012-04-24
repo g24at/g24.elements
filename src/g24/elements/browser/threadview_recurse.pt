@@ -29,7 +29,7 @@
       </tal:tags>
       <em tal:content="item/created"/><br/>
       <a class="sharingbox_edit" tal:condition="python:view.can_edit(obj)" href="" tal:attributes="href string:${base_url}/@@sharingbox_edit">Edit</a> |
-      <a class="ctrl sharingbox_add" tal:condition="python:view.can_add(obj)" href="" tal:attributes="href string:${base_url}/@@sharingbox">Add</a><br/>
+      <a class="ctrl sharingbox_add" tal:condition="python:view.can_add(obj)" href="" tal:attributes="href string:${base_url}/@@sharingbox_add">Add</a><br/>
     </footer>
   </article>
 
