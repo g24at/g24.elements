@@ -1,6 +1,10 @@
-<div id="sharingbox">
-  
-  <form id="sharingbox-form" action="" method="get" accept-charset="utf-8">
+<div id="sharingbox" tal:define="form nocall:view/form_instance; widgets form/widgets" tal:condition="form">
+
+  <form id="sharingbox-form" action="" method="post" accept-charset="utf-8"
+      tal:attributes="name    form/name;
+                      action  form/action;
+                      method  form/method;
+                      enctype form/enctype;">
     <fieldset id="sharingbox-fieldset-features">
         <label for="sharingbox-features-title">Create a Thread</label>
         <input type="checkbox" id="sharingbox-features-title" name="sharingbox-features-title"/>
@@ -14,7 +18,12 @@
       <label for="sharingbox-title">Titel deines Beitrags</label>
       <input type="text" name="sharingbox-title" id="sharingbox-title" value="" placeholder="share some content with us!" />
     </fieldset>
-    <textarea name="sharingbox-text" id="sharingbox-text" rows="8" cols="40"><h1>lemme see</h1><p>nothing special</p></textarea>
+
+    <fieldset id="sharingbox-fieldset-text">
+      <input type="hidden" name="form.widgets.IRichText.text.mimeType" value="text/html"/>`    <input type="hidden" name="form.widgets.IRichText.text.mimeType" value="text/html"/>
+      <textarea name="sharingbox-text" id="sharingbox-text" rows="8" cols="40"
+          tal:attributes="name widgets/IRichText.text/name"><tal:txt replace="widgets/IRichText.text/value/output|nothing"><h1>lemme see</h1><p>nothing special</p></tal:txt></textarea>
+    </fieldset>
 
     <div id="sharingbox-facade">
       <button id="sharingbox-facade-bold">Bold</button>
@@ -62,6 +71,9 @@
       <label for="sharingbox-location-address">Address of the Location</label>
       <input type="text" name="sharingbox-location-address" id="sharingbox-location-address" value="" placeholder="Address of the location" />
     </fieldset>
+
+    <input type="submit" value="Save" name="form.buttons.save"/>
+    <input type="submit" value="Cancel" name="form.buttons.cancel"/>
 
   </form>
 
