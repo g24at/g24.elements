@@ -6,7 +6,7 @@
     <browser:resourceDirectory
         name="g24.elements"
         directory="resources"
-        layer="g24.elements.interfaces.IG24Elements"
+        layer="g24.elements.interfaces.IG24ElementsLayer"
         />
 
     <browser:page
