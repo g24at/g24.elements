@@ -31,5 +31,6 @@ setup(name='g24.elements',
           'plone.app.event[dexterity]',
           'yafowil.plone',
           'yafowil.yaml',
+          'yafowil.widget.datetime',
       ],
       )
