@@ -73,19 +73,16 @@ class Sharingbox(BrowserView):
     def _safe(self, data):
         raise NotImplementedError
 
-    def get(self, key):
-        datum = getattr(self.context, key, DEFAULTS[key])
-        return datum
-
     def set_data(self, obj, data):
         for key in DEFAULTS:
             datum = data[key].extracted
             if datum is UNSET: continue
             else:
                 attr = getattr(obj, key, None)
-                if isinstance(attr, RichTextValue): # TODO: yafowil should return unicode object here...
-                    datum = RichTextValue(raw=unicode(datum.decode('utf-8')))
-                if attr: setattr(obj, key, datum)
+                if attr:
+                    if isinstance(attr, RichTextValue): # TODO: yafowil should return unicode object here...
+                        datum = RichTextValue(raw=unicode(datum.decode('utf-8')))
+                    setattr(obj, key, datum)
 
     @property
     def is_event(self):
@@ -152,6 +149,9 @@ class SharingboxAdd(Sharingbox):
         else:
             self.immediate_view = "%s/%s" % (container.absolute_url(), new_object.id)
 
+    def get(self, key):
+        return DEFAULTS[key]
+
 
 class SharingboxEdit(Sharingbox):
     mode = EDIT
@@ -159,3 +159,9 @@ class SharingboxEdit(Sharingbox):
     def _save(self, data):
         self.set_data(self.context, data)
         IStatusMessage(self.request).addStatusMessage(_(u"Item edited"), "info")
+
+    def get(self, key):
+        datum = getattr(self.context, key, DEFAULTS[key])
+        if isinstance(datum, RichTextValue): # TODO: yafowil should return unicode object here...
+            datum = datum.output
+        return datum

@@ -46,7 +46,7 @@ widgets:
 
 - text:
     factory: field:label:error:textarea
-    value: expr:context.get('text').output
+    value: expr:context.get('text')
     props:
         label: Text
         help: Share some content with us!
