@@ -1,4 +1,3 @@
-import copy
 from Acquisition import aq_inner, aq_base
 from Acquisition.interfaces import IAcquirer
 from Products.Five import BrowserView
@@ -13,7 +12,6 @@ from yafowil.yaml import parse_from_YAML
 from zExceptions import Unauthorized
 from zope.component import getUtility, createObject
 from zope.event import notify
-from g24.elements.content import IBasetype
 from g24.elements import messageFactory as _
 """
 from g24.elements.events import (
