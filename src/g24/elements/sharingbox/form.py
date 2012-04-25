@@ -3,6 +3,7 @@ from Acquisition.interfaces import IAcquirer
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
+from plone.app.event.dx.interfaces import IDXEvent
 from plone.app.textfield.value import RichTextValue
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import addContentToContainer
@@ -12,7 +13,12 @@ from yafowil.yaml import parse_from_YAML
 from zExceptions import Unauthorized
 from zope.component import getUtility, createObject
 from zope.event import notify
+
+from g24.elements.instance_behaviors import enable_behaviors, disable_behaviors
+from g24.elements.config import EVENT_INTERFACES, EVENT_BEHAVIORS
 from g24.elements import messageFactory as _
+
+
 """
 from g24.elements.events import (
     ElementCreatedEvent,
@@ -83,6 +89,14 @@ class Sharingbox(BrowserView):
         raise NotImplementedError
 
     def set_data(self, obj, data):
+
+        # fist, en/disable behaviors
+        if data['is_event'].extracted:
+            enable_behaviors(obj, EVENT_BEHAVIORS, EVENT_INTERFACES)
+        else:
+            disable_behaviors(obj, EVENT_BEHAVIORS, EVENT_INTERFACES)
+
+        # then set all the attributes
         for key in DEFAULTS:
             datum = data[key].extracted
             if datum is UNSET: continue
@@ -119,13 +133,13 @@ class Sharingbox(BrowserView):
 
     @property
     def is_thread(self):
-        return True
+        if self.mode == ADD: return True # default
+        else: return bool(self.context.title)
 
     @property
     def is_event(self):
-        return False
-        #return IEvent.providedBy(self.context)
-        #return bool(self.context.data['start'])
+        if self.mode == ADD: return False # default
+        else: return IDXEvent.providedBy(self.context)
 
     @property
     def is_location(self):
