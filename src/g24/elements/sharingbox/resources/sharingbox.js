@@ -29,6 +29,7 @@ function urlify(text) {
 
 function sharingbox_init() {
     (function ($) {
+        /* wysiwyg */
         $('#sharingbox-facade-content').html($('#sharingbox-text').val());
         $('#sharingbox-facade-content').show();
         $('#sharingbox-text').hide();
@@ -53,19 +54,25 @@ function sharingbox_init() {
           ); }, 1000);
           });*/
 
-        $('#sharingbox-fieldset-title').hide();
-        $('#sharingbox-features-title').change(function(event){
-            $('#sharingbox-fieldset-title').toggle();
+        /* fieldsets */
+        $('#fieldset-sharingbox_add_edit-features-title').hide();
+        $('#field-sharingbox_add_edit-features-is_thread').change(function(event){
+            $('#fieldset-sharingbox_add_edit-features-title').toggle();
         });
-        $('#sharingbox-fieldset-event').hide();
+        $('#fieldset-sharingbox_add_edit-features-event').hide();
         $(":date").dateinput({format: 'yyyy-mm-dd'});
-        $('#sharingbox-features-event').change(function(event){
-            $('#sharingbox-fieldset-event').toggle();
+        $('#field-sharingbox_add_edit-features-is_event').change(function(event){
+            $('#fieldset-sharingbox_add_edit-features-event').toggle();
         });
-        $('#sharingbox-fieldset-location').hide();
-        $('#sharingbox-features-location').change(function(event){
-            $('#sharingbox-fieldset-location').toggle();
+        $('#fieldset-sharingbox_add_edit-features-location').hide();
+        $('#field-sharingbox_add_edit-features-is_location').change(function(event){
+            $('#fieldset-sharingbox_add_edit-features-location').toggle();
         });
+        $('#fieldset-sharingbox_add_edit-features-organizer').hide();
+        $('#field-sharingbox_add_edit-features-is_organizer').change(function(event){
+            $('#fieldset-sharingbox_add_edit-features-organizer').toggle();
+        });
+
 
         /* submit */
         $('#sharingbox-form').submit(function(event){
