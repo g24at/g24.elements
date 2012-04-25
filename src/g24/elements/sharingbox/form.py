@@ -25,20 +25,31 @@ from g24.elements.events import (
 
 EDIT, ADD = 1, 2
 FILEMARKER = object()
-DEFAULTS = {
-    'is_thread': UNSET,
-    'is_event': UNSET,
-    'is_location': UNSET,
-    'is_organizer': UNSET,
+THREAD_DEFAULTS = {
     'title': UNSET,
+}
+TEXT_DEFAULTS = {
     'text': UNSET,
+}
+EVENT_DEFAULTS = {
     'start': UNSET,
     'end': UNSET,
     'whole_day': UNSET,
     'recurrence': UNSET,
+}
+LOCATION_DEFAULTS = {
     'location': UNSET,
+}
+ORGANIZER_DEFAULTS = {
     'organizer': UNSET,
 }
+DEFAULTS = dict(
+    THREAD_DEFAULTS.items() +
+    TEXT_DEFAULTS.items() +
+    EVENT_DEFAULTS.items() +
+    LOCATION_DEFAULTS.items() +
+    ORGANIZER_DEFAULTS.items()
+)
 
 class Sharingbox(BrowserView):
     template = ViewPageTemplateFile('form.pt')
@@ -56,7 +67,7 @@ class Sharingbox(BrowserView):
             self.request.RESPONSE.redirect(self.controller.next)
 
     def next(self, request):
-        return self.context.absolute_url() + '/view'
+        return self.context.absolute_url()
 
     @property
     def action(self):
@@ -67,8 +78,8 @@ class Sharingbox(BrowserView):
     def save(self, widget, data):
         if self.request.method != 'POST':
             raise Unauthorized('POST only')
-        self._save(data)
-        self.request.response.redirect(self.context.absolute_url()+'/view')
+        obj = self._save(data)
+        self.request.response.redirect(obj.absolute_url())
 
     def _safe(self, data):
         raise NotImplementedError
@@ -78,21 +89,45 @@ class Sharingbox(BrowserView):
             datum = data[key].extracted
             if datum is UNSET: continue
             else:
-                attr = getattr(obj, key, None)
-                if attr:
-                    if isinstance(attr, RichTextValue): # TODO: yafowil should return unicode object here...
-                        datum = RichTextValue(raw=unicode(datum.decode('utf-8')))
-                    setattr(obj, key, datum)
+                if key=='text': # TODO: yafowil should return unicode object here...
+                    datum = RichTextValue(raw=unicode(datum.encode('utf-8')))
+
+                if key in THREAD_DEFAULTS:
+                    if not data['is_thread'].extracted:
+                        try: delattr(obj, key)
+                        except AttributeError: continue
+                        continue
+
+                if key in EVENT_DEFAULTS:
+                    if not data['is_event'].extracted:
+                        try: delattr(obj, key)
+                        except AttributeError: continue
+                        continue
+
+                if key in LOCATION_DEFAULTS:
+                    if not data['is_location'].extracted:
+                        try: delattr(obj, key)
+                        except AttributeError: continue
+                        continue
+
+                if key in ORGANIZER_DEFAULTS:
+                    if not data['is_organizer'].extracted:
+                        try: delattr(obj, key)
+                        except AttributeError: continue
+                        continue
+
+                setattr(obj, key, datum)
+
+
+    @property
+    def is_thread(self):
+        return True
 
     @property
     def is_event(self):
         return False
         #return IEvent.providedBy(self.context)
         #return bool(self.context.data['start'])
-
-    @property
-    def is_thread(self):
-        return False
 
     @property
     def is_location(self):
@@ -111,11 +146,12 @@ class SharingboxAdd(Sharingbox):
     def _save(self, data):
         obj = self.create()
         self.set_data(obj, data)
-        self.add(obj)
+        obj = self.add(obj)
         if obj is not None:
             # mark only as finished if we get the new object
             self._finishedAdd = True
             IStatusMessage(self.request).addStatusMessage(_(u"Item created"), "info")
+        return obj
 
     def create(self):
         fti = getUtility(IDexterityFTI, name=self.portal_type)
@@ -139,15 +175,8 @@ class SharingboxAdd(Sharingbox):
         return aq_base(content)
 
     def add(self, object):
-
-        fti = getUtility(IDexterityFTI, name=self.portal_type)
         container = aq_inner(self.context)
-        new_object = addContentToContainer(container, object)
-
-        if fti.immediate_view:
-            self.immediate_view = "%s/%s/%s" % (container.absolute_url(), new_object.id, fti.immediate_view,)
-        else:
-            self.immediate_view = "%s/%s" % (container.absolute_url(), new_object.id)
+        return addContentToContainer(container, object)
 
     def get(self, key):
         return DEFAULTS[key]
@@ -159,6 +188,7 @@ class SharingboxEdit(Sharingbox):
     def _save(self, data):
         self.set_data(self.context, data)
         IStatusMessage(self.request).addStatusMessage(_(u"Item edited"), "info")
+        return self.context
 
     def get(self, key):
         datum = getattr(self.context, key, DEFAULTS[key])
