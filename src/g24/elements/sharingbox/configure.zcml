@@ -5,19 +5,26 @@
 
   <include package="Products.CMFCore" file="permissions.zcml"/>
 
+  <browser:resourceDirectory
+      name="g24.elements.sharingbox"
+      directory="resources"
+      layer="g24.elements.interfaces.IG24ElementsLayer"
+      />
+
   <browser:page
-    name="sharingbox_add"
-    for="*"
-    layer="g24.elements.interfaces.IG24ElementsLayer"
-    class=".form.SharingboxAdd"
-    permission="cmf.AddPortalContent"
-  />
+      name="sharingbox_add"
+      for="*"
+      layer="g24.elements.interfaces.IG24ElementsLayer"
+      class=".form.SharingboxAdd"
+      permission="cmf.AddPortalContent"
+      />
+
   <browser:page
-    name="sharingbox_edit"
-    for="g24.elements.content.IBasetype"
-    layer="g24.elements.interfaces.IG24ElementsLayer"
-    class=".form.SharingboxEdit"
-    permission="cmf.ModifyPortalContent"
-  />
+      name="sharingbox_edit"
+      for="g24.elements.content.IBasetype"
+      layer="g24.elements.interfaces.IG24ElementsLayer"
+      class=".form.SharingboxEdit"
+      permission="cmf.ModifyPortalContent"
+      />
 
 </configure>

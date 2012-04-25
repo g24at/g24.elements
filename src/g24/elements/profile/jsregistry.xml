@@ -6,7 +6,7 @@
       enabled="True"
       />
   <javascript
-      id="++resource++g24.elements/sharingbox.js"
+      id="++resource++g24.elements.sharingbox/sharingbox.js"
       cacheable="True" compression="safe" cookable="True" inline="False"
       enabled="True"
       />

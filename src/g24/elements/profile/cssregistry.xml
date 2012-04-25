@@ -5,7 +5,7 @@
     cacheable="True" compression="safe" cookable="True" enabled="True"
     media="screen" rel="stylesheet" rendering="import"/>
   <stylesheet
-    id="++resource++g24.elements/sharingbox.css"
+    id="++resource++g24.elements.sharingbox/sharingbox.css"
     cacheable="True" compression="safe" cookable="True" enabled="True"
     media="screen" rel="stylesheet" rendering="import"/>
 </object> 
