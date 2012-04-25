@@ -50,7 +50,7 @@ class Sharingbox(BrowserView):
         self.data = dict(DEFAULTS)
         if self.mode == EDIT and IBasetype.providedBy(self.context):
             self.mode = EDIT
-            self.data = copy.deepcopy(self.context.data)
+            self.data = self.get_data(self.context)
 
         form = self._fetch_form()
         self.controller = Controller(form, self.request)
@@ -78,7 +78,12 @@ class Sharingbox(BrowserView):
     def _safe(self, data):
         raise NotImplementedError
 
-    def save_data(self, obj, data):
+    def get_data(self, obj):
+        for key in DEFAULTS:
+            attr = getattr(key, obj, None)
+            if attr: self.data.update(key, attr)
+
+    def set_data(self, obj, data):
         for key in DEFAULTS:
             datum = data[key].extracted
             if datum is UNSET: continue
@@ -112,7 +117,7 @@ class SharingboxAdd(Sharingbox):
 
     def _save(self, data):
         obj = self.create()
-        self.save_data(obj, data)
+        self.set_data(obj, data)
         self.add(obj)
         if obj is not None:
             # mark only as finished if we get the new object
@@ -156,5 +161,5 @@ class SharingboxEdit(Sharingbox):
     mode = EDIT
 
     def _save(self, data):
-        self.save_data(self.context, data)
+        self.set_data(self.context, data)
         IStatusMessage(self.request).addStatusMessage(_(u"Item edited"), "info")
