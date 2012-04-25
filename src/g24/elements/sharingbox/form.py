@@ -14,7 +14,7 @@ from zExceptions import Unauthorized
 from zope.component import getUtility, createObject
 from zope.event import notify
 
-from g24.elements.instance_behaviors import enable_behaviors, disable_behaviors
+from g24.elements.instancebehaviors import enable_behaviors, disable_behaviors
 from g24.elements.config import EVENT_INTERFACES, EVENT_BEHAVIORS
 from g24.elements import messageFactory as _
 
