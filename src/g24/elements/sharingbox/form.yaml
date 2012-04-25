@@ -40,13 +40,13 @@ widgets:
 
 - title:
     factory: field:label:error:text
-    value: expr:context.data['title']
+    value: expr:context.get('title')
     props:
         label: Title
 
-- description:
+- text:
     factory: field:label:error:textarea
-    value: expr:context.data['text']
+    value: expr:context.get('text').output
     props:
         label: Text
         help: Share some content with us!
@@ -55,7 +55,7 @@ widgets:
 
 - start:
     factory: field:label:error:datetime
-    value: expr:context.data['start']
+    value: expr:context.get('start')
     props:
         label: Start Date and Time
         help: Date and Time, when the Event begins. E.g. 10.10.2010 10:00
@@ -64,7 +64,7 @@ widgets:
 
 - end:
     factory: field:label:error:datetime
-    value: expr:context.data['end']
+    value: expr:context.get('end')
     props:
         label: End Date and Time
         help: Date and Time, when the Event ends. E.g. 10.10.2010 11:00. It's the single's event end, not of a recurrence, if one is defined.
@@ -73,7 +73,7 @@ widgets:
 
 - whole_day:
     factory: field:label:error:checkbox
-    value: expr:context.data['whole_day']
+    value: expr:context.get('whole_day')
     props:
         label: Whole Day
         help: The event lasts the whole day. Start and end times are not used.
@@ -81,7 +81,7 @@ widgets:
 
 - recurrence:
     factory: field:label:error:textarea
-    value: expr:context.data['recurrence']
+    value: expr:context.get('recurrence')
     props:
         label: Recurrence
         help: This event has a recurrence rule.
@@ -90,7 +90,7 @@ widgets:
 
 - location:
     factory: field:label:error:textarea
-    value: expr:context.data['location']
+    value: expr:context.get('location')
     props:
         label: Location
         help: The location of this event.
@@ -99,7 +99,7 @@ widgets:
 
 - organizer:
     factory: field:label:error:textarea
-    value: expr:context.data['organizer']
+    value: expr:context.get('organizer')
     props:
         label: Organizer
         help: The organizer of this event.

@@ -4,6 +4,7 @@ from Acquisition.interfaces import IAcquirer
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
+from plone.app.textfield.value import RichTextValue
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import addContentToContainer
 from yafowil.base import UNSET
@@ -47,11 +48,6 @@ class Sharingbox(BrowserView):
         return parse_from_YAML('g24.elements.sharingbox:form.yaml', self, _)
 
     def __call__(self):
-        self.data = dict(DEFAULTS)
-        if self.mode == EDIT and IBasetype.providedBy(self.context):
-            self.mode = EDIT
-            self.data = self.get_data(self.context)
-
         form = self._fetch_form()
         self.controller = Controller(form, self.request)
         if not self.controller.next:
@@ -72,24 +68,24 @@ class Sharingbox(BrowserView):
         if self.request.method != 'POST':
             raise Unauthorized('POST only')
         self._save(data)
-
-        self.request.RESPONSE.redirect(self.controller.next)
+        self.request.response.redirect(self.context.absolute_url()+'/view')
 
     def _safe(self, data):
         raise NotImplementedError
 
-    def get_data(self, obj):
-        for key in DEFAULTS:
-            attr = getattr(key, obj, None)
-            if attr: self.data.update(key, attr)
+    def get(self, key):
+        datum = getattr(self.context, key, DEFAULTS[key])
+        return datum
 
     def set_data(self, obj, data):
         for key in DEFAULTS:
             datum = data[key].extracted
             if datum is UNSET: continue
             else:
-                attr = getattr(key, obj, None)
-                if attr: attr = datum
+                attr = getattr(obj, key, None)
+                if isinstance(attr, RichTextValue): # TODO: yafowil should return unicode object here...
+                    datum = RichTextValue(raw=unicode(datum.decode('utf-8')))
+                if attr: setattr(obj, key, datum)
 
     @property
     def is_event(self):
