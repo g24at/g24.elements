@@ -83,7 +83,7 @@ widgets:
     factory: field:label:error:textarea
     value: expr:context.data['recurrence']
     props:
-        label: Text
+        label: Recurrence
         help: This event has a recurrence rule.
         help_class: formHelp
         rows: 2
@@ -92,7 +92,7 @@ widgets:
     factory: field:label:error:textarea
     value: expr:context.data['location']
     props:
-        label: Text
+        label: Location
         help: The location of this event.
         help_class: formHelp
         rows: 3
@@ -101,7 +101,7 @@ widgets:
     factory: field:label:error:textarea
     value: expr:context.data['organizer']
     props:
-        label: Text
+        label: Organizer
         help: The organizer of this event.
         help_class: formHelp
         rows: 3
