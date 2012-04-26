@@ -29,31 +29,20 @@ from g24.elements.events import (
 
 EDIT, ADD = 1, 2
 FILEMARKER = object()
-THREAD_DEFAULTS = {
-    'title': UNSET,
+
+DEFAULTS = {
+    'features-title': { 'title': UNSET, },
+    'features-text': { 'text': UNSET,  },
+    'features-event': {
+        'start': UNSET,
+        'end': UNSET,
+        'whole_day': UNSET,
+        'recurrence': UNSET,
+    },
+    'features-location': { 'location': UNSET, },
+    'features-organizer': { 'organizer': UNSET, },
 }
-TEXT_DEFAULTS = {
-    'text': UNSET,
-}
-EVENT_DEFAULTS = {
-    'start': UNSET,
-    'end': UNSET,
-    'whole_day': UNSET,
-    'recurrence': UNSET,
-}
-LOCATION_DEFAULTS = {
-    'location': UNSET,
-}
-ORGANIZER_DEFAULTS = {
-    'organizer': UNSET,
-}
-DEFAULTS = dict(
-    THREAD_DEFAULTS.items() +
-    TEXT_DEFAULTS.items() +
-    EVENT_DEFAULTS.items() +
-    LOCATION_DEFAULTS.items() +
-    ORGANIZER_DEFAULTS.items()
-)
+
 
 class Sharingbox(BrowserView):
     template = ViewPageTemplateFile('form.pt')
@@ -97,38 +86,23 @@ class Sharingbox(BrowserView):
             disable_behaviors(obj, EVENT_BEHAVIORS, EVENT_INTERFACES)
 
         # then set all the attributes
-        for key in DEFAULTS:
-            datum = data[key].extracted
-            if datum is UNSET: continue
-            else:
-                if key=='text': # TODO: yafowil should return unicode object here...
-                    datum = RichTextValue(raw=unicode(datum.encode('utf-8')))
+        for basepath, keys in DEFAULTS:
+            for key in keys:
+                datum = data[basepath][key].extracted
 
-                if key in THREAD_DEFAULTS:
-                    if not data['is_thread'].extracted:
-                        try: delattr(obj, key)
-                        except AttributeError: continue
-                        continue
+                if basepath == 'features-title' and not data['features']['is_thread'].extracted or\
+                   basepath == 'features-event' and not data['features']['is_event'].extracted or\
+                   basepath == 'features-location' and not data['features']['is_location'].extracted or\
+                   basepath == 'features-organizer' and not data['features']['is_organizer'].extracted:
+                    try: delattr(obj, key)
+                    except AttributeError: continue
+                    continue
 
-                if key in EVENT_DEFAULTS:
-                    if not data['is_event'].extracted:
-                        try: delattr(obj, key)
-                        except AttributeError: continue
-                        continue
-
-                if key in LOCATION_DEFAULTS:
-                    if not data['is_location'].extracted:
-                        try: delattr(obj, key)
-                        except AttributeError: continue
-                        continue
-
-                if key in ORGANIZER_DEFAULTS:
-                    if not data['is_organizer'].extracted:
-                        try: delattr(obj, key)
-                        except AttributeError: continue
-                        continue
-
-                setattr(obj, key, datum)
+                if datum is UNSET: continue
+                else:
+                    if key=='text': # TODO: yafowil should return unicode object here...
+                        datum = RichTextValue(raw=unicode(datum.encode('utf-8')))
+                    setattr(obj, key, datum)
 
 
     @property
@@ -190,8 +164,8 @@ class SharingboxAdd(Sharingbox):
         container = aq_inner(self.context)
         return addContentToContainer(container, object)
 
-    def get(self, key):
-        return DEFAULTS[key]
+    def get(self, key, basepath=None):
+        return  basepath and DEFAULTS[basepath][key] or DEFAULTS[key]
 
 
 class SharingboxEdit(Sharingbox):
@@ -202,8 +176,8 @@ class SharingboxEdit(Sharingbox):
         IStatusMessage(self.request).addStatusMessage(_(u"Item edited"), "info")
         return self.context
 
-    def get(self, key):
-        datum = getattr(self.context, key, DEFAULTS[key])
+    def get(self, key, basepath=None):
+        datum = getattr(self.context, key, basepath and DEFAULTS[basepath][key] or DEFAULTS[key])
         if isinstance(datum, RichTextValue): # TODO: yafowil should return unicode object here...
             datum = datum.output
         return datum

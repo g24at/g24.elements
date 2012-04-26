@@ -46,7 +46,7 @@ widgets:
     widgets:
     - title:
         factory: field:label:error:text
-        value: expr:context.get('title')
+        value: expr:context.get('title', 'features-title')
         props:
             label: Title
 
@@ -55,7 +55,7 @@ widgets:
     widgets:
     - text:
         factory: field:label:error:textarea
-        value: expr:context.get('text')
+        value: expr:context.get('text', 'features-text')
         props:
             label: Text
             help: Share some content with us!
@@ -67,7 +67,7 @@ widgets:
     widgets:
     - start:
         factory: field:label:error:datetime
-        value: expr:context.get('start')
+        value: expr:context.get('start', 'features-event')
         props:
             label: Start Date and Time
             help: Date and Time, when the Event begins. E.g. 10.10.2010 10:00
@@ -76,7 +76,7 @@ widgets:
 
     - end:
         factory: field:label:error:datetime
-        value: expr:context.get('end')
+        value: expr:context.get('end', 'features-event')
         props:
             label: End Date and Time
             help: Date and Time, when the Event ends. E.g. 10.10.2010 11:00. It's the single's event end, not of a recurrence, if one is defined.
@@ -85,7 +85,7 @@ widgets:
 
     - whole_day:
         factory: field:label:error:checkbox
-        value: expr:context.get('whole_day')
+        value: expr:context.get('whole_day', 'features-event')
         props:
             label: Whole Day
             help: The event lasts the whole day. Start and end times are not used.
@@ -93,7 +93,7 @@ widgets:
 
     - recurrence:
         factory: field:label:error:textarea
-        value: expr:context.get('recurrence')
+        value: expr:context.get('recurrence', 'features-event')
         props:
             label: Recurrence
             help: This event has a recurrence rule.
@@ -105,7 +105,7 @@ widgets:
     widgets:
     - location:
         factory: field:label:error:textarea
-        value: expr:context.get('location')
+        value: expr:context.get('location', 'features-location')
         props:
             label: Location
             help: The location of this event.
@@ -117,7 +117,7 @@ widgets:
     widgets:
     - organizer:
         factory: field:label:error:textarea
-        value: expr:context.get('organizer')
+        value: expr:context.get('organizer', 'features-organizer')
         props:
             label: Organizer
             help: The organizer of this event.
