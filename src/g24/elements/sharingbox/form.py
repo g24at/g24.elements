@@ -164,8 +164,8 @@ class SharingboxAdd(Sharingbox):
         container = aq_inner(self.context)
         return addContentToContainer(container, object)
 
-    def get(self, key, basepath=None):
-        return  basepath and DEFAULTS[basepath][key] or DEFAULTS[key]
+    def get(self, key, basepath):
+        return DEFAULTS[basepath][key]
 
 
 class SharingboxEdit(Sharingbox):
@@ -176,8 +176,8 @@ class SharingboxEdit(Sharingbox):
         IStatusMessage(self.request).addStatusMessage(_(u"Item edited"), "info")
         return self.context
 
-    def get(self, key, basepath=None):
-        datum = getattr(self.context, key, basepath and DEFAULTS[basepath][key] or DEFAULTS[key])
+    def get(self, key, basepath):
+        datum = getattr(self.context, key, DEFAULTS[basepath][key])
         if isinstance(datum, RichTextValue): # TODO: yafowil should return unicode object here...
             datum = datum.output
         return datum
