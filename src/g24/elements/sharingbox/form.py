@@ -80,13 +80,13 @@ class Sharingbox(BrowserView):
     def set_data(self, obj, data):
 
         # fist, en/disable behaviors
-        if data['is_event'].extracted:
+        if data['features']['is_event'].extracted:
             enable_behaviors(obj, EVENT_BEHAVIORS, EVENT_INTERFACES)
         else:
             disable_behaviors(obj, EVENT_BEHAVIORS, EVENT_INTERFACES)
 
         # then set all the attributes
-        for basepath, keys in DEFAULTS:
+        for basepath, keys in DEFAULTS.items():
             for key in keys:
                 datum = data[basepath][key].extracted
 
