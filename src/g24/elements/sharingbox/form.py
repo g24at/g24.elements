@@ -74,7 +74,7 @@ class Sharingbox(BrowserView):
         obj = self._save(data)
         self.request.response.redirect(obj.absolute_url())
 
-    def _safe(self, data):
+    def _save(self, data):
         raise NotImplementedError
 
     def set_data(self, obj, data):
