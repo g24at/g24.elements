@@ -37,7 +37,7 @@ widgets:
         factory: field:label:checkbox
         value: expr:context.is_organizer
         props:
-            label: Location
+            label: Organizer
             help: I want to add an organizer...
             help_class: formHelp
 
