@@ -16,6 +16,7 @@ widgets:
             label: Thread
             help: I want to create a thread...
             help_class: formHelp
+            help_as_title: True
 
     - is_event:
         factory: field:label:checkbox
@@ -24,6 +25,7 @@ widgets:
             label: Event
             help: I want to create an event...
             help_class: formHelp
+            help_as_title: True
 
     - is_location:
         factory: field:label:checkbox
@@ -32,6 +34,7 @@ widgets:
             label: Location
             help: I want to add location...
             help_class: formHelp
+            help_as_title: True
 
     - is_organizer:
         factory: field:label:checkbox
@@ -40,6 +43,7 @@ widgets:
             label: Organizer
             help: I want to add an organizer...
             help_class: formHelp
+            help_as_title: True
 
 - features-thread:
     factory: fieldset
@@ -60,6 +64,7 @@ widgets:
             label: Text
             help: Share some content with us!
             help_class: formHelp
+            help_as_title: True
             rows: 5
 
 - features-event:
@@ -72,6 +77,7 @@ widgets:
             label: Start Date and Time
             help: Date and Time, when the Event begins. E.g. 10.10.2010 10:00
             help_class: formHelp
+            help_as_title: True
             format: '%d.%m.%Y %H:%M'
             datepicker: True,
             time: True
@@ -83,6 +89,7 @@ widgets:
             label: End Date and Time
             help: Date and Time, when the Event ends. E.g. 10.10.2010 11:00. It's the single's event end, not of a recurrence, if one is defined.
             help_class: formHelp
+            help_as_title: True
             format: '%d.%m.%Y %H:%M'
             datepicker: True,
             time: True
@@ -94,6 +101,7 @@ widgets:
             label: Whole Day
             help: The event lasts the whole day. Start and end times are not used.
             help_class: formHelp
+            help_as_title: True
 
     - recurrence:
         factory: field:label:error:textarea
@@ -102,6 +110,7 @@ widgets:
             label: Recurrence
             help: This event has a recurrence rule.
             help_class: formHelp
+            help_as_title: True
             rows: 2
 
 - features-location:
@@ -114,6 +123,7 @@ widgets:
             label: Location
             help: The location of this event.
             help_class: formHelp
+            help_as_title: True
             rows: 3
 
 - features-organizer:
@@ -126,6 +136,7 @@ widgets:
             label: Organizer
             help: The organizer of this event.
             help_class: formHelp
+            help_as_title: True
             rows: 3
 
 - form-controls:
