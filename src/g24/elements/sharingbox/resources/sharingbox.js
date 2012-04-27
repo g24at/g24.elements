@@ -54,34 +54,28 @@ function sharingbox_init() {
           ); }, 1000);
           });*/
 
+
         /* fieldsets */
-        if ($('#input-sharingbox_add_edit-features-is_thread').is(':checked') === false) {
-            $('#fieldset-sharingbox_add_edit-features-title').hide();
+        function initialize_features(checkbox, fieldset) {
+            if (checkbox.is(':checked') === false) { fieldset.hide(); }
+            checkbox.change(function(event){ fieldset.toggle(); });
         }
-        $('#input-sharingbox_add_edit-features-is_thread').change(function(event){
-            $('#fieldset-sharingbox_add_edit-features-title').toggle();
-        });
-
-        if ($('#input-sharingbox_add_edit-features-is_event').is(':checked') === false) {
-            $('#fieldset-sharingbox_add_edit-features-event').hide();
-        }
-        $('#input-sharingbox_add_edit-features-is_event').change(function(event){
-            $('#fieldset-sharingbox_add_edit-features-event').toggle();
-        });
-
-        if ($('#input-sharingbox_add_edit-features-is_location').is(':checked') === false) {
-            $('#fieldset-sharingbox_add_edit-features-location').hide();
-        }
-        $('#input-sharingbox_add_edit-features-is_location').change(function(event){
-            $('#fieldset-sharingbox_add_edit-features-location').toggle();
-        });
-
-        if ($('#input-sharingbox_add_edit-features-is_organizer').is(':checked') === false) {
-            $('#fieldset-sharingbox_add_edit-features-organizer').hide();
-        }
-        $('#input-sharingbox_add_edit-features-is_organizer').change(function(event){
-            $('#fieldset-sharingbox_add_edit-features-organizer').toggle();
-        });
+        initialize_features(
+            $('#input-sharingbox_add_edit-features-is_thread'),
+            $('#fieldset-sharingbox_add_edit-features-thread')
+        );
+        initialize_features(
+            $('#input-sharingbox_add_edit-features-is_event'),
+            $('#fieldset-sharingbox_add_edit-features-event')
+        );
+        initialize_features(
+            $('#input-sharingbox_add_edit-features-is_location'),
+            $('#fieldset-sharingbox_add_edit-features-location')
+        );
+        initialize_features(
+            $('#input-sharingbox_add_edit-features-is_organizer'),
+            $('#fieldset-sharingbox_add_edit-features-organizer')
+        );
 
 
         /* submit */

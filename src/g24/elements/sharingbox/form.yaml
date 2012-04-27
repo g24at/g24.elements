@@ -41,12 +41,12 @@ widgets:
             help: I want to add an organizer...
             help_class: formHelp
 
-- features-title:
+- features-thread:
     factory: fieldset
     widgets:
     - title:
         factory: field:label:error:text
-        value: expr:context.get('title', 'features-title')
+        value: expr:context.get('title', 'features-thread')
         props:
             label: Title
 

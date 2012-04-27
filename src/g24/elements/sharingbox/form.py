@@ -31,7 +31,7 @@ EDIT, ADD = 1, 2
 FILEMARKER = object()
 
 DEFAULTS = {
-    'features-title': { 'title': UNSET, },
+    'features-thread': { 'title': UNSET, },
     'features-text': { 'text': UNSET,  },
     'features-event': {
         'start': UNSET,
@@ -93,7 +93,7 @@ class Sharingbox(BrowserView):
             for key in keys:
                 datum = data[basepath][key].extracted
 
-                if basepath == 'features-title' and not data['features']['is_thread'].extracted or\
+                if basepath == 'features-thread' and not data['features']['is_thread'].extracted or\
                    basepath == 'features-event' and not data['features']['is_event'].extracted or\
                    basepath == 'features-location' and not data['features']['is_location'].extracted or\
                    basepath == 'features-organizer' and not data['features']['is_organizer'].extracted:
@@ -120,11 +120,13 @@ class Sharingbox(BrowserView):
 
     @property
     def is_location(self):
-        return False
+        if self.mode == ADD: return True # default
+        else: return bool(self.context.location)
 
     @property
     def is_organizer(self):
-        return False
+        if self.mode == ADD: return True # default
+        else: return bool(self.context.organizer)
 
 
 class SharingboxAdd(Sharingbox):
