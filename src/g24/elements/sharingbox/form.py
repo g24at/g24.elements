@@ -110,7 +110,7 @@ class Sharingbox(BrowserView):
 
     @property
     def is_thread(self):
-        if self.mode == ADD: return True # default
+        if self.mode == ADD: return False # default
         else: return bool(self.context.title)
 
     @property
@@ -120,12 +120,12 @@ class Sharingbox(BrowserView):
 
     @property
     def is_location(self):
-        if self.mode == ADD: return True # default
+        if self.mode == ADD: return False # default
         else: return bool(self.context.location)
 
     @property
     def is_organizer(self):
-        if self.mode == ADD: return True # default
+        if self.mode == ADD: return False # default
         else: return bool(self.context.organizer)
 
 
