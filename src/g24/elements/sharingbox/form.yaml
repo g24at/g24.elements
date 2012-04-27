@@ -72,7 +72,9 @@ widgets:
             label: Start Date and Time
             help: Date and Time, when the Event begins. E.g. 10.10.2010 10:00
             help_class: formHelp
-            format: '%d.%m.%Y - %H:%M'
+            format: '%d.%m.%Y %H:%M'
+            datepicker: True,
+            time: True
 
     - end:
         factory: field:label:error:datetime
@@ -81,7 +83,9 @@ widgets:
             label: End Date and Time
             help: Date and Time, when the Event ends. E.g. 10.10.2010 11:00. It's the single's event end, not of a recurrence, if one is defined.
             help_class: formHelp
-            format: '%d.%m.%Y - %H:%M'
+            format: '%d.%m.%Y %H:%M'
+            datepicker: True,
+            time: True
 
     - whole_day:
         factory: field:label:error:checkbox
