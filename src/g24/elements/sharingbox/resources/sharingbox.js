@@ -92,9 +92,13 @@ function sharingbox_init() {
         $('#sharingbox>form').submit(function(event){
             event.preventDefault();
             //$('#sharingbox-text').val($('#sharingbox-facade-content').html());
+            var form_data = $('#sharingbox>form').serialize();
+            var form_submit = $('#sharingbox>form input[type="submit"]');
+            form_data += '&' + form_submit.attr('name') + '=' + form_submit.val();
+
             $.post(
                 $('#sharingbox>form').attr('action'),
-                $('#sharingbox>form').serialize(),
+                form_data,
                 function(data) {
                     alert('done!' + data);
                 }
