@@ -124,11 +124,14 @@ widgets:
             help_class: formHelp
             rows: 3
 
-- save:
-    factory: submit
-    props:
-        action: save
-        expression: True
-        handler: context.save
-        next: context.next
-        label: Save
+- form-controls:
+    factory: fieldset
+    widgets:
+    - save:
+        factory: submit
+        props:
+            action: save
+            expression: True
+            handler: context.save
+            next: context.next
+            label: Save
