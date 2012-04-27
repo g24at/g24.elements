@@ -52,6 +52,7 @@ class Sharingbox(BrowserView):
         return parse_from_YAML('g24.elements.sharingbox:form.yaml', self, _)
 
     def __call__(self):
+        #import pdb; pdb.set_trace()
         form = self._fetch_form()
         self.controller = Controller(form, self.request)
         if not self.controller.next:
@@ -69,6 +70,7 @@ class Sharingbox(BrowserView):
         return '%s/@@sharingbox_%s' % (url, postfix)
 
     def save(self, widget, data):
+        #import pdb; pdb.set_trace()
         if self.request.method != 'POST':
             raise Unauthorized('POST only')
         obj = self._save(data)
@@ -79,6 +81,7 @@ class Sharingbox(BrowserView):
 
     def set_data(self, obj, data):
 
+        #import pdb; pdb.set_trace()
         # first, en/disable behaviors
         if data['features']['is_event'].extracted:
             enable_behaviors(obj, EVENT_BEHAVIORS, EVENT_INTERFACES)
