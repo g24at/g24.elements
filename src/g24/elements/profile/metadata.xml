@@ -1,4 +1,8 @@
 <?xml version="1.0"?>
 <metadata>
   <version>1</version>
+  <dependencies>
+    <dependency>yafowil.plone</dependency><!-- TODO: i expect this to fail.
+    document what happens in yafowil doc -->
+  </dependencies>
 </metadata>
