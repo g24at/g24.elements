@@ -65,8 +65,6 @@ function sharingbox_init() {
         if ($('#input-sharingbox_add_edit-features-is_event').is(':checked') === false) {
             $('#fieldset-sharingbox_add_edit-features-event').hide();
         }
-        $('#fieldset-sharingbox_add_edit-features-event').hide();
-        $(":date").dateinput({format: 'yyyy-mm-dd'});
         $('#input-sharingbox_add_edit-features-is_event').change(function(event){
             $('#fieldset-sharingbox_add_edit-features-event').toggle();
         });
@@ -74,7 +72,6 @@ function sharingbox_init() {
         if ($('#input-sharingbox_add_edit-features-is_location').is(':checked') === false) {
             $('#fieldset-sharingbox_add_edit-features-location').hide();
         }
-        $('#fieldset-sharingbox_add_edit-features-location').hide();
         $('#input-sharingbox_add_edit-features-is_location').change(function(event){
             $('#fieldset-sharingbox_add_edit-features-location').toggle();
         });
@@ -82,7 +79,6 @@ function sharingbox_init() {
         if ($('#input-sharingbox_add_edit-features-is_organizer').is(':checked') === false) {
             $('#fieldset-sharingbox_add_edit-features-organizer').hide();
         }
-        $('#fieldset-sharingbox_add_edit-features-organizer').hide();
         $('#input-sharingbox_add_edit-features-is_organizer').change(function(event){
             $('#fieldset-sharingbox_add_edit-features-organizer').toggle();
         });
