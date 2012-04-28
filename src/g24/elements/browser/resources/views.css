@@ -1,11 +1,8 @@
 ul.threadview li { list-style:none; margin-left:2em; }
-li article.element {
+article.element {
     border-radius:5px 20px;
     border:1px solid grey;
     max-width:50em;
     padding:1em 2em;
-    margin:1em 0;
-}
-li article.element header h1 { margin:0 !important; }
-
-
+    margin:1em 0; }
+article.element header h1 { margin:0 !important; }

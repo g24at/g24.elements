@@ -11,8 +11,8 @@
   <metal:content-core define-macro="content-core">
 
   <tal:items tal:define="items view/items" repeat="item items">
-    <article tal:define="obj item/getObject;
-                         base_url item/getURL">
+    <article class="element" tal:define="obj item/getObject;
+                                         base_url item/getURL">
       <header>
         <h1>
           <a href="" tal:attributes="href string:${base_url}/thread" tal:content="item/Title">Title</a>
