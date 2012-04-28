@@ -7,7 +7,7 @@
 #sharingbox fieldset>div {
     margin:0;
 }
-#fieldset-sharingbox_add_edit-features>div {
+#sharingbox #fieldset-sharingbox_add_edit-features>div {
     display:inline-block;
     margin-right:0.5em;
 }
