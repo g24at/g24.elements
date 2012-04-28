@@ -111,7 +111,7 @@ class Sharingbox(BrowserView):
     @property
     def is_thread(self):
         if self.mode == ADD: return False # default
-        else: return bool(self.context.title)
+        else: return bool(getattr(self.context, 'title', False))
 
     @property
     def is_event(self):
@@ -121,12 +121,12 @@ class Sharingbox(BrowserView):
     @property
     def is_location(self):
         if self.mode == ADD: return False # default
-        else: return bool(self.context.location)
+        else: return bool(getattr(self.context, 'location', False))
 
     @property
     def is_organizer(self):
         if self.mode == ADD: return False # default
-        else: return bool(self.context.organizer)
+        else: return bool(getattr(self.context, 'organizer', False))
 
 
 class SharingboxAdd(Sharingbox):
