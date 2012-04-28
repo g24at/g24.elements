@@ -8,8 +8,7 @@
     <tal:item define="children node/children;
                       item node/item;
                       obj item/getObject;
-                      heading_level python:level + 1;
-                      base_url item/getURL"
+                      heading_level python:level + 1"
               condition="python:bottomLevel &lt;= 0 or level &lt;= bottomLevel">
 
 <li class=""

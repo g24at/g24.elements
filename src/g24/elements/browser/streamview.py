@@ -1,5 +1,7 @@
-from Products.Five.browser import BrowserView
 from Products.CMFCore.utils import getToolByName
+from Products.Five.browser import BrowserView
+from zope.component import getMultiAdapter
+from zope.contentprovider.interfaces import IContentProvider
 from g24.elements.content import IBasetype
 
 class StreamView(BrowserView):
@@ -29,3 +31,9 @@ class StreamView(BrowserView):
         result = cat(**query)
 
         return result
+
+    def element_provider(self, context):
+        provider = getMultiAdapter((context, self.request, self),
+                                   IContentProvider,
+                                   name=u"element_provider")
+        return provider.render()
