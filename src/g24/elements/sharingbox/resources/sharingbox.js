@@ -30,6 +30,7 @@ function urlify(text) {
 function sharingbox_init() {
     (function ($) {
         /* wysiwyg */
+        /*
         $('#sharingbox-facade-content').html($('#sharingbox-text').val());
         $('#sharingbox-facade-content').show();
         $('#sharingbox-text').hide();
@@ -43,8 +44,10 @@ function sharingbox_init() {
             document.execCommand('StyleWithCSS', false, false);
             document.execCommand('italic',false,null);
         });
-
-        /*var timeout;
+        */
+        /* urlify */
+        /*
+        var timeout;
           $('#sharingbox-facade-content').bind('textchange', function () {
           clearTimeout(timeout);
           var self = this;
@@ -52,7 +55,8 @@ function sharingbox_init() {
           $('#sharingbox-facade-content').html(
           urlify($('#sharingbox-facade-content').html())
           ); }, 1000);
-          });*/
+        });
+        */
 
 
         /* fieldsets */
