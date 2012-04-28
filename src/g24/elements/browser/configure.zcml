@@ -9,7 +9,14 @@
         layer="g24.elements.interfaces.IG24ElementsLayer"
         />
 
-    <browser:page
+    <adapter
+        name="element_provider"
+        provides="zope.contentprovider.interfaces.IContentProvider"
+        for=""
+        factory=".element_provider.ElementProvider"
+        />
+
+     <browser:page
         for="g24.elements.content.IBasetype"
         name="stream"
         class=".streamview.StreamView"
