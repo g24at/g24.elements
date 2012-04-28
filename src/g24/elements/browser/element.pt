@@ -1,0 +1,1 @@
+<tal:article replace="structure provider:element_provider"/>
