@@ -1,7 +1,8 @@
-from zope.security import checkPermission
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.layout.navigation.navtree import buildFolderTree
+from zope.component import getMultiAdapter
+from zope.contentprovider.interfaces import IContentProvider
 from g24.elements.content import IBasetype
 
 BOTTOMLEVEL = 6
@@ -23,11 +24,11 @@ class ThreadView(BrowserView):
         return self.recurse(children=self.itemtree().get('children', []),
             level=1, bottomLevel=self.bottomlevel)
 
-    def can_add(self, parent):
-        return checkPermission('g24.AddBasetype', parent)
-
-    def can_edit(self, context):
-        return checkPermission('g24.ModifyBasetype', context)
+    def element_provider(self, context):
+        provider = getMultiAdapter((context, self.request, self),
+                                   IContentProvider,
+                                   name=u"element_provider")
+        return provider.render()
 
     bottomlevel = BOTTOMLEVEL
     recurse = ViewPageTemplateFile('threadview_recurse.pt')

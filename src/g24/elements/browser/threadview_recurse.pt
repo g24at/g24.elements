@@ -15,23 +15,7 @@
 <li class=""
   tal:attributes="class string:threadview-level-${level}">
 
-  <article class="element" id="" tal:attributes="id item/UID">
-    <header>
-      <h1>
-        <a href="" tal:attributes="href string:${base_url}/thread" tal:content="item/Title">Title</a>
-      </h1>
-    </header>
-    <p tal:content="structure obj/text/output|nothing">Text</p>
-    <footer>
-      <a href="" tal:attributes="href string:${base_url}/stream?user=${item/Creator}" tal:content="item/Creator">Creator</a><br/>
-      <tal:tags repeat="tag item/Subject">
-        <a href="" tal:attributes="href string:${base_url}/stream?tag=${tag}" tal:content="tag">Tag</a><br/>
-      </tal:tags>
-      <em tal:content="item/created"/><br/>
-      <a class="sharingbox_edit" tal:condition="python:view.can_edit(obj)" href="" tal:attributes="href string:${base_url}/@@sharingbox_edit">Edit</a> |
-      <a class="ctrl sharingbox_add" tal:condition="python:view.can_add(obj)" href="" tal:attributes="href string:${base_url}/@@sharingbox_add">Add</a><br/>
-    </footer>
-  </article>
+  <tal:article replace="structure python:view.element_provider(obj)"/>
 
   <ul
     class="threadview"

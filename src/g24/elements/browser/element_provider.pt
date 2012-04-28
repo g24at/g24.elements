@@ -1,25 +1,19 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
-      xmlns:tal="http://xml.zope.org/namespaces/tal"
-      xmlns:metal="http://xml.zope.org/namespaces/metal"
-      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
-      i18n:domain="g24.elements">
-<body>
-  <article metal:define-macro="element"
-      class="element" id="" tal:attributes="id item/UID">
-    <header>
-      <h1>
-        <a href="" tal:attributes="href string:${base_url}/thread" tal:content="item/Title">Title</a>
-      </h1>
-    </header>
-    <p tal:content="structure obj/text/output|nothing">Text</p>
-    <footer>
-      <a href="" tal:attributes="href string:${base_url}/stream?user=${item/Creator}" tal:content="item/Creator">Creator</a><br/>
-      <tal:tags repeat="tag item/Subject">
-        <a href="" tal:attributes="href string:${base_url}/stream?tag=${tag}" tal:content="tag">Tag</a><br/>
-      </tal:tags>
-      <em tal:content="item/created"/><br/>
-      <a class="sharingbox_edit" tal:condition="python:view.can_edit(obj)" href="" tal:attributes="href string:${base_url}/@@sharingbox_edit">Edit</a> |
-      <a class="ctrl sharingbox_add" tal:condition="python:view.can_add(obj)" href="" tal:attributes="href string:${base_url}/@@sharingbox_add">Add</a><br/>
-    </footer>
-  </article>
-</body>
+<article class="element" id=""
+    tal:define="base_url context/absolute_url"
+    tal:attributes="id view/uuid">
+  <header>
+    <h1>
+      <a href="" tal:attributes="href string:${base_url}/thread" tal:content="context/Title">Title</a>
+    </h1>
+  </header>
+  <p tal:content="structure context/text/output|nothing">Text</p>
+  <footer>
+    <a href="" tal:attributes="href string:${base_url}/stream?user=${context/Creator}" tal:content="context/Creator">Creator</a><br/>
+    <tal:tags repeat="tag context/Subject">
+      <a href="" tal:attributes="href string:${base_url}/stream?tag=${tag}" tal:content="tag">Tag</a><br/>
+    </tal:tags>
+    <em tal:content="context/created"/><br/>
+    <a class="sharingbox_edit" tal:condition="view/can_edit" href="" tal:attributes="href string:${base_url}/@@sharingbox_edit">Edit</a> |
+    <a class="ctrl sharingbox_add" tal:condition="view/can_add" href="" tal:attributes="href string:${base_url}/@@sharingbox_add">Add</a><br/>
+  </footer>
+</article>

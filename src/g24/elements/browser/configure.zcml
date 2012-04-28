@@ -12,7 +12,6 @@
     <adapter
         name="element_provider"
         provides="zope.contentprovider.interfaces.IContentProvider"
-        for=""
         factory=".element_provider.ElementProvider"
         />
 
