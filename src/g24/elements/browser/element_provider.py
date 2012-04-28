@@ -17,12 +17,14 @@ class ElementProvider(BrowserView):
     template = ViewPageTemplateFile(u'element_provider.pt')
 
     def __init__(self, context, request, view):
+        #self.__parent__ = view # TODO: from roberts Explicit example
+        self.view = view
         self.context = context
         self.request = request
 
     @property
     def uuid(self):
-        # TODO: do i need aq_base here?
+        # TODO: do i need aq_base here? (see uuid example in collective-docs
         #context = self.context.aq_base # make, context isn't on parent
         uuid = IUUID(self.context, None)
         return uuid
@@ -36,6 +38,8 @@ class ElementProvider(BrowserView):
     def can_edit(self):
         return True # TODO: fix me
         return checkPermission('g24.ModifyBasetype', self.context)
+
+    def update(self): pass
 
     def render(self):
         return self.template(self)
