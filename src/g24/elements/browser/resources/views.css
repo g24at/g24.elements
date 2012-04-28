@@ -3,6 +3,7 @@ article.element {
     border-radius:5px 20px;
     border:1px solid grey;
     max-width:50em;
+    min-width:15em;
     padding:1em 2em;
     margin:1em 0; }
 article.element header h1 { margin:0 !important; }
