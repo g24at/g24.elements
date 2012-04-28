@@ -10,17 +10,20 @@ from zope.security import checkPermission
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 
+# TODO: why does robert inherit vom Acquisition.Explicit?
 class ElementProvider(BrowserView):
     implements(IContentProvider)
     adapts(Interface, IBrowserRequest, IBrowserView)
     template = ViewPageTemplateFile(u'element_provider.pt')
 
     def __init__(self, context, request, view):
-        self.context = context.aq_base # make, context isn't on parent
+        self.context = context
         self.request = request
 
     @property
     def uuid(self):
+        # TODO: do i need aq_base here?
+        #context = self.context.aq_base # make, context isn't on parent
         uuid = IUUID(self.context, None)
         return uuid
 
