@@ -17,6 +17,14 @@
 
      <browser:page
         for="g24.elements.content.IBasetype"
+        name="element"
+        template="element.pt"
+        permission="zope2.View"
+        layer="g24.elements.interfaces.IG24ElementsLayer"
+        />
+
+     <browser:page
+        for="g24.elements.content.IBasetype"
         name="stream"
         class=".streamview.StreamView"
         template="streamview.pt"
