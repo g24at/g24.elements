@@ -4,27 +4,28 @@
             i18n:domain="g24.basetype">
 
 <metal:main define-macro="threadview_main">
+<ul class="threadview"
+    tal:condition="python:children and
+                          (bottomLevel &lt;= 0 or level &lt;= bottomLevel)">
   <tal:navitem repeat="node children">
     <tal:item define="children node/children;
                       item node/item;
                       obj item/getObject;
-                      heading_level python:level + 1"
-              condition="python:bottomLevel &lt;= 0 or level &lt;= bottomLevel">
+                      heading_level python:level + 1">
 
-<li class=""
-  tal:attributes="class string:threadview-level-${level}">
+  <li class="" tal:attributes="class string:threadview-level-${level}">
 
-  <tal:article replace="structure python:view.element_provider(obj)"/>
+    <tal:article replace="structure python:view.element_provider(obj)"/>
 
-  <ul
-    class="threadview"
-    tal:define="subthread python:view.recurse(children=children, level=level+1, bottomLevel=bottomLevel)"
-    tal:condition="children"
-    tal:content="structure subthread" />
+    <tal:subthread
+        define="subthread python:view.recurse(children=children, level=level+1, bottomLevel=bottomLevel)"
+        condition="children"
+        replace="structure subthread" />
 
-</li>
+  </li>
 
     </tal:item>
   </tal:navitem>
+</ul>
 </metal:main>
 </tal:master>
