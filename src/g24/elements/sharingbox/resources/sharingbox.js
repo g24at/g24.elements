@@ -1,41 +1,116 @@
-/*
- * SHARINGBOX FEATURES
- * */
-function urlify(text) {
-    /* based on:
-       http://stackoverflow.com/questions/1500260/detect-urls-in-text-with-javascript
-       http://www.codinghorror.com/blog/2008/10/the-problem-with-urls.html
+(function ($) {
 
-       The following RegExp matches only URLs after an whitespace or
-       newline character or at the beginning of the text. It doesn't match
-       any URLs with preceding characters like: src="http://test nor URLs
-       in parenthesis (http://...)
+    var EDIT = 0;
+    var ADD = 1;
+    var last_context=null;
 
-       ^(https?://[^\s]+)|[\s\n](https?://[^\s]+)
-       */
-    //var urlRegex = /[^"'](https?:\/\/[^\s<]+)/g;
-    var urlRegex = /[^"']?(https?:\/\/[^\s<]+)/g;
-    return text.replace(urlRegex, function(url) {
-        if (url.substr(0,5) == 'https') { urlnoprot = url.substr(9); }
-        else { urlnoprot = url.substr(8); }
-        var urlpart = url.substr(-4);
-        if (urlpart === '.png' | urlpart === '.gif' | urlpart === '.jpg') {
-            return '<img src="' + url + '"/>';
-        } else {
-            return '<a href="' + url + '">' + urlnoprot + '</a>';
-        }
-    });
-}
-
-function sharingbox_init(context, mode) {
-    /* Initialize the sharingbox
-     *
-     * @param context: JQuery context, in which the sharingbox will be created.
-     * @param mode: 0..Edit, 1..Add
+    /* TOols
      * */
-    (function ($) {
-        var EDIT = 0;
-        var ADD = 1;
+
+    function default_value(arg, def) {
+        /* Add default parameter to argument */
+        return typeof arg !== 'undefined' ? arg : def;
+    }
+
+    function urlify(text) {
+        /* based on:
+           http://stackoverflow.com/questions/1500260/detect-urls-in-text-with-javascript
+           http://www.codinghorror.com/blog/2008/10/the-problem-with-urls.html
+
+           The following RegExp matches only URLs after an whitespace or
+           newline character or at the beginning of the text. It doesn't match
+           any URLs with preceding characters like: src="http://test nor URLs
+           in parenthesis (http://...)
+
+           ^(https?://[^\s]+)|[\s\n](https?://[^\s]+)
+           */
+        //var urlRegex = /[^"'](https?:\/\/[^\s<]+)/g;
+        var urlRegex = /[^"']?(https?:\/\/[^\s<]+)/g;
+        return text.replace(urlRegex, function(url) {
+            if (url.substr(0,5) == 'https') { urlnoprot = url.substr(9); }
+            else { urlnoprot = url.substr(8); }
+            var urlpart = url.substr(-4);
+            if (urlpart === '.png' | urlpart === '.gif' | urlpart === '.jpg') {
+                return '<img src="' + url + '"/>';
+            } else {
+                return '<a href="' + url + '">' + urlnoprot + '</a>';
+            }
+        });
+    }
+
+
+    /*
+     * SHARINGBOX INTEGRATION
+     * */
+
+    function sharingbox_remove(keep_list) {
+        keep_list = default_value(keep_list, false);
+        $('#sharingbox').remove(); // first remove any sharingbox instance
+        if (keep_list === false) {
+            $('#sharingbox_li_wrapper').remove(); // apply on all matched elements
+            $('#sharingbox_ul_wrapper').remove();
+        } else {
+            $('#sharingbox_li_wrapper').removeAttr('id');
+            $('#sharingbox_ul_wrapper').removeAttr('id');
+        }
+    }
+    
+    function sharingbox_inserter(linkel, event, mode) {
+        /* Insert sharingbox into content.
+         *
+         * @param linkel: The element, which caused invocation of this function.
+         * @param event:  jQuery event fired on linkel.
+         * @param mode:   0..EDIT, 1..ADD
+         *
+         * */
+        event.preventDefault();
+        sharingbox_remove();
+        if (last_context !== null) { $('#'+last_context).show(); }
+
+        var context = $(linkel).closest('article');
+        var context_id = context.attr('id');
+        last_context = context_id;
+        /* ajax get */
+        $.get($(linkel).attr('href'), function(data){
+            if (mode===ADD) {
+                if ($(context_id + ' ul').length) {
+                    /* Add (new element in existing subthread) */
+                    $(context_id + ' ul').before('<li id="sharingbox_li_wrapper"></li>');
+                } else {
+                    /* Add (mew subthread) */
+                    context.after('<ul id="sharingbox_ul_wrapper"><li id="sharingbox_li_wrapper"></li></ul>');
+                }
+                $('#sharingbox_li_wrapper').html($(data));
+            }
+            else {
+                context.hide();
+                context.after($(data));
+            }
+            sharingbox_init(context, mode);
+        });
+    }
+
+    function sharingbox_enable() {
+        $('a.sharingbox_edit').click(function(event){
+          sharingbox_inserter(this, event, EDIT);
+        });
+        $('a.sharingbox_add').click(function(event){
+          sharingbox_inserter(this, event, ADD);
+        });
+    }
+
+
+    /*
+     * SHARINGBOX FEATURES
+     * */
+
+    function sharingbox_init(context, mode) {
+        /* Initialize the sharingbox
+         *
+         * @param context: JQuery context, in which the sharingbox will be created.
+         * @param mode: 0..Edit, 1..Add
+         * */
+
         /* wysiwyg */
         /*
         $('#sharingbox-facade-content').html($('#sharingbox-text').val());
@@ -106,12 +181,17 @@ function sharingbox_init(context, mode) {
                         sharingbox_remove();
                     }
                     if (mode===ADD) { /* ADD */
-                        context.find('#sharingbox_li_wrapper').html(data);
-                        sharingbox_remove(false);
+                        $('#sharingbox_li_wrapper').html(data);
+                        sharingbox_remove(true);
                     }
+                    sharingbox_enable();
                 }
             );
         });
 
-    }(jQuery));
-}
+    }
+
+
+    $(document).ready(function() { sharingbox_enable(); });
+
+}(jQuery));
