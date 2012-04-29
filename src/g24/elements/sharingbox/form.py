@@ -110,6 +110,8 @@ class Sharingbox(BrowserView):
 
     @property
     def is_thread(self):
+        # If posting has more than 2 children: True
+        # If not: False
         if self.mode == ADD: return False # default
         else: return bool(getattr(self.context, 'title', False))
 
