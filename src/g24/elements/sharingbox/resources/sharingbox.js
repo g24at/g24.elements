@@ -27,8 +27,15 @@ function urlify(text) {
     });
 }
 
-function sharingbox_init() {
+function sharingbox_init(context, mode) {
+    /* Initialize the sharingbox
+     *
+     * @param context: JQuery context, in which the sharingbox will be created.
+     * @param mode: 0..Edit, 1..Add
+     * */
     (function ($) {
+        var EDIT = 0;
+        var ADD = 1;
         /* wysiwyg */
         /*
         $('#sharingbox-facade-content').html($('#sharingbox-text').val());
@@ -94,7 +101,14 @@ function sharingbox_init() {
                 $('#sharingbox>form').attr('action'),
                 form_data,
                 function(data) {
-                    alert('done!' + data);
+                    if (mode===EDIT) { /* Edit */
+                        context.replaceWith(data);
+                        sharingbox_remove();
+                    }
+                    if (mode===ADD) { /* ADD */
+                        context.find('#sharingbox_li_wrapper').html(data);
+                        sharingbox_remove(false);
+                    }
                 }
             );
         });

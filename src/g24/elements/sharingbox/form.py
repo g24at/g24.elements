@@ -27,7 +27,7 @@ from g24.elements.events import (
 """
 
 
-EDIT, ADD = 1, 2
+EDIT, ADD = 0, 1
 FILEMARKER = object()
 
 DEFAULTS = {
@@ -74,7 +74,7 @@ class Sharingbox(BrowserView):
         if self.request.method != 'POST':
             raise Unauthorized('POST only')
         obj = self._save(data)
-        self.request.response.redirect(obj.absolute_url())
+        self.request.response.redirect('%s%s' % (obj.absolute_url(), '/element'))
 
     def _save(self, data):
         raise NotImplementedError
