@@ -1,5 +1,24 @@
 <?xml version="1.0"?>
 <object name="portal_javascripts" meta_type="JavaScripts Registry">
+
+  <!-- editor -->
+  <javascript
+    id="++resource++g24.elements.sharingbox/editor/wysihtml5-0.3.0_rc3.min.js"
+      cacheable="True" compression="safe" cookable="True" inline="False"
+      enabled="True"
+      />
+  <javascript
+    id="++resource++g24.elements.sharingbox/editor/bootstrap/js/bootstrap.min.js"
+      cacheable="True" compression="safe" cookable="True" inline="False"
+      enabled="True"
+      />
+  <javascript
+    id="++resource++g24.elements.sharingbox/editor/bootstrap-wysihtml5.js"
+      cacheable="True" compression="safe" cookable="True" inline="False"
+      enabled="True"
+      />
+
+  <!-- sharingbox -->
   <javascript
       id="++resource++g24.elements/views.js"
       cacheable="True" compression="safe" cookable="True" inline="False"
@@ -10,4 +29,5 @@
       cacheable="True" compression="safe" cookable="True" inline="False"
       enabled="True"
       />
+
 </object>

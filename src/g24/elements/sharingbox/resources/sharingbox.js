@@ -162,6 +162,8 @@
             $('#input-sharingbox_add_edit-features-is_organizer'),
             $('#fieldset-sharingbox_add_edit-features-organizer')
         );
+    	
+        $('#input-sharingbox_add_edit-features-text-text').wysihtml5();
 
 
         /* submit */
