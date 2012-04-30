@@ -2,7 +2,7 @@
 <metadata>
   <version>1</version>
   <dependencies>
-    <dependency>yafowil.plone</dependency><!-- TODO: i expect this to fail.
-    document what happens in yafowil doc -->
+    <dependency>profile-plone.app.jquery:default</dependency>
+    <dependency>profile-yafowil.plone:default</dependency>
   </dependencies>
 </metadata>
