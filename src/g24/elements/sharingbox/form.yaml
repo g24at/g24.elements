@@ -15,7 +15,6 @@ widgets:
         props:
             label: Thread
             help: I want to create a thread...
-            help_class: formHelp
             help_as_title: True
 
     - is_event:
@@ -24,7 +23,6 @@ widgets:
         props:
             label: Event
             help: I want to create an event...
-            help_class: formHelp
             help_as_title: True
 
     - is_location:
@@ -33,7 +31,6 @@ widgets:
         props:
             label: Location
             help: I want to add location...
-            help_class: formHelp
             help_as_title: True
 
     - is_organizer:
@@ -42,7 +39,6 @@ widgets:
         props:
             label: Organizer
             help: I want to add an organizer...
-            help_class: formHelp
             help_as_title: True
 
 - features-thread:
@@ -63,7 +59,6 @@ widgets:
         props:
             label: Text
             help: Share some content with us!
-            help_class: formHelp
             help_as_title: True
             rows: 5
 
@@ -76,7 +71,6 @@ widgets:
         props:
             label: Start Date and Time
             help: Date and Time, when the Event begins. E.g. 10.10.2010 10:00
-            help_class: formHelp
             help_as_title: True
             format: '%d.%m.%Y %H:%M'
             datepicker: True,
@@ -88,7 +82,6 @@ widgets:
         props:
             label: End Date and Time
             help: Date and Time, when the Event ends. E.g. 10.10.2010 11:00. It's the single's event end, not of a recurrence, if one is defined.
-            help_class: formHelp
             help_as_title: True
             format: '%d.%m.%Y %H:%M'
             datepicker: True,
@@ -100,7 +93,6 @@ widgets:
         props:
             label: Whole Day
             help: The event lasts the whole day. Start and end times are not used.
-            help_class: formHelp
             help_as_title: True
 
     - recurrence:
@@ -109,7 +101,6 @@ widgets:
         props:
             label: Recurrence
             help: This event has a recurrence rule.
-            help_class: formHelp
             help_as_title: True
             rows: 2
 
@@ -122,7 +113,6 @@ widgets:
         props:
             label: Location
             help: The location of this event.
-            help_class: formHelp
             help_as_title: True
             rows: 3
 
@@ -135,7 +125,6 @@ widgets:
         props:
             label: Organizer
             help: The organizer of this event.
-            help_class: formHelp
             help_as_title: True
             rows: 3
 
