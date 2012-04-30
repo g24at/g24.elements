@@ -192,6 +192,8 @@
     }
 
 
-    $(document).ready(function() { sharingbox_enable(); });
+    $(document).ready(function() {
+        sharingbox_enable();
+    });
 
 }(jQuery));
