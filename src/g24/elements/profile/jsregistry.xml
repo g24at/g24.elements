@@ -7,7 +7,7 @@
       cacheable="True" compression="safe" cookable="True" inline="False"
       enabled="True"
       />
-  <javascript
+  <!-- javascript
     id="++resource++g24.elements.sharingbox/editor/bootstrap/js/bootstrap.min.js"
       cacheable="True" compression="safe" cookable="True" inline="False"
       enabled="True"
@@ -16,7 +16,7 @@
     id="++resource++g24.elements.sharingbox/editor/bootstrap-wysihtml5.js"
       cacheable="True" compression="safe" cookable="True" inline="False"
       enabled="True"
-      />
+      /-->
 
   <!-- sharingbox -->
   <javascript

@@ -2,14 +2,14 @@
 <object name="portal_css" meta_type="Stylesheets Registry">
 
   <!-- editor -->
-  <stylesheet
+  <!-- stylesheet
     id="++resource++g24.elements.sharingbox/editor/bootstrap/css/bootstrap.min.css"
     cacheable="True" compression="safe" cookable="True" enabled="True"
     media="screen" rel="stylesheet" rendering="import"/>
   <stylesheet
     id="++resource++g24.elements.sharingbox/editor/bootstrap-wysihtml5.css"
     cacheable="True" compression="safe" cookable="True" enabled="True"
-    media="screen" rel="stylesheet" rendering="import"/>
+    media="screen" rel="stylesheet" rendering="import"/-->
 
   <!-- sharingbox -->
   <stylesheet
