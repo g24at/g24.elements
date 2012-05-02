@@ -44,11 +44,16 @@
       cacheable="True" compression="safe" cookable="True" inline="False"
       enabled="True"
       />
-  <!-- javascript
+  <javascript
+    id="++resource++g24.elements.sharingbox/underscore.js"
+      cacheable="True" compression="safe" cookable="True" inline="False"
+      enabled="True"
+      />
+  <javascript
     id="++resource++g24.elements.sharingbox/gist2245459-wysihtml5-resize.js"
       cacheable="True" compression="safe" cookable="True" inline="False"
       enabled="True"
-      /-->
+      />
   <!-- javascript
     id="++resource++g24.elements.sharingbox/editor/bootstrap/js/bootstrap.min.js"
       cacheable="True" compression="safe" cookable="True" inline="False"
