@@ -71,7 +71,7 @@
       }
       
       var ext = realUrl.substr(-4);
-      if (ext === '.png' | ext === '.gif' | ext === '.jpg') {
+      if (ext === '.png' | ext === '.gif' | ext === '.jpg' | ext === '.jpeg') {
           return '<img src="' + realUrl + '"/>' + punctuation;
       } else {
           return '<a href="' + realUrl + '">' + displayUrl + '</a>' + punctuation;
