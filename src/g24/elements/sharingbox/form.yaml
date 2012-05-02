@@ -14,32 +14,28 @@ widgets:
         value: expr:context.is_thread
         props:
             label: Thread
-            help: I want to create a thread...
-            help_as_title: True
+            label.title: I want to create a thread...
 
     - is_event:
         factory: field:label:checkbox
         value: expr:context.is_event
         props:
             label: Event
-            help: I want to create an event...
-            help_as_title: True
+            label.title: I want to create an event...
 
     - is_location:
         factory: field:label:checkbox
         value: expr:context.is_location
         props:
             label: Location
-            help: I want to add location...
-            help_as_title: True
+            label.title: I want to add location...
 
     - is_organizer:
         factory: field:label:checkbox
         value: expr:context.is_organizer
         props:
             label: Organizer
-            help: I want to add an organizer...
-            help_as_title: True
+            label.title: I want to add an organizer...
 
 - features-thread:
     factory: fieldset
@@ -58,8 +54,7 @@ widgets:
         value: expr:context.get('text', 'features-text')
         props:
             label: Text
-            help: Share some content with us!
-            help_as_title: True
+            label.title: Share some content with us!
             rows: 5
 
 - features-event:
@@ -70,8 +65,7 @@ widgets:
         value: expr:context.get('start', 'features-event')
         props:
             label: Start Date and Time
-            help: Date and Time, when the Event begins. E.g. 10.10.2010 10:00
-            help_as_title: True
+            label.title: Date and Time, when the Event begins. E.g. 10.10.2010 10:00
             format: '%d.%m.%Y %H:%M'
             datepicker: True,
             time: True
@@ -81,8 +75,7 @@ widgets:
         value: expr:context.get('end', 'features-event')
         props:
             label: End Date and Time
-            help: Date and Time, when the Event ends. E.g. 10.10.2010 11:00. It's the single's event end, not of a recurrence, if one is defined.
-            help_as_title: True
+            label.title: Date and Time, when the Event ends. E.g. 10.10.2010 11:00. It's the single's event end, not of a recurrence, if one is defined.
             format: '%d.%m.%Y %H:%M'
             datepicker: True,
             time: True
@@ -92,16 +85,14 @@ widgets:
         value: expr:context.get('whole_day', 'features-event')
         props:
             label: Whole Day
-            help: The event lasts the whole day. Start and end times are not used.
-            help_as_title: True
+            label.title: The event lasts the whole day. Start and end times are not used.
 
     - recurrence:
         factory: field:label:error:textarea
         value: expr:context.get('recurrence', 'features-event')
         props:
             label: Recurrence
-            help: This event has a recurrence rule.
-            help_as_title: True
+            label.title: This event has a recurrence rule.
             rows: 2
 
 - features-location:
@@ -112,8 +103,7 @@ widgets:
         value: expr:context.get('location', 'features-location')
         props:
             label: Location
-            help: The location of this event.
-            help_as_title: True
+            label.title: The location of this event.
             rows: 3
 
 - features-organizer:
@@ -124,8 +114,7 @@ widgets:
         value: expr:context.get('organizer', 'features-organizer')
         props:
             label: Organizer
-            help: The organizer of this event.
-            help_as_title: True
+            label.title: The organizer of this event.
             rows: 3
 
 - form-controls:
