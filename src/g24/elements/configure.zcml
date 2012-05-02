@@ -3,6 +3,7 @@
            i18n_domain="g24.elements">
 
   <include package="plone.app.event"/>
+  <include package="collective.jqueryui"/>
 
   <include file="behaviors.zcml" />
   <include file="permissions.zcml" />

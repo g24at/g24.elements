@@ -32,6 +32,7 @@ setup(name='g24.elements',
           'yafowil.plone',
           'yafowil.yaml',
           'yafowil.widget.datetime',
-          'plone.app.jquery>=1.7'
+          'plone.app.jquery>=1.7',
+          'collective.jqueryui',
       ],
       )

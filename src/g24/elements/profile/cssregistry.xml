@@ -1,6 +1,27 @@
 <?xml version="1.0"?>
 <object name="portal_css" meta_type="Stylesheets Registry">
 
+  <stylesheet
+    id="++resource++jquery.ui/themes/base/jquery.ui.core.css"
+    cacheable="True" compression="safe" cookable="True" enabled="True"
+    media="screen" rel="stylesheet" rendering="import"/>
+
+  <stylesheet
+    id="++resource++jquery.ui/themes/base/jquery.ui.menu.css"
+    cacheable="True" compression="safe" cookable="True" enabled="True"
+    media="screen" rel="stylesheet" rendering="import"/>
+
+  <stylesheet
+    id="++resource++jquery.ui/themes/base/jquery.ui.autocomplete.css"
+    cacheable="True" compression="safe" cookable="True" enabled="True"
+    media="screen" rel="stylesheet" rendering="import"/>
+
+  <stylesheet
+    id="++resource++jquery.ui/themes/base/jquery.ui.datepicker.css"
+    cacheable="True" compression="safe" cookable="True" enabled="True"
+    media="screen" rel="stylesheet" rendering="import"/>
+
+
   <!-- editor -->
   <!-- stylesheet
     id="++resource++g24.elements.sharingbox/editor/bootstrap/css/bootstrap.min.css"
