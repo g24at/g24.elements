@@ -35,6 +35,11 @@
 
   <!-- editor -->
   <javascript
+    id="++resource++g24.elements.sharingbox/editor/advanced.js"
+      cacheable="True" compression="safe" cookable="True" inline="False"
+      enabled="True"
+      />
+  <javascript
     id="++resource++g24.elements.sharingbox/editor/wysihtml5-0.3.0_rc3.min.js"
       cacheable="True" compression="safe" cookable="True" inline="False"
       enabled="True"
