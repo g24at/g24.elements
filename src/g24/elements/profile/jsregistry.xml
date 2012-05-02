@@ -66,5 +66,11 @@
       cacheable="True" compression="safe" cookable="True" inline="False"
       enabled="True"
       />
+  <javascript
+      id="++resource++g24.elements.sharingbox/wysihtml5_auto_link.js"
+      cacheable="True" compression="safe" cookable="True" inline="False"
+      enabled="True"
+      />
+
 
 </object>

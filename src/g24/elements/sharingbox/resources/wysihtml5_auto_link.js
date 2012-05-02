@@ -1,4 +1,10 @@
 /**
+ * Overloaded to support not only auto-linking of urls but also images and
+ * oembeds.
+ */
+
+
+/**
  * Find urls in descendant text nodes of an element and auto-links them
  * Inspired by http://james.padolsey.com/javascript/find-and-replace-text-with-javascript/
  *
@@ -64,7 +70,12 @@
         realUrl = "http://" + realUrl;
       }
       
-      return '<a href="' + realUrl + '">' + displayUrl + '</a>' + punctuation;
+      var ext = realUrl.substr(-4);
+      if (ext === '.png' | ext === '.gif' | ext === '.jpg') {
+          return '<img src="' + realUrl + '"/>' + punctuation;
+      } else {
+          return '<a href="' + realUrl + '">' + displayUrl + '</a>' + punctuation;
+      }
     });
   }
   
