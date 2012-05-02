@@ -167,6 +167,10 @@
         var editor = new wysihtml5.Editor("input-sharingbox_add_edit-features-text-text", {
             parserRules:  wysihtml5ParserRules
         });
+        /*editor.observe("load", function () {
+            $(this.composer.iframe).autoResize();
+        });*/
+
 
         yafowil.datepicker.binder();
 
