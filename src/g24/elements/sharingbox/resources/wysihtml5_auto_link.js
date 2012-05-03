@@ -78,15 +78,18 @@
         ret = '<a href="' + realUrl + '">' + displayUrl + '</a>' + punctuation;
 
         $.ajax({
-            url: 'http://api.embed.ly/1/oembed',
-            dataType: 'jsonp',
-            data: {key: 'ac25fbba94af11e1a1394040aae4d8c9',
-                   url: realUrl,
-                   frame: true,
-                   force: true},
-            complete: function(data, textStatus, jqXHR) {
-              if (data!==null) {
-                ret += data.html;
+            url: window.location.pathname + '/oembed_proxy',
+            async: false,
+            dataType: 'json',
+            data: {url: realUrl,
+                   frame: false,
+                   force: false},
+            complete: function(oembed_data) {
+              if (oembed_data!==null) {
+                var json = $.parseJSON(oembed_data.responseText);
+                if (json.html) {
+                    ret += json.html;
+                }
               }
             }
         });

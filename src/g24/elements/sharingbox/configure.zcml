@@ -27,4 +27,11 @@
       permission="cmf.ModifyPortalContent"
       />
 
+  <browser:page
+      for="*"
+      name="oembed_proxy"
+      class=".oembed_proxy.OembedProxy"
+      permission="zope2.View"
+      />
+
 </configure>
