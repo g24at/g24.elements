@@ -71,29 +71,39 @@
       }
       
       var ext = realUrl.substr(-4);
+      var ret = '';
       if (ext === '.png' | ext === '.gif' | ext === '.jpg' | ext === '.jpeg') {
-          ret = '<img src="' + realUrl + '"/>' + punctuation;
+        ret = '<img src="' + realUrl + '"/>' + punctuation;
       } else {
-          ret = '<a href="' + realUrl + '">' + displayUrl + '</a>' + punctuation;
+        ret = '<a href="' + realUrl + '">' + displayUrl + '</a>' + punctuation;
 
-          $.ajax({
-            url: realUrl,
-              dataType: 'json',
-              data: {},
-              success: function(data) {
-                  ret += data.html;
+        $.ajax({
+            url: 'http://api.embed.ly/1/oembed',
+            dataType: 'jsonp',
+            data: {key: 'ac25fbba94af11e1a1394040aae4d8c9',
+                   url: realUrl,
+                   frame: true,
+                   force: true},
+            complete: function(data, textStatus, jqXHR) {
+              if (data!==null) {
+                ret += data.html;
               }
-          });
+            }
+        });
 
-          /*$.embedly(realUrl, {
-              key: 'ac25fbba94af11e1a1394040aae4d8c9',
-              frame: true,
-              force: true},
-              function(oembed){
-                  return oembed.html;
-              }
-          );*/
-
+        /*
+        $.embedly(
+          realUrl, 
+          { key: 'ac25fbba94af11e1a1394040aae4d8c9',
+            frame: true,
+            force: true },
+          function(oembed){
+            if (oembed!==null) {
+              ret += oembed.code;
+            } 
+          }
+        );
+        */
       }
       return ret;
     });
