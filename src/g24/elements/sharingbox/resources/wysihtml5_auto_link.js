@@ -87,11 +87,14 @@
             complete: function(oembed_data) {
               if (oembed_data!==null) {
                 var json = $.parseJSON(oembed_data.responseText);
+                if (json.title) {
+                    ret += '<h3 style="embed-title">' + json.title + '</h3>';
+                }
                 if (json.html) {
                     ret += json.html;
-                if (json.title) {
-                    ret += '<p style="embed-sub">' + json.title + '</p>';
                 }
+                if (json.description) {
+                    ret += '<p style="embed-description">' + json.description + '</p>';
                 }
               }
             }
