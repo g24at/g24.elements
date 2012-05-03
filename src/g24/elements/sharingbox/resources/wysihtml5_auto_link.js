@@ -89,6 +89,9 @@
                 var json = $.parseJSON(oembed_data.responseText);
                 if (json.html) {
                     ret += json.html;
+                if (json.title) {
+                    ret += """<p style="embed-sub">%s</p>"""
+                }
                 }
               }
             }
