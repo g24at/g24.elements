@@ -90,7 +90,7 @@
                 if (json.html) {
                     ret += json.html;
                 if (json.title) {
-                    ret += """<p style="embed-sub">%s</p>"""
+                    ret += '<p style="embed-sub">' + json.title + '</p>';
                 }
                 }
               }
