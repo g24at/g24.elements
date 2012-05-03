@@ -14,7 +14,7 @@
  *    <div id="text-container">Please click here: www.google.com</div>
  *    <script>wysihtml5.dom.autoLink(document.getElementById("text-container"));</script>
  */
-(function(wysihtml5) {
+(function(wysihtml5, $) {
   var /**
        * Don't auto-link urls that are contained in the following elements:
        */
@@ -72,10 +72,30 @@
       
       var ext = realUrl.substr(-4);
       if (ext === '.png' | ext === '.gif' | ext === '.jpg' | ext === '.jpeg') {
-          return '<img src="' + realUrl + '"/>' + punctuation;
+          ret = '<img src="' + realUrl + '"/>' + punctuation;
       } else {
-          return '<a href="' + realUrl + '">' + displayUrl + '</a>' + punctuation;
+          ret = '<a href="' + realUrl + '">' + displayUrl + '</a>' + punctuation;
+
+          $.ajax({
+            url: realUrl,
+              dataType: 'json',
+              data: {},
+              success: function(data) {
+                  ret += data.html;
+              }
+          });
+
+          /*$.embedly(realUrl, {
+              key: 'ac25fbba94af11e1a1394040aae4d8c9',
+              frame: true,
+              force: true},
+              function(oembed){
+                  return oembed.html;
+              }
+          );*/
+
       }
+      return ret;
     });
   }
   
@@ -149,4 +169,4 @@
   
   // Reveal url reg exp to the outside
   wysihtml5.dom.autoLink.URL_REG_EXP = URL_REG_EXP;
-})(wysihtml5);
+})(wysihtml5, jQuery);

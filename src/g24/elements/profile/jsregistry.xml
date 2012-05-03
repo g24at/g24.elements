@@ -54,6 +54,11 @@
       cacheable="True" compression="safe" cookable="True" inline="False"
       enabled="True"
       />
+  <javascript
+    id="++resource++g24.elements.sharingbox/jquery.embedly.js"
+      cacheable="True" compression="safe" cookable="True" inline="False"
+      enabled="True"
+      />
   <!-- javascript
     id="++resource++g24.elements.sharingbox/editor/bootstrap/js/bootstrap.min.js"
       cacheable="True" compression="safe" cookable="True" inline="False"
