@@ -104,7 +104,7 @@ class Sharingbox(BrowserView):
                 if datum is UNSET: continue
                 else:
                     if key=='text': # TODO: yafowil should return unicode object here...
-                        datum = RichTextValue(raw=unicode(datum.encode('utf-8')))
+                        datum = RichTextValue(raw=unicode(datum.decode('utf-8')))
                     setattr(obj, key, datum)
 
 
