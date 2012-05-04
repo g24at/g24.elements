@@ -165,7 +165,17 @@
     	
         /*$('#input-sharingbox_add_edit-features-text-text').wysihtml5();*/
         var editor = new wysihtml5.Editor("input-sharingbox_add_edit-features-text-text", {
-            parserRules:  wysihtml5ParserRules
+            parserRules:  wysihtml5ParserRules,
+            name:         'sharingbox',
+            style:        true,
+            toolbar:      null,
+            autoLink:     true,
+            parser:       wysihtml5.dom.parse || Prototype.K,
+            composerClassName: "wysihtml5-editor",
+            bodyClassName:     "wysihtml5-supported",
+            stylesheets:  [],
+            allowObjectResizing:  true,
+            supportTouchDevices:  true
         });
         editor.observe("load", function () {
             $(this.composer.iframe).autoResize();
