@@ -18,6 +18,9 @@ class IRichText(form.Schema):
     text = RichText(
         title = _(u'label_richtext', default=u'Body text'),
         description = _(u'help_richtext', default=u'Main text of this content node.'),
-        required = True
+        required = True,
+        default_mime_type='text/html',
+        output_mime_type='text/html',
+        allowed_mime_types=['text/html', 'text/plain', 'text/x-rst', 'text/restructured'],
         )
 alsoProvides(IRichText, form.IFormFieldProvider)
