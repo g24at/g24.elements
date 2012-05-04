@@ -8,3 +8,10 @@ article.element {
     padding:1em 2em;
     margin:1em 0; }
 article.element header h1 { margin:0 !important; }
+
+article.element div.embed {
+    background:grey;
+    color:white;
+    font-size:0.9em;
+    border-radius:5px 5px;
+    border:1px solid grey; }
