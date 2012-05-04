@@ -35,7 +35,7 @@
 
   <!-- editor -->
   <javascript
-    id="++resource++g24.elements.sharingbox/editor/advanced.js"
+    id="++resource++g24.elements.sharingbox/wysihtml5_g24_rules.js"
       cacheable="True" compression="safe" cookable="True" inline="False"
       enabled="True"
       />

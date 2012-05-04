@@ -87,7 +87,7 @@
             complete: function(oembed_data) {
               if (oembed_data!==null) {
                 var json = $.parseJSON(oembed_data.responseText);
-                ret += '<dev class="embed">';
+                ret += '<div class="embed">';
                 if (json.title) {
                     ret += '<h3 style="embed-title">' + json.title + '</h3>';
                 }
@@ -97,7 +97,7 @@
                 if (json.description) {
                     ret += '<p style="embed-description">' + json.description + '</p>';
                 }
-                ret += '</dev>';
+                ret += '</div>';
               }
             }
         });

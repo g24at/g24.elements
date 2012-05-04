@@ -165,7 +165,7 @@
     	
         /*$('#input-sharingbox_add_edit-features-text-text').wysihtml5();*/
         var editor = new wysihtml5.Editor("input-sharingbox_add_edit-features-text-text", {
-            parserRules:  wysihtml5ParserRules,
+            parserRules:  wysihtml5_g24_rules,
             name:         'sharingbox',
             style:        true,
             toolbar:      null,

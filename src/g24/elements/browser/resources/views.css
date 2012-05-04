@@ -14,4 +14,12 @@ article.element div.embed {
     color:white;
     font-size:0.9em;
     border-radius:5px 5px;
-    border:1px solid grey; }
+    border:1px solid grey;
+    padding:1em; }
+article.element div.embed h3 { color:white; }
+#content article.element div.embed p { margin:0; }
+article.element div.embed iframe {
+    height:auto;
+    width:auto;
+    width:615px;
+    height:346px; }

@@ -32,12 +32,13 @@
  *    ... becomes ...
  *    <div class="wysiwyg-text-align-center">hello</div>
  */
-var wysihtml5ParserRules = {
+var wysihtml5_g24_rules = {
     /**
      * CSS Class white-list
      * Following css classes won't be removed when parsed by the wysihtml5 html parser
      */
     "classes": {
+        "embed": 1,
         "wysiwyg-clear-both": 1,
         "wysiwyg-clear-left": 1,
         "wysiwyg-clear-right": 1,
@@ -171,7 +172,9 @@ var wysihtml5ParserRules = {
             "rename_tag": "span"
         },
         "iframe": {
-            "remove": 1
+            "check_attributes": {
+                "src": "url"
+            }
         },
         "figcaption": {
             "rename_tag": "div"
@@ -253,9 +256,7 @@ var wysihtml5ParserRules = {
                 "align": "align_text"
             }
         },
-        "object": {
-            "remove": 1
-        },
+        "object": {},
         "div": {
             "add_class": {
                 "align": "align_text"
@@ -287,9 +288,7 @@ var wysihtml5ParserRules = {
         "noscript": {
             "remove": 1
         },
-        "svg": {
-            "remove": 1
-        },
+        "svg": {},
         "input": {
             "remove": 1
         },
@@ -327,13 +326,9 @@ var wysihtml5ParserRules = {
         "base": {
             "remove": 1
         },
-        "video": {
-            "remove": 1
-        },
+        "video": {},
         "strong": {},
-        "canvas": {
-            "remove": 1
-        },
+        "canvas": {},
         "output": {
             "rename_tag": "span"
         },
@@ -409,9 +404,7 @@ var wysihtml5ParserRules = {
         "textarea": {
             "rename_tag": "span"
         },
-        "embed": {
-            "remove": 1
-        },
+        "embed": {},
         "hgroup": {
             "rename_tag": "div"
         },
@@ -446,9 +439,7 @@ var wysihtml5ParserRules = {
                 "align": "align_text"
             }
         },
-        "param": {
-            "remove": 1
-        },
+        "param": {},
         "th": {
             "check_attributes": {
                 "rowspan": "numbers",
@@ -485,9 +476,7 @@ var wysihtml5ParserRules = {
             "rename_tag": "div",
             "set_class": "wysiwyg-text-align-center"
         },
-        "audio": {
-            "remove": 1
-        },
+        "audio": {},
         "datalist": {
             "rename_tag": "span"
         },
