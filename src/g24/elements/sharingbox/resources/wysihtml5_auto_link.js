@@ -33,7 +33,7 @@
       TRAILING_CHAR_REG_EXP = /([^\w\/\-](,?))$/i,
       MAX_DISPLAY_LENGTH    = 100,
       BRACKETS              = { ")": "(", "]": "[", "}": "{" };
-  
+
   function autoLink(element) {
     if (_hasParentThatShouldBeIgnored(element)) {
       return element;
@@ -45,7 +45,7 @@
 
     return _parseNode(element);
   }
-  
+
   /**
    * This is basically a rebuild of
    * the rails auto_link_urls text helper
@@ -69,7 +69,7 @@
       if (realUrl.substr(0, 4) === "www.") {
         realUrl = "http://" + realUrl;
       }
-      
+
       var ext = realUrl.substr(-4);
       var ret = '';
       if (ext === '.png' | ext === '.gif' | ext === '.jpg' | ext === '.jpeg') {
@@ -87,6 +87,7 @@
             complete: function(oembed_data) {
               if (oembed_data!==null) {
                 var json = $.parseJSON(oembed_data.responseText);
+                ret += '<dev class="embed">';
                 if (json.title) {
                     ret += '<h3 style="embed-title">' + json.title + '</h3>';
                 }
@@ -96,20 +97,21 @@
                 if (json.description) {
                     ret += '<p style="embed-description">' + json.description + '</p>';
                 }
+                ret += '</dev>';
               }
             }
         });
 
         /*
         $.embedly(
-          realUrl, 
+          realUrl,
           { key: 'ac25fbba94af11e1a1394040aae4d8c9',
             frame: true,
             force: true },
           function(oembed){
             if (oembed!==null) {
               ret += oembed.code;
-            } 
+            }
           }
         );
         */
@@ -117,7 +119,7 @@
       return ret;
     });
   }
-  
+
   /**
    * Creates or (if already cached) returns a temp element
    * for the given document object
@@ -129,26 +131,26 @@
     }
     return tempElement;
   }
-  
+
   /**
    * Replaces the original text nodes with the newly auto-linked dom tree
    */
   function _wrapMatchesInNode(textNode) {
     var parentNode  = textNode.parentNode,
         tempElement = _getTempElement(parentNode.ownerDocument);
-    
+
     // We need to insert an empty/temporary <span /> to fix IE quirks
     // Elsewise IE would strip white space in the beginning
     tempElement.innerHTML = "<span></span>" + _convertUrlsToLinks(textNode.data);
     tempElement.removeChild(tempElement.firstChild);
-    
+
     while (tempElement.firstChild) {
       // inserts tempElement.firstChild before textNode
       parentNode.insertBefore(tempElement.firstChild, textNode);
     }
     parentNode.removeChild(textNode);
   }
-  
+
   function _hasParentThatShouldBeIgnored(node) {
     var nodeName;
     while (node.parentNode) {
@@ -162,30 +164,30 @@
     }
     return false;
   }
-  
+
   function _parseNode(element) {
     if (IGNORE_URLS_IN.contains(element.nodeName)) {
       return;
     }
-    
+
     if (element.nodeType === wysihtml5.TEXT_NODE && element.data.match(URL_REG_EXP)) {
       _wrapMatchesInNode(element);
       return;
     }
-    
+
     var childNodes        = wysihtml5.lang.array(element.childNodes).get(),
         childNodesLength  = childNodes.length,
         i                 = 0;
-    
+
     for (; i<childNodesLength; i++) {
       _parseNode(childNodes[i]);
     }
-    
+
     return element;
   }
-  
+
   wysihtml5.dom.autoLink = autoLink;
-  
+
   // Reveal url reg exp to the outside
   wysihtml5.dom.autoLink.URL_REG_EXP = URL_REG_EXP;
 })(wysihtml5, jQuery);
