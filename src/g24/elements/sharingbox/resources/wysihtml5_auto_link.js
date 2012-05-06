@@ -93,6 +93,8 @@
                 }
                 if (json.html) {
                     ret += json.html;
+                } else if (json.thumbnail_url) {
+                    ret += '<img src="' + json.thumbnail_url + '" />';
                 }
                 if (json.description) {
                     ret += '<p style="embed-description">' + json.description + '</p>';
