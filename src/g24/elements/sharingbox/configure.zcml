@@ -16,7 +16,7 @@
       for="*"
       layer="g24.elements.interfaces.IG24ElementsLayer"
       class=".form.SharingboxAdd"
-      permission="cmf.AddPortalContent"
+      permission="g24.AddBasetype"
       />
 
   <browser:page
@@ -24,7 +24,7 @@
       for="g24.elements.content.IBasetype"
       layer="g24.elements.interfaces.IG24ElementsLayer"
       class=".form.SharingboxEdit"
-      permission="cmf.ModifyPortalContent"
+      permission="g24.ModifyBasetype"
       />
 
   <browser:page

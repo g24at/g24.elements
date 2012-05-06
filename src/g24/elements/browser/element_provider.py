@@ -31,12 +31,10 @@ class ElementProvider(BrowserView):
 
     @property
     def can_add(self):
-        return True # TODO: fix me
         return checkPermission('g24.AddBasetype', self.context)
 
     @property
     def can_edit(self):
-        return True # TODO: fix me
         return checkPermission('g24.ModifyBasetype', self.context)
 
     def update(self): pass
