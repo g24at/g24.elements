@@ -25,3 +25,7 @@ article.element div.embed iframe {
     width:auto;
     width:615px;
     height:346px; }
+
+#content ul.element-controls { margin:0; text-align:right; }
+#content ul.element-controls li { margin:0 0 0 0.5em; display:inline; }
+
