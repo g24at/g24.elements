@@ -1,0 +1,11 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+           i18n_domain="g24.elements">
+
+  <adapter
+      for=".content.IBasetype"
+      factory=".namechooser.ElementIdChooser"
+      provides="zope.container.interfaces.INameChooser"
+      />
+
+</configure>

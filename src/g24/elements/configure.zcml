@@ -8,6 +8,7 @@
   <include file="behaviors.zcml" />
   <include file="permissions.zcml" />
   <include file="instancebehaviors.zcml" />
+  <include file="namechooser.zcml" />
   <include package=".browser"/>
   <include package=".sharingbox"/>
 
