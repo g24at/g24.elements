@@ -77,46 +77,40 @@
       } else {
         ret = '<a href="' + realUrl + '">' + displayUrl + '</a>' + punctuation;
 
+        var tmp_uid = 'tmp_' + Math.random().toString(36).substr(2,9);
+        ret += '<span id="' + tmp_uid + '"/>'; // unique element to be replaced
+
         $.ajax({
             url: window.location.pathname + '/oembed_proxy',
-            async: false,
+            async: true,
             dataType: 'json',
             data: {url: realUrl,
                    frame: false,
                    force: false},
             complete: function(oembed_data) {
-              if (oembed_data!==null) {
+              if (oembed_data !== null) {
                 var json = $.parseJSON(oembed_data.responseText);
-                ret += '<div class="embed">';
-                if (json.title) {
-                    ret += '<h3 style="embed-title">' + json.title + '</h3>';
+                if (json !== null) {
+                    var emb = '<div class="embed">';
+                    if (json.title) {
+                        emb += '<h3 style="embed-title">' + json.title + '</h3>';
+                    }
+                    if (json.html) {
+                        emb += json.html;
+                    } else if (json.thumbnail_url) {
+                        emb += '<img src="' + json.thumbnail_url + '" />';
+                    }
+                    if (json.description) {
+                        emb += '<p style="embed-description">' + json.description + '</p>';
+                    }
+                    emb += '</div>';
+                    iframe = $('iframe.sharingbox').contents();
+                    iframe.find('span#' + tmp_uid).replaceWith(emb);
                 }
-                if (json.html) {
-                    ret += json.html;
-                } else if (json.thumbnail_url) {
-                    ret += '<img src="' + json.thumbnail_url + '" />';
-                }
-                if (json.description) {
-                    ret += '<p style="embed-description">' + json.description + '</p>';
-                }
-                ret += '</div>';
               }
             }
         });
 
-        /*
-        $.embedly(
-          realUrl,
-          { key: 'ac25fbba94af11e1a1394040aae4d8c9',
-            frame: true,
-            force: true },
-          function(oembed){
-            if (oembed!==null) {
-              ret += oembed.code;
-            }
-          }
-        );
-        */
       }
       return ret;
     });
