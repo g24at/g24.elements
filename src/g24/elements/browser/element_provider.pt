@@ -29,7 +29,11 @@
             </div>
           </td>
         </tr>
-        <tr>
+        <tr tal:define="location context/location" tal:condition="location">
+          <th i18n:translate="event_when">Where</th>
+          <td tal:content="location"></td>
+        </tr>
+         <tr>
           <th i18n:translate="heading_add_to_calendar">Add event to calendar</th>
           <td tal:define="here_url context/@@plone_context_state/object_url;
                           portal context/@@plone_portal_state/portal;">
