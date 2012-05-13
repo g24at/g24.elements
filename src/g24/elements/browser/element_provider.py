@@ -71,6 +71,10 @@ class ElementProvider(BrowserView):
         return IDXEvent.providedBy(self.context)
 
     @property
+    def is_location(self):
+        return bool(getattr(self.context, 'location', False))
+
+    @property
     def can_add(self):
         return checkPermission('g24.AddBasetype', self.context)
 
