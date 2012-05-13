@@ -81,7 +81,6 @@ class Sharingbox(BrowserView):
 
     def set_data(self, obj, data):
 
-        #import pdb; pdb.set_trace()
         # first, en/disable behaviors
         if data['features']['is_event'].extracted:
             enable_behaviors(obj, EVENT_BEHAVIORS, EVENT_INTERFACES)
