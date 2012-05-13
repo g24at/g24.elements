@@ -66,7 +66,7 @@ widgets:
         props:
             label: Start Date and Time
             label.title: Date and Time, when the Event begins. E.g. 10.10.2010 10:00
-            format: '%d.%m.%Y %H:%M'
+            format: '%Y-%m-%d %H:%M'
             datepicker: True,
             time: True
 
@@ -76,7 +76,7 @@ widgets:
         props:
             label: End Date and Time
             label.title: Date and Time, when the Event ends. E.g. 10.10.2010 11:00. It's the single's event end, not of a recurrence, if one is defined.
-            format: '%d.%m.%Y %H:%M'
+            format: '%Y-%m-%d %H:%M'
             datepicker: True,
             time: True
 
