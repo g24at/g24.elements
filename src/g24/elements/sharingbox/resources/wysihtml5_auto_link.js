@@ -92,18 +92,21 @@
                 var json = $.parseJSON(oembed_data.responseText);
                 if (json !== null) {
                     var emb = '<div class="embed">';
-                    if (json.title) {
+                    if (json.title) { // embed title
                         emb += '<h3 style="embed-title">' + json.title + '</h3>';
                     }
-                    if (json.html) {
+                    if (json.html) { // embed html
                         emb += json.html;
                     } else if (json.thumbnail_url) {
                         emb += '<img src="' + json.thumbnail_url + '" />';
                     }
-                    if (json.description) {
+                    if (json.description) { // embed description
                         emb += '<p style="embed-description">' + json.description + '</p>';
                     }
                     emb += '</div>';
+
+                    // access the temporary element in the iframe and replace
+                    // with embed html
                     iframe = $('iframe.sharingbox').contents();
                     iframe.find('span#' + tmp_uid).replaceWith(emb);
                 }
