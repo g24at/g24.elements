@@ -78,7 +78,7 @@
         ret = '<a href="' + realUrl + '">' + displayUrl + '</a>' + punctuation;
 
         var tmp_uid = 'tmp_' + Math.random().toString(36).substr(2,9);
-        ret += '<span id="' + tmp_uid + '"/>'; // unique element to be replaced
+        ret += '<div id="' + tmp_uid + '"/>'; // unique element to be replaced
 
         $.ajax({
             url: window.location.pathname + '/oembed_proxy',
@@ -108,7 +108,7 @@
                     // access the temporary element in the iframe and replace
                     // with embed html
                     iframe = $('iframe.sharingbox').contents();
-                    iframe.find('span#' + tmp_uid).replaceWith(emb);
+                    iframe.find('div#' + tmp_uid).replaceWith(emb);
                 }
               }
             }
