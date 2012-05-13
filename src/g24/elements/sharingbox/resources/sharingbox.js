@@ -54,7 +54,7 @@
             $('#sharingbox_ul_wrapper').removeAttr('id');
         }
     }
-    
+
     function sharingbox_inserter(linkel, event, mode) {
         /* Insert sharingbox into content.
          *
@@ -162,7 +162,7 @@
             $('#input-sharingbox_add_edit-features-is_organizer'),
             $('#fieldset-sharingbox_add_edit-features-organizer')
         );
-    	
+
         /*$('#input-sharingbox_add_edit-features-text-text').wysihtml5();*/
         var editor = new wysihtml5.Editor("input-sharingbox_add_edit-features-text-text", {
             parserRules:  wysihtml5_g24_rules,
@@ -182,6 +182,20 @@
         });
 
         yafowil.datepicker.binder();
+
+        /* recurrenceinput */
+        /* TODO: create yafowil.widget.recurrenceinput
+         *       localization needs request and currenct lang.
+         *       both need a zope view and are better handled in a dedicated
+         *       widget */
+        // $.tools.recurrenceinput.localize('${request/LANGUAGE}', ${view/translation});
+        jQuery('#input-sharingbox_add_edit-features-event-recurrence').recurrenceinput({
+            lang: 'en',
+            readOnly: false,
+            startField: '#input-sharingbox_add_edit-features-event-start',
+            ajaxURL: '@@json_recurrence'
+        });
+
 
         /* submit */
         $('#sharingbox>form').submit(function(event){

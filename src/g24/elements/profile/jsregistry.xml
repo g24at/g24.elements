@@ -33,6 +33,25 @@
       enabled="True"
       />
 
+  <!-- jQueryTools dateinput -->
+  <javascript
+      id="++resource++plone.app.jquerytools.dateinput.js"
+      cacheable="True" compression="safe" cookable="True" inline="False"
+      enabled="True"
+      />
+
+  <!-- recurrenceinput -->
+  <javascript
+      id="++resource++jquery.tmpl.js"
+      cacheable="True" compression="safe" cookable="True" inline="False"
+      enabled="True"
+      />
+  <javascript
+      id="++resource++plone.formwidget.recurrence/jquery.recurrenceinput.js"
+      cacheable="True" compression="safe" cookable="True" inline="False"
+      enabled="True"
+      />
+
   <!-- editor -->
   <javascript
     id="++resource++g24.elements.sharingbox/wysihtml5_g24_rules.js"

@@ -21,6 +21,18 @@
     cacheable="True" compression="safe" cookable="True" enabled="True"
     media="screen" rel="stylesheet" rendering="import"/>
 
+  <!-- jQueryTools dateinput -->
+  <stylesheet
+    id="++resource++plone.app.jquerytools.dateinput.css"
+    cacheable="True" compression="safe" cookable="True" enabled="True"
+    media="screen" rel="stylesheet" rendering="import"/>
+
+  <!-- recurrence input -->
+  <stylesheet
+    id="++resource++plone.formwidget.recurrence/integration.css"
+    cacheable="True" compression="safe" cookable="True" enabled="True"
+    media="screen" rel="stylesheet" rendering="import"/>
+
 
   <!-- editor -->
   <!-- stylesheet
