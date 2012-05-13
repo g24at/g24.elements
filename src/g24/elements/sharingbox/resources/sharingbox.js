@@ -181,7 +181,15 @@
             $(this.composer.iframe).autoResize();
         });
 
-        yafowil.datepicker.binder();
+
+        $('.datepicker').dateinput({
+            format: 'yyyy-mm-dd', // display format
+            change: function() {
+                var isoDate = this.getValue('yyyy-mm-dd'); // backend format
+                $("#backendValue").val(isoDate);
+            }
+        });
+        //yafowil.datepicker.binder();
 
         /* recurrenceinput */
         /* TODO: create yafowil.widget.recurrenceinput
