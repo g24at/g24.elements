@@ -80,6 +80,13 @@ widgets:
             datepicker: True,
             time: True
 
+    - timezone:
+        factory: field:label:error:select
+        value: expr:context.get('timezone', 'features-event')
+        props:
+            label: Timezone
+            vocabulary: expr:context.vocabulary_timezones
+
     - whole_day:
         factory: field:label:error:checkbox
         value: expr:context.get('whole_day', 'features-event')

@@ -3,6 +3,8 @@ from Acquisition.interfaces import IAcquirer
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
+from plone.app.event.base import default_timezone
+from plone.app.event.dx.behaviors import IEventBasic, IEventRecurrence
 from plone.app.event.dx.interfaces import IDXEvent
 from plone.app.textfield.value import RichTextValue
 from plone.dexterity.interfaces import IDexterityFTI
@@ -13,6 +15,7 @@ from yafowil.yaml import parse_from_YAML
 from zExceptions import Unauthorized
 from zope.component import getUtility, createObject
 from zope.event import notify
+import pytz
 
 from g24.elements.instancebehaviors import enable_behaviors, disable_behaviors
 from g24.elements.config import EVENT_INTERFACES, EVENT_BEHAVIORS
@@ -38,6 +41,7 @@ DEFAULTS = {
         'end': UNSET,
         'whole_day': UNSET,
         'recurrence': UNSET,
+        'timezone': UNSET,
     },
     'features-location': { 'location': UNSET, },
     'features-organizer': { 'organizer': UNSET, },
@@ -52,7 +56,7 @@ class Sharingbox(BrowserView):
         return parse_from_YAML('g24.elements.sharingbox:form.yaml', self, _)
 
     def __call__(self):
-        #import pdb; pdb.set_trace()
+        DEFAULTS['features-event']['timezone'] = default_timezone(self.context) # TODO: ugly: changing const
         form = self._fetch_form()
         self.controller = Controller(form, self.request)
         if not self.controller.next:
@@ -70,7 +74,6 @@ class Sharingbox(BrowserView):
         return '%s/@@sharingbox_%s' % (url, postfix)
 
     def save(self, widget, data):
-        #import pdb; pdb.set_trace()
         if self.request.method != 'POST':
             raise Unauthorized('POST only')
         obj = self._save(data)
@@ -104,7 +107,13 @@ class Sharingbox(BrowserView):
                 else:
                     if key=='text': # TODO: yafowil should return unicode object here...
                         datum = RichTextValue(raw=unicode(datum.decode('utf-8')))
-                    setattr(obj, key, datum)
+                    if key in DEFAULTS['features-event'].keys():
+                        if key == 'recurrence':
+                            setattr(IEventRecurrence(obj), key, datum)
+                        else:
+                            setattr(IEventBasic(obj), key, datum)
+                    else:
+                        setattr(obj, key, datum)
         obj.reindexObject()
 
 
@@ -129,6 +138,10 @@ class Sharingbox(BrowserView):
     def is_organizer(self):
         if self.mode == ADD: return False # default
         else: return bool(getattr(self.context, 'organizer', False))
+
+    @property
+    def vocabulary_timezones(self):
+        return pytz.all_timezones
 
 
 class SharingboxAdd(Sharingbox):
