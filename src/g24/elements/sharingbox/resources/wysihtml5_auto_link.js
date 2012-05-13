@@ -72,7 +72,7 @@
 
       var ext = realUrl.substr(-4);
       var ret = '';
-      if (ext === '.png' | ext === '.gif' | ext === '.jpg' | ext === '.jpeg') {
+      if (ext === '.png' | ext === '.gif' | ext === '.jpg' | ext === 'jpeg') {
         ret = '<img src="' + realUrl + '"/>' + punctuation;
       } else {
         ret = '<a href="' + realUrl + '">' + displayUrl + '</a>' + punctuation;
