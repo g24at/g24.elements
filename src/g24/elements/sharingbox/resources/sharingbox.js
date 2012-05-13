@@ -193,7 +193,7 @@
             lang: 'en',
             readOnly: false,
             startField: '#input-sharingbox_add_edit-features-event-start',
-            ajaxURL: '@@json_recurrence'
+            ajaxURL: document.baseURI + '@@json_recurrence'
         });
 
 
