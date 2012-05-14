@@ -12,6 +12,7 @@ from plone.app.event.dx.behaviors import (
     IEventLocation
 )
 
+
 class IBasetype(form.Schema):
     """ g24.elements Basetype content.
     """
@@ -25,6 +26,7 @@ class ITitle(form.Schema):
     form.order_before(title = '*')
 alsoProvides(ITitle, form.IFormFieldProvider)
 
+
 class IRichText(form.Schema):
     text = RichText(
         title = _(u'label_richtext', default=u'Body text'),
@@ -36,18 +38,9 @@ class IRichText(form.Schema):
         )
 alsoProvides(IRichText, form.IFormFieldProvider)
 
+
 class IPlace(Interface):
     """ Behavior marker interface for places. """
-
-
-def is_title(context):
-    return ITitle.providedBy(context)
-
-def is_event(context):
-    return IDXEvent.providedBy(context)
-
-def is_place(context):
-    return IPlace.providedBy(context)
 
 
 class BasetypeAccessor(object):
@@ -87,3 +80,15 @@ class BasetypeAccessor(object):
         if name in bm:
            behavior = bm[name](self.context, None)
            if behavior: delattr(behavior, name)
+
+    @property
+    def is_title(self):
+        return ITitle.providedBy(self.context)
+
+    @property
+    def is_event(self):
+        return IDXEvent.providedBy(self.context)
+
+    @property
+    def is_place(self):
+        return IPlace.providedBy(self.context)

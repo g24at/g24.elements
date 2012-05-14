@@ -48,11 +48,11 @@ class ElementProvider(BrowserView):
         self.request = request
 
     def format_event_dates(self, start, end):
-        if not self.is_event: return None
+        if not self.data.is_event: return None
         return format_event_dates(self.context, start, end, self.data.whole_day)
 
     def occurrences(self):
-        if not self.is_event: return None
+        if not self.data.is_event: return None
         rec = IRecurrence(self.context, None)
         if rec:
             return rec.occurrences()
@@ -69,18 +69,6 @@ class ElementProvider(BrowserView):
     @property
     def data(self):
         return behaviors.IBasetypeAccessor(self.context)
-
-    @property
-    def is_title(self):
-        return behaviors.is_title(self.context)
-
-    @property
-    def is_event(self):
-        return behaviors.is_event(self.context)
-
-    @property
-    def is_place(self):
-        return behaviors.is_place(self.context)
 
     @property
     def can_add(self):

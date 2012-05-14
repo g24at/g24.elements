@@ -130,17 +130,17 @@ class Sharingbox(BrowserView):
         # If posting has more than 2 children: True
         # If not: False
         if self.mode == ADD: return False # default
-        else: return behaviors.is_title(self.context)
+        else: return behaviors.IBasetypeAccessor(self.context).is_title
 
     @property
     def is_event(self):
         if self.mode == ADD: return False # default
-        else: return behaviors.is_event(self.context)
+        else: return behaviors.IBasetypeAccessor(self.context).is_event
 
     @property
     def is_place(self):
         if self.mode == ADD: return False # default
-        else: return behaviors.is_place(self.context)
+        else: return behaviors.IBasetypeAccessor(self.context).is_place
 
     @property
     def vocabulary_timezones(self):

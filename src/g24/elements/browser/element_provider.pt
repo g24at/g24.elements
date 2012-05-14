@@ -8,7 +8,7 @@
   </header>
   <p tal:content="structure data/text/output|nothing">Text</p>
 
-  <div tal:condition="view/is_event" class="eventDetails">
+  <div tal:condition="data/is_event" class="eventDetails">
     <table class="vertical listing" summary="Event details">
       <tbody>
         <tr>
