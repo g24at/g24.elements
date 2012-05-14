@@ -15,7 +15,7 @@ from plone.app.event.dx.behaviors import (
 class IBasetype(form.Schema):
     """ g24.elements Basetype content.
     """
-    
+
 class ITitle(form.Schema):
     title = schema.TextLine(
         title = _(u'label_title', default=u'Title'),
@@ -55,8 +55,9 @@ class BasetypeAccessor(object):
     implements(IBasetypeAccessor)
 
     def __init__(self, context):
-        self.context = context
-        self._behavior_map = dict(
+        object.__setattr__(self, 'context', context)
+
+        bm = dict(
             title=ITitle,
             text=IRichText,
             start=IEventBasic,
@@ -66,13 +67,23 @@ class BasetypeAccessor(object):
             recurrence=IEventRecurrence,
             location=IEventLocation
         )
+        object.__setattr__(self, '_behavior_map', bm)
 
     def __getattr__(self, name):
         bm = self._behavior_map
-        return name in bm and getattr(bm[name](self.context), name, None)\
-                or None
+        if name in bm:
+           behavior = bm[name](self.context, None)
+           if behavior: return getattr(behavior, name, None)
+        return None
 
     def __setattr__(self, name, value):
         bm = self._behavior_map
         if name in bm:
-            setattr(bm[name](self.context), name, value)
+            behavior = bm[name](self.context, None)
+            if behavior: setattr(behavior, name, value)
+
+    def __delattr__(self, name):
+        bm = self._behavior_map
+        if name in bm:
+           behavior = bm[name](self.context, None)
+           if behavior: delattr(behavior, name)

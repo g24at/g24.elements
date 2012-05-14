@@ -49,8 +49,7 @@ class ElementProvider(BrowserView):
 
     def format_event_dates(self, start, end):
         if not self.is_event: return None
-        self.data = IEventAccessor(self.context)
-        return format_event_dates(self.context, start, end, self.context.whole_day)
+        return format_event_dates(self.context, start, end, self.data.whole_day)
 
     def occurrences(self):
         if not self.is_event: return None
@@ -66,6 +65,10 @@ class ElementProvider(BrowserView):
         #context = self.context.aq_base # make, context isn't on parent
         uuid = IUUID(self.context, None)
         return uuid
+
+    @property
+    def data(self):
+        return behaviors.IBasetypeAccessor(self.context)
 
     @property
     def is_title(self):

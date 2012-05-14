@@ -1,12 +1,12 @@
 <article class="element" id=""
-    tal:define="base_url context/absolute_url"
+    tal:define="base_url context/absolute_url; data nocall:view/data"
     tal:attributes="id view/uuid">
   <header>
     <h1>
-      <a href="" tal:attributes="href string:${base_url}/thread" tal:content="context/Title">Title</a>
+      <a href="" tal:attributes="href string:${base_url}/thread" tal:content="data/title">Title</a>
     </h1>
   </header>
-  <p tal:content="structure context/text/output|nothing">Text</p>
+  <p tal:content="structure data/text/output|nothing">Text</p>
 
   <div tal:condition="view/is_event" class="eventDetails">
     <table class="vertical listing" summary="Event details">
@@ -14,8 +14,8 @@
         <tr>
           <th i18n:translate="event_when">When</th>
           <td>
-            <tal:date replace="python:view.format_event_dates(context.start,
-                                                              context.end)"/>
+            <tal:date replace="python:view.format_event_dates(data.start,
+                                                              data.end)"/>
 
             <div tal:define="occs view/occurrences;
                              occs python:occs and occs[1:] or None"
@@ -29,9 +29,9 @@
             </div>
           </td>
         </tr>
-        <tr tal:condition="context/location|nothing">
+        <tr tal:condition="data/location|nothing">
           <th i18n:translate="event_when">Where</th>
-          <td tal:content="context/location"></td>
+          <td tal:content="data/location"></td>
         </tr>
         <tr>
           <th i18n:translate="heading_add_to_calendar">Add event to calendar</th>

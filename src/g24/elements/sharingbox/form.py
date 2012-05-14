@@ -15,7 +15,6 @@ from zExceptions import Unauthorized
 from zope.component import getUtility, createObject
 from zope.event import notify
 import pytz
-
 from g24.elements.instancebehaviors import enable_behaviors, disable_behaviors
 from g24.elements import behaviors
 from g24.elements.config import (
@@ -106,33 +105,23 @@ class Sharingbox(BrowserView):
             disable_behaviors(obj, PLACE_BEHAVIORS, PLACE_INTERFACES)
 
 
-        # then set all the attributes
+        # then set all the attributes via an accessor, respecting the behaviors
+        accessor = behaviors.IBasetypeAccessor(obj)
         for basepath, keys in DEFAULTS.items():
             for key in keys:
                 datum = data[basepath][key].extracted
 
                 if basepath == 'features-title' and not data['features']['is_title'].extracted or\
                    basepath == 'features-event' and not data['features']['is_event'].extracted:
-                    try: delattr(obj, key)
+                    try: delattr(accessor, key)
                     except AttributeError: continue
                     continue
 
                 if datum is UNSET: continue
                 else:
-                    if key=='title':
-                        setattr(behaviors.ITitle(obj), key, datum)
-                    elif key=='text': # TODO: yafowil should return unicode object here...
+                    if key=='text': # TODO: yafowil should return unicode object here...
                         datum = RichTextValue(raw=unicode(datum.decode('utf-8')))
-                        setattr(behaviors.IRichText(obj), key, datum)
-                    elif key in DEFAULTS['features-event'].keys():
-                        if key == 'recurrence':
-                            setattr(IEventRecurrence(obj), key, datum)
-                        elif key == 'location':
-                            setattr(IEventLocation(obj), key, datum)
-                        else:
-                            setattr(IEventBasic(obj), key, datum)
-                    else:
-                        setattr(obj, key, datum)
+                    setattr(accessor, key, datum)
         obj.reindexObject()
 
 
@@ -211,8 +200,8 @@ class SharingboxEdit(Sharingbox):
         return self.context
 
     def get(self, key, basepath):
-
-        datum = getattr(self.context, key, DEFAULTS[basepath][key])
+        accessor = behaviors.IBasetypeAccessor(self.context)
+        datum = getattr(accessor, key, DEFAULTS[basepath][key])
         if isinstance(datum, RichTextValue): # TODO: yafowil should return unicode object here...
             datum = datum.output
         return datum
