@@ -1,9 +1,17 @@
 from zope import schema
-from zope.interface import alsoProvides, Interface
+from zope.interface import alsoProvides, Interface, implements
+from zope.component import adapts
 from plone.directives import form
 from plone.app.event.dx.interfaces import IDXEvent
 from plone.app.textfield import RichText
+from g24.elements.content import IBasetype
+from g24.elements.interfaces import IBasetypeAccessor
 from g24.elements import messageFactory as _
+from plone.app.event.dx.behaviors import (
+    IEventBasic,
+    IEventRecurrence,
+    IEventLocation
+)
 
 
 class ITitle(form.Schema):
@@ -38,3 +46,31 @@ def is_event(context):
 
 def is_place(context):
     return IPlace.providedBy(context)
+
+
+class BasetypeAccessor(object):
+    adapts(IBasetype)
+    implements(IBasetypeAccessor)
+
+    def __init__(self, context):
+        self.context = context
+        self._behavior_map = dict(
+            title=ITitle,
+            text=IRichText,
+            start=IEventBasic,
+            end=IEventBasic,
+            timezone=IEventBasic,
+            whole_day=IEventBasic,
+            recurrence=IEventRecurrence,
+            location=IEventLocation
+        )
+
+    def __getattr__(self, name):
+        bm = self._behavior_map
+        return name in bm and getattr(bm[name](self.context), name, None)\
+                or None
+
+    def __setattr__(self, name, value):
+        bm = self._behavior_map
+        if name in bm:
+            setattr(bm[name](self.context), name, value)
