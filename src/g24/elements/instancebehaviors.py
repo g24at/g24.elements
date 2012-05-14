@@ -4,7 +4,7 @@ from zope.annotation import IAnnotations
 from zope.component import adapts, queryUtility
 from zope.interface import alsoProvides, noLongerProvides
 from g24.elements.config import INSTANCE_BEHAVIORS_KEY as KEY
-from g24.elements.content import IBasetype
+from g24.elements.behaviors import IBasetype
 
 
 class DexterityInstanceBehaviorAssignable(DexterityBehaviorAssignable):

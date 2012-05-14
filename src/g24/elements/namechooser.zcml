@@ -3,7 +3,7 @@
            i18n_domain="g24.elements">
 
   <adapter
-      for=".content.IBasetype"
+      for=".behaviors.IBasetype"
       factory=".namechooser.ElementIdChooser"
       provides="zope.container.interfaces.INameChooser"
       />

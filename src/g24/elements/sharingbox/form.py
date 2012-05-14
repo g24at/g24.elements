@@ -26,7 +26,6 @@ from g24.elements.config import (
     PLACE_INTERFACES,
     PLACE_BEHAVIORS
 )
-from g24.elements.content import IBasetype
 from g24.elements import messageFactory as _
 
 """

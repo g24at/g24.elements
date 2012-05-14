@@ -3,7 +3,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.layout.navigation.navtree import buildFolderTree
 from zope.component import getMultiAdapter
 from zope.contentprovider.interfaces import IContentProvider
-from g24.elements.content import IBasetype
+from g24.elements.behaviors import IBasetype
 
 BOTTOMLEVEL = 6
 

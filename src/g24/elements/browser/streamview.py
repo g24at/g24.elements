@@ -2,7 +2,7 @@ from Products.CMFCore.utils import getToolByName
 from Products.Five.browser import BrowserView
 from zope.component import getMultiAdapter
 from zope.contentprovider.interfaces import IContentProvider
-from g24.elements.content import IBasetype
+from g24.elements.behaviors import IBasetype
 
 class StreamView(BrowserView):
 

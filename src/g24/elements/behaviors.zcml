@@ -15,7 +15,7 @@
         description="Title for the Basetype."
         provides=".behaviors.ITitle"
         factory="plone.behavior.AnnotationStorage"
-        for=".content.IBasetype"
+        for=".behaviors.IBasetype"
         marker=".behaviors.ITitle"
         />
     <plone:behavior
@@ -23,7 +23,7 @@
         description="Text with formating options for the Basetype."
         provides=".behaviors.IRichText"
         factory="plone.behavior.AnnotationStorage"
-        for=".content.IBasetype"
+        for=".behaviors.IBasetype"
         marker=".behaviors.IRichText"
         />
 
@@ -31,7 +31,7 @@
         title="Place"
         description="A Place"
         provides=".behaviors.IPlace"
-        for=".content.IBasetype"
+        for=".behaviors.IBasetype"
         />
 
 </configure>

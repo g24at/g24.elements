@@ -4,7 +4,6 @@ from zope.component import adapts
 from plone.directives import form
 from plone.app.event.dx.interfaces import IDXEvent
 from plone.app.textfield import RichText
-from g24.elements.content import IBasetype
 from g24.elements.interfaces import IBasetypeAccessor
 from g24.elements import messageFactory as _
 from plone.app.event.dx.behaviors import (
@@ -13,7 +12,10 @@ from plone.app.event.dx.behaviors import (
     IEventLocation
 )
 
-
+class IBasetype(form.Schema):
+    """ g24.elements Basetype content.
+    """
+    
 class ITitle(form.Schema):
     title = schema.TextLine(
         title = _(u'label_title', default=u'Title'),
