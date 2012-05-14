@@ -27,20 +27,16 @@ class IRichText(form.Schema):
 alsoProvides(IRichText, form.IFormFieldProvider)
 
 
-@property
 def is_thread(context):
     # If posting has more than 2 children: True
     # If not: False
     return bool(getattr(context, 'title', False))
 
-@property
 def is_event(context):
     return IDXEvent.providedBy(context)
 
-@property
 def is_location(context):
     return bool(getattr(context, 'location', False))
 
-@property
 def is_organizer(context):
     return bool(getattr(context, 'organizer', False))
