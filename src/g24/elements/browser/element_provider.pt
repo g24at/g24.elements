@@ -29,7 +29,7 @@
             </div>
           </td>
         </tr>
-        <tr tal:condition="data/location|nothing">
+        <tr tal:condition="data/location">
           <th i18n:translate="event_when">Where</th>
           <td tal:content="data/location"></td>
         </tr>
