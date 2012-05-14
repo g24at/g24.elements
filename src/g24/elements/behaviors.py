@@ -1,6 +1,7 @@
 from zope import schema
 from zope.interface import alsoProvides
 from plone.directives import form
+from plone.app.event.dx.interfaces import IDXEvent
 from plone.app.textfield import RichText
 from g24.elements import messageFactory as _
 
@@ -24,3 +25,22 @@ class IRichText(form.Schema):
         allowed_mime_types=['text/html', 'text/plain', 'text/x-rst', 'text/restructured'],
         )
 alsoProvides(IRichText, form.IFormFieldProvider)
+
+
+@property
+def is_thread(context):
+    # If posting has more than 2 children: True
+    # If not: False
+    return bool(getattr(context, 'title', False))
+
+@property
+def is_event(context):
+    return IDXEvent.providedBy(context)
+
+@property
+def is_location(context):
+    return bool(getattr(context, 'location', False))
+
+@property
+def is_organizer(context):
+    return bool(getattr(context, 'organizer', False))

@@ -5,7 +5,6 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from plone.app.event.base import default_timezone
 from plone.app.event.dx.behaviors import IEventBasic, IEventRecurrence
-from plone.app.event.dx.interfaces import IDXEvent
 from plone.app.textfield.value import RichTextValue
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import addContentToContainer
@@ -18,9 +17,10 @@ from zope.event import notify
 import pytz
 
 from g24.elements.instancebehaviors import enable_behaviors, disable_behaviors
+from g24.elements import behaviors
 from g24.elements.config import EVENT_INTERFACES, EVENT_BEHAVIORS
+from g24.elements.content import IBasetype
 from g24.elements import messageFactory as _
-
 
 """
 from g24.elements.events import (
@@ -122,22 +122,22 @@ class Sharingbox(BrowserView):
         # If posting has more than 2 children: True
         # If not: False
         if self.mode == ADD: return False # default
-        else: return bool(getattr(self.context, 'title', False))
+        else: return behaviors.is_thread(self.context)
 
     @property
     def is_event(self):
         if self.mode == ADD: return False # default
-        else: return IDXEvent.providedBy(self.context)
+        else: return behaviors.is_event(self.context)
 
     @property
     def is_location(self):
         if self.mode == ADD: return False # default
-        else: return bool(getattr(self.context, 'location', False))
+        else: return behaviors.is_location(self.context)
 
     @property
     def is_organizer(self):
         if self.mode == ADD: return False # default
-        else: return bool(getattr(self.context, 'organizer', False))
+        else: return behaviors.is_organizer(self.context)
 
     @property
     def vocabulary_timezones(self):

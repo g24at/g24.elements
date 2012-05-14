@@ -1,5 +1,4 @@
 from Products.Five.browser import BrowserView
-from plone.app.event.dx.interfaces import IDXEvent
 from plone.uuid.interfaces import IUUID
 from zope.interface import Interface
 from zope.interface import implements
@@ -9,6 +8,8 @@ from zope.publisher.interfaces.browser import IBrowserView
 from zope.contentprovider.interfaces import IContentProvider
 from zope.security import checkPermission
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
+
+from g24.elements import behaviors
 
 from plone.app.event.interfaces import IRecurrence
 from plone.app.event.interfaces import IEventAccessor
@@ -67,12 +68,21 @@ class ElementProvider(BrowserView):
         return uuid
 
     @property
+    def is_thread(self):
+        return behaviors.is_thread(self.context)
+
+    @property
     def is_event(self):
-        return IDXEvent.providedBy(self.context)
+        return behaviors.is_event(self.context)
 
     @property
     def is_location(self):
-        return bool(getattr(self.context, 'location', False))
+        return behaviors.is_location(self.context)
+
+    @property
+    def is_organizer(self):
+        return behaviors.is_organizer(self.context)
+
 
     @property
     def can_add(self):
