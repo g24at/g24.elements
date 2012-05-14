@@ -4,5 +4,6 @@
   <dependencies>
     <dependency>profile-plone.app.jquery:default</dependency>
     <dependency>profile-yafowil.plone:default</dependency>
+    <dependency>profile-Solgema.fullcalendar:default</dependency>
   </dependencies>
 </metadata>

@@ -1,4 +1,7 @@
-ul.threadview li { list-style:none; margin-left:2em; }
+ul.threadview li {
+    list-style:none;
+    margin-left:2em;
+    border-left:1px solid #EAEAEA; }
 #sharingbox,
 article.element {
     border-radius:5px 20px;
@@ -28,4 +31,3 @@ article.element div.embed iframe {
 
 #content ul.element-controls { margin:0; text-align:right; }
 #content ul.element-controls li { margin:0 0 0 0.5em; display:inline; }
-

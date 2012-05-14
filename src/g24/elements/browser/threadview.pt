@@ -9,11 +9,10 @@
 
 <metal:content-core fill-slot="content-core"><metal:block define-macro="content-core">
 <ul class="threadview">
-
-  <tal:article replace="structure python:view.element_provider(context)"/>
-
-  <tal:threadrunner replace="structure view/start_recurse"/>
-
+  <li class="threadview-level-0">
+    <tal:article replace="structure python:view.element_provider(context)"/>
+    <tal:threadrunner replace="structure view/start_recurse"/>
+  </li>
 </ul>
 </metal:block></metal:content-core>
 </body>
