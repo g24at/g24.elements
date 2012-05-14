@@ -4,7 +4,7 @@ ul.threadview li {
     border-left:1px solid #EAEAEA; }
 #sharingbox,
 article.element {
-    border-radius:5px 20px;
+    border-radius:0px 20px 5px 20px;
     border:1px solid grey;
     max-width:50em;
     min-width:15em;
