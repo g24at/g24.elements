@@ -101,8 +101,11 @@ widgets:
         props:
             label: Location
             label.title: The place where the event happens.
+            placeholder: The name of the location.
             autocomplete: on
             source: expr:context.vocabulary_locations
+            minLength: 1
+            delay: 100
 
 - form-controls:
     factory: fieldset
