@@ -34,4 +34,6 @@
         for=".behaviors.IBasetype"
         />
 
+    <adapter factory=".behaviors.BasetypeAccessor" />
+
 </configure>
