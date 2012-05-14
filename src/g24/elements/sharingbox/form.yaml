@@ -9,12 +9,12 @@ widgets:
     factory: fieldset
     widgets:
 
-    - is_thread:
+    - is_title:
         factory: field:label:checkbox
-        value: expr:context.is_thread
+        value: expr:context.is_title
         props:
-            label: Thread
-            label.title: I want to create a thread...
+            label: Title
+            label.title: I want to create a title...
 
     - is_event:
         factory: field:label:checkbox
@@ -23,26 +23,19 @@ widgets:
             label: Event
             label.title: I want to create an event...
 
-    - is_location:
+    - is_place:
         factory: field:label:checkbox
-        value: expr:context.is_location
+        value: expr:context.is_place
         props:
-            label: Location
-            label.title: I want to add location...
+            label: Place
+            label.title: I want to add a place...
 
-    - is_organizer:
-        factory: field:label:checkbox
-        value: expr:context.is_organizer
-        props:
-            label: Organizer
-            label.title: I want to add an organizer...
-
-- features-thread:
+- features-title:
     factory: fieldset
     widgets:
     - title:
         factory: field:label:error:text
-        value: expr:context.get('title', 'features-thread')
+        value: expr:context.get('title', 'features-title')
         props:
             label: Title
 
@@ -102,27 +95,6 @@ widgets:
             label.title: This event has a recurrence rule.
             rows: 2
 
-- features-location:
-    factory: fieldset
-    widgets:
-    - location:
-        factory: field:label:error:textarea
-        value: expr:context.get('location', 'features-location')
-        props:
-            label: Location
-            label.title: The location of this event.
-            rows: 3
-
-- features-organizer:
-    factory: fieldset
-    widgets:
-    - organizer:
-        factory: field:label:error:textarea
-        value: expr:context.get('organizer', 'features-organizer')
-        props:
-            label: Organizer
-            label.title: The organizer of this event.
-            rows: 3
 
 - form-controls:
     factory: fieldset

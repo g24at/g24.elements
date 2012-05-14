@@ -18,7 +18,14 @@ import pytz
 
 from g24.elements.instancebehaviors import enable_behaviors, disable_behaviors
 from g24.elements import behaviors
-from g24.elements.config import EVENT_INTERFACES, EVENT_BEHAVIORS
+from g24.elements.config import (
+    EVENT_INTERFACES,
+    EVENT_BEHAVIORS,
+    TITLE_INTERFACES,
+    TITLE_BEHAVIORS,
+    PLACE_INTERFACES,
+    PLACE_BEHAVIORS
+)
 from g24.elements.content import IBasetype
 from g24.elements import messageFactory as _
 
@@ -34,7 +41,7 @@ EDIT, ADD = 0, 1
 FILEMARKER = object()
 
 DEFAULTS = {
-    'features-thread': { 'title': UNSET, },
+    'features-title': { 'title': UNSET, },
     'features-text': { 'text': UNSET,  },
     'features-event': {
         'start': UNSET,
@@ -42,9 +49,8 @@ DEFAULTS = {
         'whole_day': UNSET,
         'recurrence': UNSET,
         'timezone': UNSET,
+        'location': UNSET,
     },
-    'features-location': { 'location': UNSET, },
-    'features-organizer': { 'organizer': UNSET, },
 }
 
 
@@ -90,15 +96,24 @@ class Sharingbox(BrowserView):
         else:
             disable_behaviors(obj, EVENT_BEHAVIORS, EVENT_INTERFACES)
 
+        if data['features']['is_title'].extracted:
+            enable_behaviors(obj, TITLE_BEHAVIORS, TITLE_INTERFACES)
+        else:
+            disable_behaviors(obj, TITLE_BEHAVIORS, TITLE_INTERFACES)
+
+        if data['features']['is_place'].extracted:
+            enable_behaviors(obj, PLACE_BEHAVIORS, PLACE_INTERFACES)
+        else:
+            disable_behaviors(obj, PLACE_BEHAVIORS, PLACE_INTERFACES)
+
+
         # then set all the attributes
         for basepath, keys in DEFAULTS.items():
             for key in keys:
                 datum = data[basepath][key].extracted
 
-                if basepath == 'features-thread' and not data['features']['is_thread'].extracted or\
-                   basepath == 'features-event' and not data['features']['is_event'].extracted or\
-                   basepath == 'features-location' and not data['features']['is_location'].extracted or\
-                   basepath == 'features-organizer' and not data['features']['is_organizer'].extracted:
+                if basepath == 'features-title' and not data['features']['is_title'].extracted or\
+                   basepath == 'features-event' and not data['features']['is_event'].extracted:
                     try: delattr(obj, key)
                     except AttributeError: continue
                     continue
@@ -118,11 +133,11 @@ class Sharingbox(BrowserView):
 
 
     @property
-    def is_thread(self):
+    def is_title(self):
         # If posting has more than 2 children: True
         # If not: False
         if self.mode == ADD: return False # default
-        else: return behaviors.is_thread(self.context)
+        else: return behaviors.is_title(self.context)
 
     @property
     def is_event(self):
@@ -130,14 +145,9 @@ class Sharingbox(BrowserView):
         else: return behaviors.is_event(self.context)
 
     @property
-    def is_location(self):
+    def is_place(self):
         if self.mode == ADD: return False # default
-        else: return behaviors.is_location(self.context)
-
-    @property
-    def is_organizer(self):
-        if self.mode == ADD: return False # default
-        else: return behaviors.is_organizer(self.context)
+        else: return behaviors.is_place(self.context)
 
     @property
     def vocabulary_timezones(self):

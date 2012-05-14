@@ -68,21 +68,16 @@ class ElementProvider(BrowserView):
         return uuid
 
     @property
-    def is_thread(self):
-        return behaviors.is_thread(self.context)
+    def is_title(self):
+        return behaviors.is_title(self.context)
 
     @property
     def is_event(self):
         return behaviors.is_event(self.context)
 
     @property
-    def is_location(self):
-        return behaviors.is_location(self.context)
-
-    @property
-    def is_organizer(self):
-        return behaviors.is_organizer(self.context)
-
+    def is_place(self):
+        return behaviors.is_place(self.context)
 
     @property
     def can_add(self):

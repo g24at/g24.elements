@@ -27,4 +27,11 @@
         marker=".behaviors.IRichText"
         />
 
+    <plone:behavior
+        title="Place"
+        description="A Place"
+        provides=".behaviors.IPlace"
+        for=".content.IBasetype"
+        />
+
 </configure>

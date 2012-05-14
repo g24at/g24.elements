@@ -1,5 +1,5 @@
 from zope import schema
-from zope.interface import alsoProvides
+from zope.interface import alsoProvides, Interface
 from plone.directives import form
 from plone.app.event.dx.interfaces import IDXEvent
 from plone.app.textfield import RichText
@@ -26,17 +26,15 @@ class IRichText(form.Schema):
         )
 alsoProvides(IRichText, form.IFormFieldProvider)
 
+class IPlace(Interface):
+    """ Behavior marker interface for places. """
 
-def is_thread(context):
-    # If posting has more than 2 children: True
-    # If not: False
-    return bool(getattr(context, 'title', False))
+
+def is_title(context):
+    return ITitle.providedBy(context)
 
 def is_event(context):
     return IDXEvent.providedBy(context)
 
-def is_location(context):
-    return bool(getattr(context, 'location', False))
-
-def is_organizer(context):
-    return bool(getattr(context, 'organizer', False))
+def is_place(context):
+    return IPlace.providedBy(context)

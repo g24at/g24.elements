@@ -147,20 +147,12 @@
             checkbox.change(function(event){ fieldset.toggle(); });
         }
         initialize_features(
-            $('#input-sharingbox_add_edit-features-is_thread'),
-            $('#fieldset-sharingbox_add_edit-features-thread')
+            $('#input-sharingbox_add_edit-features-is_title'),
+            $('#fieldset-sharingbox_add_edit-features-title')
         );
         initialize_features(
             $('#input-sharingbox_add_edit-features-is_event'),
             $('#fieldset-sharingbox_add_edit-features-event')
-        );
-        initialize_features(
-            $('#input-sharingbox_add_edit-features-is_location'),
-            $('#fieldset-sharingbox_add_edit-features-location')
-        );
-        initialize_features(
-            $('#input-sharingbox_add_edit-features-is_organizer'),
-            $('#fieldset-sharingbox_add_edit-features-organizer')
         );
 
         /*$('#input-sharingbox_add_edit-features-text-text').wysihtml5();*/
