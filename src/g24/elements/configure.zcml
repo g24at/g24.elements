@@ -5,6 +5,7 @@
   <include package="plone.app.event"/>
   <include package="collective.jqueryui"/>
   <include package="Solgema.fullcalendar"/>
+  <include package="yafowil.plone"/>
 
   <include file="behaviors.zcml" />
   <include file="permissions.zcml" />

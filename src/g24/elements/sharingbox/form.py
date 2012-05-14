@@ -1,10 +1,10 @@
 from Acquisition import aq_inner, aq_base
 from Acquisition.interfaces import IAcquirer
+from Products.CMFCore.utils import getToolByName
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from plone.app.event.base import default_timezone
-from plone.app.event.dx.behaviors import IEventBasic, IEventRecurrence, IEventLocation
 from plone.app.textfield.value import RichTextValue
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import addContentToContainer
@@ -145,6 +145,14 @@ class Sharingbox(BrowserView):
     @property
     def vocabulary_timezones(self):
         return pytz.all_timezones
+
+    @property
+    def vocabulary_locations(self):
+        cat = getToolByName(self.context, 'portal_catalog')
+        query = {}
+        query['object_provides'] = behaviors.IPlace.__identifier__
+        query['sort_on'] = 'sortable_title'
+        return [it.Title for it in cat(**query)]
 
 
 class SharingboxAdd(Sharingbox):
