@@ -95,6 +95,12 @@ widgets:
             label.title: This event has a recurrence rule.
             rows: 2
 
+    - location:
+        factory: field:label:error:text
+        value: expr:context.get('location', 'features-event')
+        props:
+            label: Location
+            label.title: The place where the event happens.
 
 - form-controls:
     factory: fieldset
