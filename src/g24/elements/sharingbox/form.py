@@ -4,7 +4,7 @@ from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from plone.app.event.base import default_timezone
-from plone.app.event.dx.behaviors import IEventBasic, IEventRecurrence
+from plone.app.event.dx.behaviors import IEventBasic, IEventRecurrence, IEventLocation
 from plone.app.textfield.value import RichTextValue
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import addContentToContainer
@@ -46,9 +46,9 @@ DEFAULTS = {
     'features-event': {
         'start': UNSET,
         'end': UNSET,
+        'timezone': UNSET,
         'whole_day': UNSET,
         'recurrence': UNSET,
-        'timezone': UNSET,
         'location': UNSET,
     },
 }
@@ -120,11 +120,16 @@ class Sharingbox(BrowserView):
 
                 if datum is UNSET: continue
                 else:
-                    if key=='text': # TODO: yafowil should return unicode object here...
+                    if key=='title':
+                        setattr(behaviors.ITitle(obj), key, datum)
+                    elif key=='text': # TODO: yafowil should return unicode object here...
                         datum = RichTextValue(raw=unicode(datum.decode('utf-8')))
-                    if key in DEFAULTS['features-event'].keys():
+                        setattr(behaviors.IRichText(obj), key, datum)
+                    elif key in DEFAULTS['features-event'].keys():
                         if key == 'recurrence':
                             setattr(IEventRecurrence(obj), key, datum)
+                        elif key == 'location':
+                            setattr(IEventLocation(obj), key, datum)
                         else:
                             setattr(IEventBasic(obj), key, datum)
                     else:
@@ -207,6 +212,7 @@ class SharingboxEdit(Sharingbox):
         return self.context
 
     def get(self, key, basepath):
+
         datum = getattr(self.context, key, DEFAULTS[basepath][key])
         if isinstance(datum, RichTextValue): # TODO: yafowil should return unicode object here...
             datum = datum.output
