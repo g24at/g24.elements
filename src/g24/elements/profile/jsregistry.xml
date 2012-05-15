@@ -27,12 +27,7 @@
       cacheable="True" compression="safe" cookable="True" inline="False"
       enabled="True"
       />
-  <javascript
-      id="++resource++jquery.ui/ui/jquery.ui.datepicker.js"
-      cacheable="True" compression="safe" cookable="True" inline="False"
-      enabled="True"
-      />
-
+  
   <!-- jQueryTools dateinput -->
   <javascript
       id="++resource++plone.app.jquerytools.dateinput.js"
@@ -106,5 +101,10 @@
       enabled="True"
       />
 
+  <!-- disable unused -->  
+  <javascript
+      id="++resource++yafowil.widget.datetime/widget.js"
+      enabled="False"
+      />
 
 </object>

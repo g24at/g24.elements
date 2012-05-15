@@ -16,10 +16,6 @@
     cacheable="True" compression="safe" cookable="True" enabled="True"
     media="screen" rel="stylesheet" rendering="import"/>
 
-  <stylesheet
-    id="++resource++jquery.ui/themes/base/jquery.ui.datepicker.css"
-    cacheable="True" compression="safe" cookable="True" enabled="True"
-    media="screen" rel="stylesheet" rendering="import"/>
 
   <!-- jQueryTools dateinput -->
   <stylesheet

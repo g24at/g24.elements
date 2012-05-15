@@ -96,16 +96,12 @@ widgets:
             rows: 2
 
     - location:
-        factory: field:label:error:autocomplete
+        factory: field:label:error:select
         value: expr:context.get('location', 'features-event')
         props:
             label: Location
             label.title: The place where the event happens.
-            placeholder: The name of the location.
-            autocomplete: on
-            source: expr:context.vocabulary_locations
-            minLength: 1
-            delay: 100
+            vocabulary: expr:context.vocabulary_locations
 
 - form-controls:
     factory: fieldset
