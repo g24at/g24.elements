@@ -3,6 +3,8 @@
     var EDIT = 0;
     var ADD = 1;
     var last_context=null;
+    
+    var shbx_lock = 0;  // lock-counter to prevent multiple loading of sharingboxes
 
     /* TOols
      * */
@@ -64,6 +66,11 @@
          *
          * */
         event.preventDefault();
+
+    	// test for and set lock
+        if (shbx_lock > 0 ) { return; }
+    	shbx_lock++;
+        
         sharingbox_remove();
         if (last_context !== null) { $('#'+last_context).show(); }
 
@@ -87,18 +94,20 @@
                 context.after($(data));
             }
             sharingbox_init(context, mode);
+            
+            // release lock
+            shbx_lock = 0;
         });
     }
 
     function sharingbox_enable() {
-        $('a.sharingbox_edit').click(function(event){
+    	$('a.sharingbox_edit').click(function(event){
           sharingbox_inserter(this, event, EDIT);
         });
         $('a.sharingbox_add').click(function(event){
           sharingbox_inserter(this, event, ADD);
         });
     }
-
 
     /*
      * SHARINGBOX FEATURES
@@ -221,7 +230,6 @@
                 }
             );
         });
-
     }
 
 
