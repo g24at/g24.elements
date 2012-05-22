@@ -56,6 +56,12 @@ DEFAULTS = {
     },
 }
 
+def edit_subscriber(obj, event):
+    print "EDIT"
+
+def add_subscriber(obj, event):
+    print "ADD"
+
 
 class Sharingbox(BrowserView):
     template = ViewPageTemplateFile('form.pt')
