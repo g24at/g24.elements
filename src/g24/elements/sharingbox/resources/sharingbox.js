@@ -77,27 +77,58 @@
         var context = $(linkel).closest('article');
         var context_id = context.attr('id');
         last_context = context_id;
+
+// replaced .get by .ajax         
+//        /* ajax get */
+//        $.get($(linkel).attr('href'), function(data){
+//            if (mode===ADD) {
+//                if ($(context_id + ' ul').length) {
+//                    /* Add (new element in existing subthread) */
+//                    $(context_id + ' ul').before('<li id="sharingbox_li_wrapper"></li>');
+//                } else {
+//                    /* Add (mew subthread) */
+//                    context.after('<ul id="sharingbox_ul_wrapper"><li id="sharingbox_li_wrapper"></li></ul>');
+//                }
+//                $('#sharingbox_li_wrapper').html($(data));
+//            }
+//            else {
+//                context.hide();
+//                context.after($(data));
+//            }
+//            sharingbox_init(context, mode);
+//            
+//            // release lock
+//            shbx_lock = 0;
+//        });
+        
         /* ajax get */
-        $.get($(linkel).attr('href'), function(data){
-            if (mode===ADD) {
-                if ($(context_id + ' ul').length) {
-                    /* Add (new element in existing subthread) */
-                    $(context_id + ' ul').before('<li id="sharingbox_li_wrapper"></li>');
-                } else {
-                    /* Add (mew subthread) */
-                    context.after('<ul id="sharingbox_ul_wrapper"><li id="sharingbox_li_wrapper"></li></ul>');
-                }
-                $('#sharingbox_li_wrapper').html($(data));
-            }
-            else {
-                context.hide();
-                context.after($(data));
-            }
-            sharingbox_init(context, mode);
-            
-            // release lock
-            shbx_lock = 0;
-        });
+        $.ajax({
+        	  url: $(linkel).attr('href'),
+        	  success: function(data){
+                  if (mode===ADD) {
+                      if ($(context_id + ' ul').length) {
+                          /* Add (new element in existing subthread) */
+                          $(context_id + ' ul').before('<li id="sharingbox_li_wrapper"></li>');
+                      } else {
+                          /* Add (mew subthread) */
+                          context.after('<ul id="sharingbox_ul_wrapper"><li id="sharingbox_li_wrapper"></li></ul>');
+                      }
+                      $('#sharingbox_li_wrapper').html($(data));
+                  }
+                  else {
+                      context.hide();
+                      context.after($(data));
+                  }
+                  sharingbox_init(context, mode);
+                  
+                  // init ok, release lock
+                  shbx_lock = 0;
+              },
+              error : function(data) {
+                  // err, release lock anyway
+            	  shbx_lock = 0; 
+              },
+        	});
     }
 
     function sharingbox_enable() {
