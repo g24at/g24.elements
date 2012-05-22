@@ -1,3 +1,5 @@
+import logging
+from Acquisition import aq_base
 from Products.Five.browser import BrowserView
 from plone.uuid.interfaces import IUUID
 from zope.interface import Interface
@@ -10,6 +12,8 @@ from zope.security import checkPermission
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from g24.elements import behaviors
+
+logger = logging.getLogger(__name__)
 
 from plone.app.event.interfaces import IRecurrence
 from plone.app.event.interfaces import IEventAccessor
@@ -62,8 +66,11 @@ class ElementProvider(BrowserView):
     @property
     def uuid(self):
         # TODO: do i need aq_base here? (see uuid example in collective-docs
+        # doing aq_base(context) in __init__ breaks permission checks.
         #context = self.context.aq_base # make, context isn't on parent
         uuid = IUUID(self.context, None)
+        if not uuid:
+            logger.warn('Element with id %s has no uuid.' % self.context.id)
         return uuid
 
     @property

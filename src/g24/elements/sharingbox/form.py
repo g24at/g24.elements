@@ -14,6 +14,11 @@ from yafowil.yaml import parse_from_YAML
 from zExceptions import Unauthorized
 from zope.component import getUtility, createObject
 from zope.event import notify
+from zope.lifecycleevent import (
+    ObjectAddedEvent,
+    ObjectCreatedEvent,
+    ObjectModifiedEvent
+)
 import pytz
 from g24.elements.instancebehaviors import enable_behaviors, disable_behaviors
 from g24.elements import behaviors
@@ -162,10 +167,12 @@ class SharingboxAdd(Sharingbox):
 
     def _save(self, data):
         obj = self.create()
+        notify(ObjectCreatedEvent(obj))
         self.set_data(obj, data)
         obj = self.add(obj)
         if obj is not None:
             # mark only as finished if we get the new object
+            notify(ObjectAddedEvent(obj))
             self._finishedAdd = True
             IStatusMessage(self.request).addStatusMessage(_(u"Item created"), "info")
         return obj
@@ -204,6 +211,7 @@ class SharingboxEdit(Sharingbox):
 
     def _save(self, data):
         self.set_data(self.context, data)
+        notify(ObjectModifiedEvent(self.context))
         IStatusMessage(self.request).addStatusMessage(_(u"Item edited"), "info")
         return self.context
 
