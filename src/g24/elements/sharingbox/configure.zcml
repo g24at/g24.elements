@@ -34,11 +34,4 @@
       permission="zope2.View"
       />
 
-    <subscriber for="g24.elements.behaviors.IBasetype
-                     zope.lifecycleevent.interfaces.IObjectModifiedEvent"
-                handler=".form.edit_subscriber" />
-    <subscriber for="g24.elements.behaviors.IBasetype
-                     zope.lifecycleevent.interfaces.IObjectCreatedEvent"
-                handler=".form.add_subscriber" />
-
 </configure>
