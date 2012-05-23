@@ -6,6 +6,7 @@ from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from plone.app.event.base import default_timezone
 from plone.app.textfield.value import RichTextValue
+from plone.app.vocabularies.catalog import KeywordsVocabulary
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import addContentToContainer
 from yafowil.base import UNSET
@@ -45,7 +46,10 @@ FILEMARKER = object()
 
 DEFAULTS = {
     'features-title': { 'title': UNSET, },
-    'features-text': { 'text': UNSET,  },
+    'features-base': {
+        'text': UNSET,
+        'subjects': UNSET
+    },
     'features-event': {
         'start': UNSET,
         'end': UNSET,
@@ -61,11 +65,17 @@ class Sharingbox(BrowserView):
     template = ViewPageTemplateFile('form.pt')
     mode = None
 
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+        self.defaults = DEFAULTS
+        self.defaults['features-event']['timezone'] = default_timezone(self.context)
+        self.defaults['features-base']['subjects'] = []
+
     def _fetch_form(self):
         return parse_from_YAML('g24.elements.sharingbox:form.yaml', self, _)
 
     def __call__(self):
-        DEFAULTS['features-event']['timezone'] = default_timezone(self.context) # TODO: ugly: changing const
         form = self._fetch_form()
         self.controller = Controller(form, self.request)
         if not self.controller.next:
@@ -112,7 +122,7 @@ class Sharingbox(BrowserView):
 
         # then set all the attributes via an accessor, respecting the behaviors
         accessor = behaviors.IBasetypeAccessor(obj)
-        for basepath, keys in DEFAULTS.items():
+        for basepath, keys in self.defaults.items():
             for key in keys:
                 datum = data[basepath][key].extracted
 
@@ -159,6 +169,13 @@ class Sharingbox(BrowserView):
         query['sort_on'] = 'sortable_title'
         return [it.Title for it in cat(**query)]
 
+    @property
+    def vocabulary_keywords(self):
+        vocab = KeywordsVocabulary()
+        result = vocab(self.context)
+        return [(it.value, it.title) for it in result]
+
+
 
 class SharingboxAdd(Sharingbox):
     portal_type = 'g24.elements.basetype'
@@ -203,7 +220,7 @@ class SharingboxAdd(Sharingbox):
         return addContentToContainer(container, object)
 
     def get(self, key, basepath):
-        return DEFAULTS[basepath][key]
+        return self.defaults[basepath][key]
 
 
 class SharingboxEdit(Sharingbox):
@@ -217,7 +234,7 @@ class SharingboxEdit(Sharingbox):
 
     def get(self, key, basepath):
         accessor = behaviors.IBasetypeAccessor(self.context)
-        datum = getattr(accessor, key, DEFAULTS[basepath][key])
+        datum = getattr(accessor, key, self.defaults[basepath][key])
         if isinstance(datum, RichTextValue): # TODO: yafowil should return unicode object here...
             datum = datum.output
         return datum

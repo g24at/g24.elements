@@ -195,8 +195,8 @@
             $('#fieldset-sharingbox_add_edit-features-event')
         );
 
-        /*$('#input-sharingbox_add_edit-features-text-text').wysihtml5();*/
-        var editor = new wysihtml5.Editor("input-sharingbox_add_edit-features-text-text", {
+        /*$('#input-sharingbox_add_edit-features-base-text').wysihtml5();*/
+        var editor = new wysihtml5.Editor("input-sharingbox_add_edit-features-base-text", {
             parserRules:  wysihtml5_g24_rules,
             name:         'sharingbox',
             style:        true,

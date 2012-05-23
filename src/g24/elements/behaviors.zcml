@@ -19,12 +19,12 @@
         marker=".behaviors.ITitle"
         />
     <plone:behavior
-        title="Rich Text"
-        description="Text with formating options for the Basetype."
-        provides=".behaviors.IRichText"
+        title="Base behavior"
+        description="Text with formating options and subject tags."
+        provides=".behaviors.IBase"
         factory="plone.behavior.AnnotationStorage"
         for=".behaviors.IBasetype"
-        marker=".behaviors.IRichText"
+        marker=".behaviors.IBase"
         />
 
     <plone:behavior

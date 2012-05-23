@@ -4,6 +4,8 @@ from zope.component import adapts
 from plone.directives import form
 from plone.app.event.dx.interfaces import IDXEvent
 from plone.app.textfield import RichText
+from z3c.form.browser.textlines import TextLinesFieldWidget
+
 from g24.elements.interfaces import IBasetypeAccessor
 from g24.elements import messageFactory as _
 from plone.app.event.dx.behaviors import (
@@ -17,6 +19,27 @@ class IBasetype(form.Schema):
     """ g24.elements Basetype content.
     """
 
+
+class IBase(form.Schema):
+    text = RichText(
+        title = _(u'label_richtext', default=u'Body text'),
+        description = _(u'help_richtext', default=u'Main text of this content node.'),
+        required = True,
+        default_mime_type='text/html',
+        output_mime_type='text/html',
+        allowed_mime_types=['text/html', 'text/plain', 'text/x-rst', 'text/restructured'],
+        )
+
+    subjects = schema.Tuple(
+        title = _(u'label_categories', default=u'Categories'),
+        description = _(u'help_categories', default=u'Also known as keywords, tags or labels, these help you categorize your content.'),
+        value_type = schema.TextLine(),
+        required = False,
+        missing_value = (),
+        )
+    form.widget(subjects = TextLinesFieldWidget)
+alsoProvides(IBase, form.IFormFieldProvider)
+
 class ITitle(form.Schema):
     title = schema.TextLine(
         title = _(u'label_title', default=u'Title'),
@@ -26,17 +49,6 @@ class ITitle(form.Schema):
     form.order_before(title = '*')
 alsoProvides(ITitle, form.IFormFieldProvider)
 
-
-class IRichText(form.Schema):
-    text = RichText(
-        title = _(u'label_richtext', default=u'Body text'),
-        description = _(u'help_richtext', default=u'Main text of this content node.'),
-        required = True,
-        default_mime_type='text/html',
-        output_mime_type='text/html',
-        allowed_mime_types=['text/html', 'text/plain', 'text/x-rst', 'text/restructured'],
-        )
-alsoProvides(IRichText, form.IFormFieldProvider)
 
 
 class IPlace(Interface):
@@ -52,7 +64,8 @@ class BasetypeAccessor(object):
 
         bm = dict(
             title=ITitle,
-            text=IRichText,
+            text=IBase,
+            subjects=IBase,
             start=IEventBasic,
             end=IEventBasic,
             timezone=IEventBasic,

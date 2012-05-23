@@ -39,16 +39,25 @@ widgets:
         props:
             label: Title
 
-- features-text:
+- features-base:
     factory: fieldset
     widgets:
     - text:
         factory: field:label:error:textarea
-        value: expr:context.get('text', 'features-text')
+        value: expr:context.get('text', 'features-base')
         props:
             label: Text
             label.title: Share some content with us!
             rows: 5
+
+    - subjects:
+        factory: field:label:error:select
+        value: expr:context.get('subjects', 'features-base')
+        props:
+            label: Tags
+            label.title: Tag the content with categories, so that it can be better found.
+            vocabulary: expr:context.vocabulary_keywords
+
 
 - features-event:
     factory: fieldset
@@ -73,19 +82,19 @@ widgets:
             datepicker: True,
             time: True
 
-    - timezone:
-        factory: field:label:error:select
-        value: expr:context.get('timezone', 'features-event')
-        props:
-            label: Timezone
-            vocabulary: expr:context.vocabulary_timezones
-
     - whole_day:
         factory: field:label:error:checkbox
         value: expr:context.get('whole_day', 'features-event')
         props:
             label: Whole Day
             label.title: The event lasts the whole day. Start and end times are not used.
+
+    - timezone:
+        factory: field:label:error:select
+        value: expr:context.get('timezone', 'features-event')
+        props:
+            label: Timezone
+            vocabulary: expr:context.vocabulary_timezones
 
     - recurrence:
         factory: field:label:error:textarea
