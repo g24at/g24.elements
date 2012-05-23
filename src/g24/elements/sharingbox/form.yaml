@@ -56,6 +56,7 @@ widgets:
         props:
             label: Tags
             label.title: Tag the content with categories, so that it can be better found.
+            multivalued: True
             vocabulary: expr:context.vocabulary_keywords
 
 
