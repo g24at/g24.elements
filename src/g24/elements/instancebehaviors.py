@@ -1,16 +1,14 @@
 from plone.behavior.interfaces import IBehavior
 from plone.dexterity.behavior import DexterityBehaviorAssignable
 from zope.annotation import IAnnotations
-from zope.component import adapts, queryUtility
+from zope.component import queryUtility
 from zope.interface import alsoProvides, noLongerProvides
 from g24.elements.config import INSTANCE_BEHAVIORS_KEY as KEY
-from g24.elements.behaviors import IBasetype
 
 
 class DexterityInstanceBehaviorAssignable(DexterityBehaviorAssignable):
     """ Support per instance specification of plone.behavior behaviors
     """
-    adapts(IBasetype)
 
     def __init__(self, context):
         super(DexterityInstanceBehaviorAssignable, self).__init__(context)
