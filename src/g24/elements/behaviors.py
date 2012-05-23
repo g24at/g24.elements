@@ -93,15 +93,24 @@ PLACE_BEHAVIORS = ('g24.elements.behaviors.IPlace',)
 
 
 class BasetypeAccessor(object):
+    """ Accessor object for Basetype objects.
+        It adapts the object to it's behaviors for proper attribute access.
+
+        If you also have to set Basetype features (behaviors), do that first!
+        This way, setting of attributes for a specific feature won't fail.
+
+    """
     adapts(IBasetype)
     implements(IBasetypeAccessor)
 
     def __init__(self, context):
         object.__setattr__(self, 'context', context)
 
+        # definition of feature attributes
         fl = ['is_title', 'is_event', 'is_place']
         object.__setattr__(self, '_feature_list', fl)
 
+        # mapping of behavior attributes to behaviors
         bm = dict(
             title=ITitle,
             text=IBase,
@@ -118,7 +127,7 @@ class BasetypeAccessor(object):
 
     def __getattr__(self, name):
         bm = self._behavior_map
-        if name in bm:
+        if name in bm: # adapt object with behavior and return the attribute
            behavior = bm[name](self.context, None)
            if behavior: return getattr(behavior, name, None)
         return None
@@ -126,9 +135,9 @@ class BasetypeAccessor(object):
     def __setattr__(self, name, value):
         fl = self._feature_list
         bm = self._behavior_map
-        if name in fl:
+        if name in fl: # set the features by adding/removing behaviors
             object.__setattr__(self, name, value)
-        elif name in bm:
+        elif name in bm: # set the attributes on behaviors
             behavior = bm[name](self.context, None)
             if behavior: setattr(behavior, name, value)
 
