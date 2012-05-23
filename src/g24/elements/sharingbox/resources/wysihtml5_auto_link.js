@@ -111,6 +111,12 @@
                     iframe.find('div#' + tmp_uid).replaceWith(emb);
                 }
               }
+            },
+            error: function ( data ) {
+            	var emb = '<div>Failed to get contents ..</div>';
+            	iframe = $('iframe.sharingbox').contents();
+                //iframe.find('div#' + tmp_uid).replaceWith(emb);
+            	iframe.find('div#' + tmp_uid).remove()
             }
         });
 
