@@ -11,20 +11,21 @@
     <grok:grok package=".behaviors" />
 
     <plone:behavior
+        title="Base behavior"
+        description="Text with formating options and subject tags."
+        provides=".behaviors.IBase"
+        factory=".behaviors.BaseBehavior"
+        for=".behaviors.IBasetype"
+        marker=".behaviors.IBase"
+        />
+
+    <plone:behavior
         title="Title"
         description="Title for the Basetype."
         provides=".behaviors.ITitle"
         factory="plone.behavior.AnnotationStorage"
         for=".behaviors.IBasetype"
         marker=".behaviors.ITitle"
-        />
-    <plone:behavior
-        title="Base behavior"
-        description="Text with formating options and subject tags."
-        provides=".behaviors.IBase"
-        factory="plone.behavior.AnnotationStorage"
-        for=".behaviors.IBasetype"
-        marker=".behaviors.IBase"
         />
 
     <plone:behavior

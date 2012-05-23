@@ -55,6 +55,24 @@ class IPlace(Interface):
     """ Behavior marker interface for places. """
 
 
+class BaseBehavior(object):
+
+    def __init__(self, context):
+        self.context = context
+
+    def _get_subjects(self):
+        return self.context.subject
+    def _set_subjects(self, value):
+        self.context.subject = value
+    subjects = property(_get_subjects, _set_subjects)
+
+    def _get_text(self):
+        return self.context.text
+    def _set_text(self, value):
+        self.context.text = value
+    text = property(_get_text, _set_text)
+
+
 class BasetypeAccessor(object):
     adapts(IBasetype)
     implements(IBasetypeAccessor)
