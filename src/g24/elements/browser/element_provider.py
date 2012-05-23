@@ -1,5 +1,5 @@
 import logging
-from Acquisition import aq_base
+#from Acquisition import aq_base
 from Products.Five.browser import BrowserView
 from plone.uuid.interfaces import IUUID
 from zope.interface import Interface
@@ -11,12 +11,11 @@ from zope.contentprovider.interfaces import IContentProvider
 from zope.security import checkPermission
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from g24.elements import behaviors
+from g24.elements.interfaces import IBasetypeAccessor
 
 logger = logging.getLogger(__name__)
 
 from plone.app.event.interfaces import IRecurrence
-from plone.app.event.interfaces import IEventAccessor
 from plone.app.event.browser.event_view import prepare_for_display
 def format_event_dates(context, start, end, whole_day=False):
     formated_dates = prepare_for_display(context, start, end, whole_day)
@@ -75,7 +74,7 @@ class ElementProvider(BrowserView):
 
     @property
     def data(self):
-        return behaviors.IBasetypeAccessor(self.context)
+        return IBasetypeAccessor(self.context)
 
     @property
     def can_add(self):

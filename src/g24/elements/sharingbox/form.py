@@ -21,29 +21,19 @@ from zope.lifecycleevent import (
     ObjectModifiedEvent
 )
 import pytz
-from g24.elements.instancebehaviors import enable_behaviors, disable_behaviors
-from g24.elements import behaviors
-from g24.elements.config import (
-    EVENT_INTERFACES,
-    EVENT_BEHAVIORS,
-    TITLE_INTERFACES,
-    TITLE_BEHAVIORS,
-    PLACE_INTERFACES,
-    PLACE_BEHAVIORS
-)
+from g24.elements.interfaces import IBasetypeAccessor
+from g24.elements.behaviors import IPlace
 from g24.elements import messageFactory as _
-
-"""
-from g24.elements.events import (
-    ElementCreatedEvent,
-    ElementModifiedEvent
-)
-"""
 
 
 EDIT, ADD = 0, 1
 FILEMARKER = object()
 
+FEATURES = [
+    'is_title',
+    'is_event',
+    'is_place'
+]
 DEFAULTS = {
     'features-title': { 'title': UNSET, },
     'features-base': {
@@ -68,6 +58,7 @@ class Sharingbox(BrowserView):
     def __init__(self, context, request):
         self.context = context
         self.request = request
+        self.features = FEATURES
         self.defaults = DEFAULTS
         self.defaults['features-event']['timezone'] = default_timezone(self.context)
         self.defaults['features-base']['subjects'] = []
@@ -103,29 +94,17 @@ class Sharingbox(BrowserView):
 
     def set_data(self, obj, data):
 
+        # access content via an accessor, respecting the behaviors
+        accessor = IBasetypeAccessor(obj)
+
         # first, en/disable behaviors
-        if data['features']['is_event'].extracted:
-            enable_behaviors(obj, EVENT_BEHAVIORS, EVENT_INTERFACES)
-        else:
-            disable_behaviors(obj, EVENT_BEHAVIORS, EVENT_INTERFACES)
+        for feature in self.features:
+            setattr(accessor, feature, data['features'][feature].extracted)
 
-        if data['features']['is_title'].extracted:
-            enable_behaviors(obj, TITLE_BEHAVIORS, TITLE_INTERFACES)
-        else:
-            disable_behaviors(obj, TITLE_BEHAVIORS, TITLE_INTERFACES)
-
-        if data['features']['is_place'].extracted:
-            enable_behaviors(obj, PLACE_BEHAVIORS, PLACE_INTERFACES)
-        else:
-            disable_behaviors(obj, PLACE_BEHAVIORS, PLACE_INTERFACES)
-
-
-        # then set all the attributes via an accessor, respecting the behaviors
-        accessor = behaviors.IBasetypeAccessor(obj)
+        # then set all other attributes
         for basepath, keys in self.defaults.items():
             for key in keys:
                 datum = data[basepath][key].extracted
-
                 if basepath == 'features-title' and not data['features']['is_title'].extracted or\
                    basepath == 'features-event' and not data['features']['is_event'].extracted:
                     try: delattr(accessor, key)
@@ -137,6 +116,7 @@ class Sharingbox(BrowserView):
                     if key=='text': # TODO: yafowil should return unicode object here...
                         datum = RichTextValue(raw=unicode(datum.decode('utf-8')))
                     setattr(accessor, key, datum)
+
         obj.reindexObject()
 
 
@@ -145,17 +125,17 @@ class Sharingbox(BrowserView):
         # If posting has more than 2 children: True
         # If not: False
         if self.mode == ADD: return False # default
-        else: return behaviors.IBasetypeAccessor(self.context).is_title
+        else: return IBasetypeAccessor(self.context).is_title
 
     @property
     def is_event(self):
         if self.mode == ADD: return False # default
-        else: return behaviors.IBasetypeAccessor(self.context).is_event
+        else: return IBasetypeAccessor(self.context).is_event
 
     @property
     def is_place(self):
         if self.mode == ADD: return False # default
-        else: return behaviors.IBasetypeAccessor(self.context).is_place
+        else: return IBasetypeAccessor(self.context).is_place
 
     @property
     def vocabulary_timezones(self):
@@ -165,7 +145,7 @@ class Sharingbox(BrowserView):
     def vocabulary_locations(self):
         cat = getToolByName(self.context, 'portal_catalog')
         query = {}
-        query['object_provides'] = behaviors.IPlace.__identifier__
+        query['object_provides'] = IPlace.__identifier__
         query['sort_on'] = 'sortable_title'
         return [it.Title for it in cat(**query)]
 
@@ -233,7 +213,7 @@ class SharingboxEdit(Sharingbox):
         return self.context
 
     def get(self, key, basepath):
-        accessor = behaviors.IBasetypeAccessor(self.context)
+        accessor = IBasetypeAccessor(self.context)
         datum = getattr(accessor, key, self.defaults[basepath][key])
         if isinstance(datum, RichTextValue): # TODO: yafowil should return unicode object here...
             datum = datum.output

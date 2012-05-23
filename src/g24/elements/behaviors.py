@@ -2,17 +2,23 @@ from zope import schema
 from zope.interface import alsoProvides, Interface, implements
 from zope.component import adapts
 from plone.directives import form
-from plone.app.event.dx.interfaces import IDXEvent
-from plone.app.textfield import RichText
-from z3c.form.browser.textlines import TextLinesFieldWidget
-
-from g24.elements.interfaces import IBasetypeAccessor
-from g24.elements import messageFactory as _
 from plone.app.event.dx.behaviors import (
     IEventBasic,
     IEventRecurrence,
     IEventLocation
 )
+from plone.app.event.dx.interfaces import (
+    IDXEvent,
+    IDXEventRecurrence,
+    IDXEventLocation
+)
+from plone.app.textfield import RichText
+from z3c.form.browser.textlines import TextLinesFieldWidget
+
+from g24.elements.interfaces import IBasetypeAccessor
+from g24.elements.instancebehaviors import enable_behaviors, disable_behaviors
+from g24.elements import messageFactory as _
+
 
 
 class IBasetype(form.Schema):
@@ -73,12 +79,28 @@ class BaseBehavior(object):
     text = property(_get_text, _set_text)
 
 
+
+EVENT_INTERFACES = (IDXEvent, IDXEventRecurrence, IDXEventLocation)
+EVENT_BEHAVIORS = ('plone.app.event.dx.behaviors.IEventBasic',
+                   'plone.app.event.dx.behaviors.IEventRecurrence',
+                   'plone.app.event.dx.behaviors.IEventLocation')
+
+TITLE_INTERFACES =  (ITitle,)
+TITLE_BEHAVIORS = ('g24.elements.behaviors.ITitle',)
+
+PLACE_INTERFACES = (IPlace,)
+PLACE_BEHAVIORS = ('g24.elements.behaviors.IPlace',)
+
+
 class BasetypeAccessor(object):
     adapts(IBasetype)
     implements(IBasetypeAccessor)
 
     def __init__(self, context):
         object.__setattr__(self, 'context', context)
+
+        fl = ['is_title', 'is_event', 'is_place']
+        object.__setattr__(self, '_feature_list', fl)
 
         bm = dict(
             title=ITitle,
@@ -93,6 +115,7 @@ class BasetypeAccessor(object):
         )
         object.__setattr__(self, '_behavior_map', bm)
 
+
     def __getattr__(self, name):
         bm = self._behavior_map
         if name in bm:
@@ -101,8 +124,11 @@ class BasetypeAccessor(object):
         return None
 
     def __setattr__(self, name, value):
+        fl = self._feature_list
         bm = self._behavior_map
-        if name in bm:
+        if name in fl:
+            object.__setattr__(self, name, value)
+        elif name in bm:
             behavior = bm[name](self.context, None)
             if behavior: setattr(behavior, name, value)
 
@@ -112,14 +138,30 @@ class BasetypeAccessor(object):
            behavior = bm[name](self.context, None)
            if behavior: delattr(behavior, name)
 
-    @property
-    def is_title(self):
+
+    def get_is_title(self):
         return ITitle.providedBy(self.context)
+    def set_is_title(self, value):
+        if value:
+            enable_behaviors(self.context, TITLE_BEHAVIORS, TITLE_INTERFACES)
+        else:
+            disable_behaviors(self.context, TITLE_BEHAVIORS, TITLE_INTERFACES)
+    is_title = property(get_is_title, set_is_title)
 
-    @property
-    def is_event(self):
+    def get_is_event(self):
         return IDXEvent.providedBy(self.context)
+    def set_is_event(self, value):
+        if value:
+            enable_behaviors(self.context, EVENT_BEHAVIORS, EVENT_INTERFACES)
+        else:
+            disable_behaviors(self.context, EVENT_BEHAVIORS, EVENT_INTERFACES)
+    is_event = property(get_is_event, set_is_event)
 
-    @property
-    def is_place(self):
+    def get_is_place(self):
         return IPlace.providedBy(self.context)
+    def set_is_place(self, value):
+        if value:
+            enable_behaviors(self.context, PLACE_BEHAVIORS, PLACE_INTERFACES)
+        else:
+            disable_behaviors(self.context, PLACE_BEHAVIORS, PLACE_INTERFACES)
+    is_place = property(get_is_place, set_is_place)
