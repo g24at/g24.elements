@@ -78,7 +78,7 @@
         ret = '<a href="' + realUrl + '">' + displayUrl + '</a>' + punctuation;
 
         var tmp_uid = 'tmp_' + Math.random().toString(36).substr(2,9);
-        ret += '<div id="' + tmp_uid + '"/>'; // unique element to be replaced
+        ret += '<div id="' + tmp_uid + '" class="embed-busy"/>';  // unique element to be replaced
 
         $.ajax({
             url: window.location.pathname + '/oembed_proxy',

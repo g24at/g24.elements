@@ -205,7 +205,7 @@
             parser:       wysihtml5.dom.parse || Prototype.K,
             composerClassName: "wysihtml5-editor",
             bodyClassName:     "wysihtml5-supported",
-            stylesheets:  [],
+            stylesheets:  ['/++resource++g24.elements.sharingbox/sharingbox.css'], // use stylesheet for editor
             allowObjectResizing:  true,
             supportTouchDevices:  true
         });
