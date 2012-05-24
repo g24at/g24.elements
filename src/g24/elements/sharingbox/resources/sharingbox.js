@@ -4,7 +4,8 @@
     var ADD = 1;
     var last_context=null;
     
-    var shbx_lock = 0;  // lock-counter to prevent multiple loading of sharingboxes
+    var shbx_lock 	= 0;  // lock-counter to prevent multiple loading of sharingboxes
+    var shbx_dirty 	= 0;  // isDirty marker, set in onchange-handlers 
 
     /* TOols
      * */
@@ -67,8 +68,15 @@
          * */
         event.preventDefault();
 
-    	// test for and set lock
+    	// test for "create-lock" (prevent double creation)
         if (shbx_lock > 0 ) { return; }
+    	
+    	// test for dirty inputs
+    	if ( isInputDirty() ) {
+    		if ( ! confirm('Unsaved changes - really discard ?') ) { return; } 
+    	}
+    	
+    	// set "create lock" 
     	shbx_lock++;
         
         sharingbox_remove();
@@ -212,6 +220,8 @@
         editor.observe("load", function () {
             $(this.composer.iframe).autoResize();
         });
+        
+        editor.observe("change", function(){shbx_dirty=1;});
 
 
         $('.datepicker').dateinput({
@@ -260,7 +270,25 @@
                     sharingbox_enable();
                 }
             );
+            
+            shbx_dirty = 0; // submitted, reset dirty marker
         });
+        
+        // set onchange handlers
+        $("#sharingbox>form input").change(function(){shbx_dirty=1;});
+        $("#sharingbox>form select").change(function(){shbx_dirty=1;});
+        
+        $(window).on('beforeunload',function(){
+        	if ( isInputDirty() ) return false;
+        });
+    }
+    
+    /*
+     * Dirty Input
+     */
+    function isInputDirty()
+    {
+    	return (shbx_dirty > 0);
     }
 
 
