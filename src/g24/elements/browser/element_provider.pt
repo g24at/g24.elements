@@ -6,7 +6,7 @@
       <a href="" tal:attributes="href string:${base_url}/thread" tal:content="data/title">Title</a>
     </h1>
   </header>
-  <p tal:content="structure data/text/output|nothing">Text</p>
+  <p tal:content="structure data/text|nothing">Text</p>
 
   <div tal:condition="data/is_event" class="eventDetails">
     <table class="vertical listing" summary="Event details">
