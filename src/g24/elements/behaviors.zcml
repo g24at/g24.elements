@@ -16,8 +16,9 @@
         provides=".behaviors.IBase"
         factory=".behaviors.BaseBehavior"
         for=".behaviors.IBasetype"
-        marker=".behaviors.IBase"
-        />
+        /><!-- marker=".behaviors.IBase" doesn't work here.
+               behavior with custom factory cannot easily provide it's
+               implementation interface as marker interface. -->
 
     <plone:behavior
         title="Title"

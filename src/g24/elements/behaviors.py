@@ -1,7 +1,6 @@
 from zope import schema
 from zope.interface import alsoProvides, Interface, implements
 from zope.component import adapts
-from plone.directives import form
 from plone.app.event.dx.behaviors import (
     IEventBasic,
     IEventRecurrence,
@@ -13,6 +12,8 @@ from plone.app.event.dx.interfaces import (
     IDXEventLocation
 )
 from plone.app.textfield import RichText
+from plone.app.textfield.value import RichTextValue
+from plone.directives import form
 from z3c.form.browser.textlines import TextLinesFieldWidget
 
 from g24.elements.interfaces import IBasetypeAccessor
@@ -66,17 +67,18 @@ class BaseBehavior(object):
     def __init__(self, context):
         self.context = context
 
+    def _get_text(self):
+        return self.context.text.output
+    def _set_text(self, value):
+        text = RichTextValue(raw=unicode(value.decode('utf-8')))
+        self.context.text = text
+    text = property(_get_text, _set_text)
+
     def _get_subjects(self):
         return self.context.subject
     def _set_subjects(self, value):
         self.context.subject = value
     subjects = property(_get_subjects, _set_subjects)
-
-    def _get_text(self):
-        return self.context.text
-    def _set_text(self, value):
-        self.context.text = value
-    text = property(_get_text, _set_text)
 
 
 
