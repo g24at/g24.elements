@@ -51,6 +51,88 @@ DEFAULTS = {
 }
 
 
+def create(context, type_):
+    """ Create element, set attributes and add it to container.
+
+    """
+
+    fti = getUtility(IDexterityFTI, name=type_)
+
+    container = aq_inner(context)
+    obj = createObject(fti.factory)
+
+    # Note: The factory may have done this already, but we want to be sure
+    # that the created type has the right portal type. It is possible
+    # to re-define a type through the web that uses the factory from an
+    # existing type, but wants a unique portal_type!
+
+    if hasattr(obj, '_setPortalTypeName'):
+        obj._setPortalTypeName(fti.getId())
+
+    # Acquisition wrap temporarily to satisfy things like vocabularies
+    # depending on tools
+    if IAcquirer.providedBy(obj):
+        obj = obj.__of__(container)
+
+    obj = aq_base(obj)
+    if obj:
+        notify(ObjectCreatedEvent(obj))
+    return obj
+
+
+def add(obj, container):
+    # add
+    container = aq_inner(container)
+    obj = addContentToContainer(container, obj)
+    if obj:
+        notify(ObjectAddedEvent(obj))
+    return obj
+
+def _flatten_data(data):
+    """ Flatten the nested data structure.
+
+        Please note, the data structure shouldn't use a key twice! Two keys
+        with the same name are getting overwritten.
+    """
+    items = {}
+    for key, val in data.iteritems():
+        if isinstance(val, dict):
+            items.update(_flatten_data(val))
+        else:
+            items[key] = val
+    return items
+
+
+def edit(obj, data, order=None, ignores=None):
+    """ Edit the attributes of an object.
+
+        @param order: Optional list of attribute names to be set in the defined
+                      order.
+                      If a attribute defined in field_names isn't found in
+                      data, it is deleted from the object.
+
+        @param ignores: Optional list of attribute names to be ignored.
+
+    """
+
+    # access content via an accessor, respecting the behaviors
+    accessor = IBasetypeAccessor(obj)
+
+    # first set attributes in the order as defined in field_names
+    for attr in order:
+        if attr in data:
+            setattr(accessor, attr, data[attr])
+        elif hasattr(accessor, attr): # attr not in data
+            delattr(accessor, attr)
+
+    # then set all other
+    for key, val in data.iteritems():
+        if key in order or key in ignores: continue
+        setattr(accessor, key, val)
+
+    obj.reindexObject()
+
+
 class Sharingbox(BrowserView):
     template = ViewPageTemplateFile('form.pt')
     mode = None
@@ -58,6 +140,8 @@ class Sharingbox(BrowserView):
     def __init__(self, context, request):
         self.context = context
         self.request = request
+
+        self.ignores = ['save']
         self.features = FEATURES
         self.defaults = DEFAULTS
         self.defaults['features-event']['timezone'] = default_timezone(self.context)
@@ -86,7 +170,9 @@ class Sharingbox(BrowserView):
     def save(self, widget, data):
         if self.request.method != 'POST':
             raise Unauthorized('POST only')
-        obj = self._save(data)
+        flat_data = _flatten_data(data.extracted)
+        obj = self._save(flat_data)
+        # return the rendered element html snippet
         self.request.response.redirect('%s%s' % (obj.absolute_url(), '/element'))
 
     def _save(self, data):
@@ -160,9 +246,16 @@ class Sharingbox(BrowserView):
 class SharingboxAdd(Sharingbox):
     portal_type = 'g24.elements.basetype'
     mode = ADD
-    _finishedAdd = False
 
     def _save(self, data):
+        obj = create(self.context, self.portal_type)
+        edit(obj, data, order=self.features, ignores=self.ignores)
+        obj = add(obj, self.context)
+        if obj:
+            IStatusMessage(self.request).addStatusMessage(_(u"Item created"), "info")
+        return obj
+
+        """
         obj = self.create()
         notify(ObjectCreatedEvent(obj))
         self.set_data(obj, data)
@@ -173,7 +266,8 @@ class SharingboxAdd(Sharingbox):
             self._finishedAdd = True
             IStatusMessage(self.request).addStatusMessage(_(u"Item created"), "info")
         return obj
-
+        """
+    """
     def create(self):
         fti = getUtility(IDexterityFTI, name=self.portal_type)
 
@@ -198,6 +292,7 @@ class SharingboxAdd(Sharingbox):
     def add(self, object):
         container = aq_inner(self.context)
         return addContentToContainer(container, object)
+    """
 
     def get(self, key, basepath):
         return self.defaults[basepath][key]
@@ -207,7 +302,8 @@ class SharingboxEdit(Sharingbox):
     mode = EDIT
 
     def _save(self, data):
-        self.set_data(self.context, data)
+        edit(self.context, data, order=self.features, ignores=self.ignores)
+        #self.set_data(self.context, data)
         notify(ObjectModifiedEvent(self.context))
         IStatusMessage(self.request).addStatusMessage(_(u"Item edited"), "info")
         return self.context
