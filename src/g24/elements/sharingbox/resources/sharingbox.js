@@ -2,8 +2,8 @@
 
     var EDIT = 0;
     var ADD = 1;
-    var last_context=null;
-    
+    var last_context = null;
+
     var shbx_lock = 0;  // lock-counter to prevent multiple loading of sharingboxes
 
     /* TOols
@@ -28,8 +28,8 @@
            */
         //var urlRegex = /[^"'](https?:\/\/[^\s<]+)/g;
         var urlRegex = /[^"']?(https?:\/\/[^\s<]+)/g;
-        return text.replace(urlRegex, function(url) {
-            if (url.substr(0,5) == 'https') { urlnoprot = url.substr(9); }
+        return text.replace(urlRegex, function (url) {
+            if (url.substr(0, 5) === 'https') { urlnoprot = url.substr(9); }
             else { urlnoprot = url.substr(8); }
             var urlpart = url.substr(-4);
             if (urlpart === '.png' | urlpart === '.gif' | urlpart === '.jpg') {
@@ -67,18 +67,18 @@
          * */
         event.preventDefault();
 
-    	// test for and set lock
-        if (shbx_lock > 0 ) { return; }
-    	shbx_lock++;
-        
+        // test for and set lock
+        if (shbx_lock > 0) { return; }
+        shbx_lock++;
+
         sharingbox_remove();
-        if (last_context !== null) { $('#'+last_context).show(); }
+        if (last_context !== null) { $('#' + last_context).show(); }
 
         var context = $(linkel).closest('article');
         var context_id = context.attr('id');
         last_context = context_id;
 
-// replaced .get by .ajax         
+// replaced .get by .ajax
 //        /* ajax get */
 //        $.get($(linkel).attr('href'), function(data){
 //            if (mode===ADD) {
@@ -96,47 +96,47 @@
 //                context.after($(data));
 //            }
 //            sharingbox_init(context, mode);
-//            
+//
 //            // release lock
 //            shbx_lock = 0;
 //        });
-        
+
         /* ajax get */
         $.ajax({
-        	  url: $(linkel).attr('href'),
-        	  success: function(data){
-                  if (mode===ADD) {
-                      if ($(context_id + ' ul').length) {
-                          /* Add (new element in existing subthread) */
-                          $(context_id + ' ul').before('<li id="sharingbox_li_wrapper"></li>');
-                      } else {
-                          /* Add (mew subthread) */
-                          context.after('<ul id="sharingbox_ul_wrapper"><li id="sharingbox_li_wrapper"></li></ul>');
-                      }
-                      $('#sharingbox_li_wrapper').html($(data));
-                  }
-                  else {
-                      context.hide();
-                      context.after($(data));
-                  }
-                  sharingbox_init(context, mode);
-                  
-                  // init ok, release lock
-                  shbx_lock = 0;
-              },
-              error : function(data) {
-                  // err, release lock anyway
-            	  shbx_lock = 0; 
-              },
-        	});
+            url: $(linkel).attr('href'),
+            success: function (data) {
+                if (mode === ADD) {
+                    if ($(context_id + ' ul').length) {
+                        /* Add (new element in existing subthread) */
+                        $(context_id + ' ul').before('<li id="sharingbox_li_wrapper"></li>');
+                    } else {
+                        /* Add (mew subthread) */
+                        context.after('<ul id="sharingbox_ul_wrapper"><li id="sharingbox_li_wrapper"></li></ul>');
+                    }
+                    $('#sharingbox_li_wrapper').html($(data));
+                }
+                else {
+                    context.hide();
+                    context.after($(data));
+                }
+                sharingbox_init(context, mode);
+
+                // init ok, release lock
+                shbx_lock = 0;
+            },
+            error : function (data) {
+                // err, release lock anyway
+                shbx_lock = 0;
+            }
+        });
     }
 
     function sharingbox_enable() {
-    	$('a.sharingbox_edit').click(function(event){
-          sharingbox_inserter(this, event, EDIT);
+        $('a.sharingbox_edit').click(function (event) {
+            sharingbox_inserter(this, event, EDIT);
         });
-        $('a.sharingbox_add').click(function(event){
-          sharingbox_inserter(this, event, ADD);
+        $('a.sharingbox_add').click(function (event) {
+            sharingbox_inserter(this, event, ADD);
         });
     }
 
@@ -184,7 +184,7 @@
         /* fieldsets */
         function initialize_features(checkbox, fieldset) {
             if (checkbox.is(':checked') === false) { fieldset.hide(); }
-            checkbox.change(function(event){ fieldset.toggle(); });
+            checkbox.change(function (event) { fieldset.toggle(); });
         }
         initialize_features(
             $('#input-sharingbox_add_edit-features-is_title'),
@@ -216,7 +216,7 @@
 
         $('.datepicker').dateinput({
             format: 'yyyy-mm-dd', // display format
-            change: function() {
+            change: function () {
                 var isoDate = this.getValue('yyyy-mm-dd'); // backend format
                 $("#backendValue").val(isoDate);
             }
@@ -238,7 +238,7 @@
 
 
         /* submit */
-        $('#sharingbox>form').submit(function(event){
+        $('#sharingbox>form').submit(function (event) {
             event.preventDefault();
             //$('#sharingbox-text').val($('#sharingbox-facade-content').html());
             var form_data = $('#sharingbox>form').serialize();
@@ -248,12 +248,12 @@
             $.post(
                 $('#sharingbox>form').attr('action'),
                 form_data,
-                function(data) {
-                    if (mode===EDIT) { /* Edit */
+                function (data) {
+                    if (mode === EDIT) { /* Edit */
                         context.replaceWith(data);
                         sharingbox_remove();
                     }
-                    if (mode===ADD) { /* ADD */
+                    if (mode === ADD) { /* ADD */
                         $('#sharingbox_li_wrapper').html(data);
                         sharingbox_remove(true);
                     }
@@ -264,7 +264,7 @@
     }
 
 
-    $(document).ready(function() {
+    $(document).ready(function () {
         sharingbox_enable();
     });
 
