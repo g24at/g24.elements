@@ -88,20 +88,6 @@ def add(obj, container):
         notify(ObjectAddedEvent(obj))
     return obj
 
-def _flatten_data(data):
-    """ Flatten the nested data structure.
-
-        Please note, the data structure shouldn't use a key twice! Two keys
-        with the same name are getting overwritten.
-    """
-    items = {}
-    for key, val in data.iteritems():
-        if isinstance(val, dict):
-            items.update(_flatten_data(val))
-        else:
-            items[key] = val
-    return items
-
 
 def edit(obj, data, order=None, ignores=None):
     """ Edit the attributes of an object.
@@ -131,6 +117,21 @@ def edit(obj, data, order=None, ignores=None):
         setattr(accessor, key, val)
 
     obj.reindexObject()
+
+
+def _flatten_data(data):
+    """ Flatten the nested data structure.
+
+        Please note, the data structure shouldn't use a key twice! Two keys
+        with the same name are getting overwritten.
+    """
+    items = {}
+    for key, val in data.iteritems():
+        if isinstance(val, dict):
+            items.update(_flatten_data(val))
+        else:
+            items[key] = val
+    return items
 
 
 class Sharingbox(BrowserView):
