@@ -95,8 +95,8 @@ def edit(obj, data, order=None, ignores=None):
 
         @param order: Optional list of attribute names to be set in the defined
                       order.
-                      If a attribute defined in field_names isn't found in
-                      data, it is deleted from the object.
+                      If a attribute defined in order isn't found in data, it
+                      is deleted from the object.
 
         @param ignores: Optional list of attribute names to be ignored.
 
@@ -105,7 +105,7 @@ def edit(obj, data, order=None, ignores=None):
     # access content via an accessor, respecting the behaviors
     accessor = IBasetypeAccessor(obj)
 
-    # first set attributes in the order as defined in field_names
+    # first set attributes in the order as defined in order
     for attr in order:
         if attr in data:
             setattr(accessor, attr, data[attr])
@@ -262,6 +262,9 @@ class Sharingbox(BrowserView):
         json_string = json.dumps(item_map)
         return json_string
 
+
+    # additional browser page methods
+
     def query_tags(self):
         """ Return a json string with tags filtered by a query string.
 
@@ -292,45 +295,6 @@ class SharingboxAdd(Sharingbox):
         if obj:
             IStatusMessage(self.request).addStatusMessage(_(u"Item created"), "info")
         return obj
-
-        """
-        obj = self.create()
-        notify(ObjectCreatedEvent(obj))
-        self.set_data(obj, data)
-        obj = self.add(obj)
-        if obj is not None:
-            # mark only as finished if we get the new object
-            notify(ObjectAddedEvent(obj))
-            self._finishedAdd = True
-            IStatusMessage(self.request).addStatusMessage(_(u"Item created"), "info")
-        return obj
-        """
-    """
-    def create(self):
-        fti = getUtility(IDexterityFTI, name=self.portal_type)
-
-        container = aq_inner(self.context)
-        content = createObject(fti.factory)
-
-        # Note: The factory may have done this already, but we want to be sure
-        # that the created type has the right portal type. It is possible
-        # to re-define a type through the web that uses the factory from an
-        # existing type, but wants a unique portal_type!
-
-        if hasattr(content, '_setPortalTypeName'):
-            content._setPortalTypeName(fti.getId())
-
-        # Acquisition wrap temporarily to satisfy things like vocabularies
-        # depending on tools
-        if IAcquirer.providedBy(content):
-            content = content.__of__(container)
-
-        return aq_base(content)
-
-    def add(self, object):
-        container = aq_inner(self.context)
-        return addContentToContainer(container, object)
-    """
 
     def get(self, key, basepath):
         return self.defaults[basepath][key]
