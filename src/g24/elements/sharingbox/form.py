@@ -208,6 +208,8 @@ class Sharingbox(BrowserView):
         obj.reindexObject()
 
 
+    # features
+
     @property
     def is_title(self):
         # If posting has more than 2 children: True
@@ -225,14 +227,16 @@ class Sharingbox(BrowserView):
         if self.mode == ADD: return False # default
         else: return IBasetypeAccessor(self.context).is_place
 
-    # cache/memoize
+
+    # vocabularies
+
+    # TODO: cache/memoize
     @property
     def vocabulary_keywords(self):
         vocab = KeywordsVocabulary()
         result = vocab(self.context)
         return [it.title for it in result]
 
-    # cache/memoize
     @property
     def vocabulary_locations(self):
         cat = getToolByName(self.context, 'portal_catalog')
@@ -241,7 +245,6 @@ class Sharingbox(BrowserView):
         query['sort_on'] = 'sortable_title'
         return [it.Title for it in cat(**query)]
 
-    # cache/memoize
     @property
     def vocabulary_timezones(self):
         return pytz.all_timezones
