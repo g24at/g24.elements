@@ -17,6 +17,7 @@
       layer="g24.elements.interfaces.IG24ElementsLayer"
       class=".form.SharingboxAdd"
       permission="g24.AddBasetype"
+      allowed_attributes="query_tags query_locations query_timezones"
       />
 
   <browser:page
@@ -25,6 +26,7 @@
       layer="g24.elements.interfaces.IG24ElementsLayer"
       class=".form.SharingboxEdit"
       permission="g24.ModifyBasetype"
+      allowed_attributes="query_tags query_locations query_timezones"
       />
 
   <browser:page
