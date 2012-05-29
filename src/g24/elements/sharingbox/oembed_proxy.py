@@ -1,18 +1,17 @@
 import urllib2
 from urllib2 import HTTPError
-import json
 from Products.Five import BrowserView
 
 class OembedProxy(BrowserView):
 
     def __call__(self):
 
-        #host = 'http://api.embed.ly/1/oembed' 
+        #host = 'http://api.embed.ly/1/oembed'
         host = 'http://api.embed.ly/v1/api/oembed'
         key = 'ac25fbba94af11e1a1394040aae4d8c9'
         req = self.request
         req.response.setHeader("Content-type", "application/json")
-        
+
         url = req.get('url', None)
         if not url:
             self.request.response.setStatus(500, "url parameter missing.")
