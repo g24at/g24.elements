@@ -185,15 +185,15 @@ class BasetypeAccessor(object):
         )
         object.__setattr__(self, '_behavior_map', bm)
 
-    def cleanup(self, *args, **kwargs):
-        bm = self._behavior_map
-        for attr, behavior in bm.items():
-            if not behavior.providedBy(self.context):
-                # delete the orphaned attribute from an deleted behavior
-                try:
-                    delattr(self.context, attr)
-                except:
-                    pass
+    #    def cleanup(self):
+    #        bm = self._behavior_map
+    #        for attr, behavior in bm.items():
+    #            if not behavior.providedBy(self.context):
+    #                # delete the orphaned attribute from an deleted behavior
+    #                try:
+    #                    delattr(self.context, attr)
+    #                except:
+    #                    pass
 
     def __getattr__(self, name):
         bm = self._behavior_map
@@ -230,6 +230,9 @@ class BasetypeAccessor(object):
         if value:
             enable_behaviors(self.context, TITLE_BEHAVIORS, TITLE_INTERFACES)
         else:
+            for attr in ('title'):
+                try: delattr(self.context, attr)
+                except: pass
             disable_behaviors(self.context, TITLE_BEHAVIORS, TITLE_INTERFACES)
     is_title = property(get_is_title, set_is_title)
 
@@ -239,6 +242,10 @@ class BasetypeAccessor(object):
         if value:
             enable_behaviors(self.context, EVENT_BEHAVIORS, EVENT_INTERFACES)
         else:
+           # delete the orphaned attribute from an deleted behavior
+            for attr in ('start', 'end', 'timezone', 'whole_day', 'recurrence', 'location'):
+                try: delattr(self.context, attr)
+                except: pass
             disable_behaviors(self.context, EVENT_BEHAVIORS, EVENT_INTERFACES)
     is_event = property(get_is_event, set_is_event)
 
@@ -249,4 +256,6 @@ class BasetypeAccessor(object):
             enable_behaviors(self.context, PLACE_BEHAVIORS, PLACE_INTERFACES)
         else:
             disable_behaviors(self.context, PLACE_BEHAVIORS, PLACE_INTERFACES)
+
+
     is_place = property(get_is_place, set_is_place)
