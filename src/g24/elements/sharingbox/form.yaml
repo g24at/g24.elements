@@ -5,6 +5,7 @@ props:
     class: edit-form enableUnloadProtection
 widgets:
 
+
 - features:
     factory: fieldset
     widgets:
@@ -39,6 +40,7 @@ widgets:
         props:
             label: Title
 
+
 - features-base:
     factory: fieldset
     widgets:
@@ -51,13 +53,14 @@ widgets:
             rows: 5
 
     - subjects:
-        factory: field:label:error:select
+        factory: field:label:error:lines
         value: expr:context.get('subjects', 'features-base')
         props:
             label: Tags
             label.title: Tag the content with categories, so that it can be better found.
-            multivalued: True
-            vocabulary: expr:context.vocabulary_keywords
+            rows: 4
+            cols: 10
+            class: autosuggest autosuggest-vocabulary-query_tags
 
 
 - features-event:
@@ -106,12 +109,13 @@ widgets:
             rows: 2
 
     - location:
-        factory: field:label:error:select
+        factory: field:label:error:text
         value: expr:context.get('location', 'features-event')
         props:
             label: Location
             label.title: The place where the event happens.
-            vocabulary: expr:context.vocabulary_locations
+            class: autosuggest autosuggest-vocabulary-query_locations
+
 
 - form-controls:
     factory: fieldset
