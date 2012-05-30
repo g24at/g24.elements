@@ -101,6 +101,65 @@ class BasetypeAccessor(object):
         If you also have to set Basetype features (behaviors), do that first!
         This way, setting of attributes for a specific feature won't fail.
 
+        TODO: Create a mock object / real object with is_event feature enabled.
+        >>> context
+        <Container at /Plone/stream>
+        >>> from g24.elements.behaviors import IBasetype
+        >>> IBasetype.providedBy(context)
+        True
+        >>> from g24.elements.interfaces import IBasetypeAccessor
+        >>> IBasetypeAccessor(context)
+        <g24.elements.behaviors.BasetypeAccessor object at 0x7f77bc2fb550>
+        >>> acc = IBasetypeAccessor(context)
+        >>> acc.is_event
+        True
+        >>> acc.is_title
+        False
+        >>> acc.is_place
+        False
+        >>> acc.is_place
+        False
+
+        Nonexistent throws no Error
+        TODO: ok? ^^
+        >>> acc.is_location
+
+        Setting something, where the feature is not enabled, doesn't work.
+        So set the features first!
+        >>> acc.title = 'postgarasch'
+        >>> acc.title
+
+        Set the feature:
+        >>> acc.is_title = True
+        >>> acc.title = 'postgarasch'
+        >>> acc.title
+        'postgarasch'
+
+        This is an event.
+        >>> acc.is_event
+        True
+        >>> acc.start
+        datetime.datetime(2012, 5, 30, 0, 0, tzinfo=<UTC>)
+
+        Disable the event feature.
+        >>> acc.is_event = False
+        >>> acc.start
+
+        But still, the attribute is set on the context!
+        >>> context.start
+        datetime.datetime(2012, 5, 30, 0, 0, tzinfo=<UTC>)
+
+        So do a final cleanup to delete those attributes as well.
+        Why? Because Zope's catalog index looks for object attributes to index.
+        >>> acc.cleanup()
+        >>> context.start
+        Traceback (most recent call last):
+          File "/home/thet-data/dotfiles-thet/dotfiles.buildout/eggs/Paste-1.7.5.1-py2.7.egg/paste/evalexception/evalcontext.py", line 37, in exec_expr
+            exec code in self.namespace, self.globs
+          File "<web>", line 1, in <module>
+        AttributeError: start
+
+
     """
     adapts(IBasetype)
     implements(IBasetypeAccessor)
@@ -126,6 +185,15 @@ class BasetypeAccessor(object):
         )
         object.__setattr__(self, '_behavior_map', bm)
 
+    def cleanup(self, *args, **kwargs):
+        bm = self._behavior_map
+        for attr, behavior in bm.items():
+            if not behavior.providedBy(self.context):
+                # delete the orphaned attribute from an deleted behavior
+                try:
+                    delattr(self.context, attr)
+                except:
+                    pass
 
     def __getattr__(self, name):
         bm = self._behavior_map
@@ -146,8 +214,14 @@ class BasetypeAccessor(object):
     def __delattr__(self, name):
         bm = self._behavior_map
         if name in bm:
-           behavior = bm[name](self.context, None)
-           if behavior: delattr(behavior, name)
+            behavior = bm[name](self.context, None)
+            if behavior: delattr(behavior, name)
+        try:
+            # try ro delete the attribute also on the context
+            delattr(self.context, name)
+        except AttributeError:
+            # attribute not set:
+            pass
 
 
     def get_is_title(self):

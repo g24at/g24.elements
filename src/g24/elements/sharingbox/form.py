@@ -93,10 +93,11 @@ def add(obj, container):
 def edit(obj, data, order=None, ignores=None):
     """ Edit the attributes of an object.
 
-        @param order: Optional list of attribute names to be set in the defined
-                      order.
-                      If a attribute defined in order isn't found in data, it
-                      is deleted from the object.
+        @param data:    Flat data structure:   {fieldname: value}
+
+        @param order:   Optional list of attribute names to be set in the
+                        defined order. If a attribute defined in order isn't
+                        found in data, it is deleted from the object.
 
         @param ignores: Optional list of attribute names to be ignored.
 
@@ -117,14 +118,27 @@ def edit(obj, data, order=None, ignores=None):
         if key in order or key in ignores: continue
         setattr(accessor, key, val)
 
+    # cleanup and delete unused attributes on the context
+    accessor.cleanup()
+
     obj.reindexObject()
 
 
-def _flatten_data(data):
+def _flatten_data(data, required_or_delete):
     """ Flatten the nested data structure.
 
-        Please note, the data structure shouldn't use a key twice! Two keys
-        with the same name are getting overwritten.
+        @param data: Nested data structure: {fieldset: {fieldname: value}}
+
+        @param feature_fieldset_map: Dictionary with featurename to fieldsets
+        @param required_or_delete: List of fieldnames which are required or -
+                                   if the value is not present in data, deleted
+                                   from the object.
+
+        @returns:    Flat data structure:   {fieldname: value}
+
+        The fieldnames should be unique over the data parameter nested
+        structure. Two keys with the same name are getting overwritten.
+
     """
     items = {}
     for key, val in data.iteritems():
@@ -180,32 +194,32 @@ class Sharingbox(BrowserView):
     def _save(self, data):
         raise NotImplementedError
 
-    def set_data(self, obj, data):
-
-        # access content via an accessor, respecting the behaviors
-        accessor = IBasetypeAccessor(obj)
-
-        # first, en/disable behaviors
-        for feature in self.features:
-            setattr(accessor, feature, data['features'][feature].extracted)
-
-        # then set all other attributes
-        for basepath, keys in self.defaults.items():
-            for key in keys:
-                datum = data[basepath][key].extracted
-                if basepath == 'features-title' and not data['features']['is_title'].extracted or\
-                   basepath == 'features-event' and not data['features']['is_event'].extracted:
-                    try: delattr(accessor, key)
-                    except AttributeError: continue
-                    continue
-
-                if datum is UNSET: continue
-                else:
-                    if key=='text': # TODO: yafowil should return unicode object here...
-                        datum = RichTextValue(raw=unicode(datum.decode('utf-8')))
-                    setattr(accessor, key, datum)
-
-        obj.reindexObject()
+    #    def set_data(self, obj, data):
+    #
+    #        # access content via an accessor, respecting the behaviors
+    #        accessor = IBasetypeAccessor(obj)
+    #
+    #        # first, en/disable behaviors
+    #        for feature in self.features:
+    #            setattr(accessor, feature, data['features'][feature].extracted)
+    #
+    #        # then set all other attributes
+    #        for basepath, keys in self.defaults.items():
+    #            for key in keys:
+    #                datum = data[basepath][key].extracted
+    #                if basepath == 'features-title' and not data['features']['is_title'].extracted or\
+    #                   basepath == 'features-event' and not data['features']['is_event'].extracted:
+    #                    try: delattr(accessor, key)
+    #                    except AttributeError: continue
+    #                    continue
+    #
+    #                if datum is UNSET: continue
+    #                else:
+    #                    if key=='text': # TODO: yafowil should return unicode object here...
+    #                        datum = RichTextValue(raw=unicode(datum.decode('utf-8')))
+    #                    setattr(accessor, key, datum)
+    #
+    #        obj.reindexObject()
 
 
     # features
