@@ -243,25 +243,37 @@ class Sharingbox(BrowserView):
         query = {}
         query['object_provides'] = IPlace.__identifier__
         query['sort_on'] = 'sortable_title'
-        return [it.Title for it in cat(**query)]
+        return [(it.id, it.Title) for it in cat(**query)]
 
     @property
     def vocabulary_timezones(self):
         return pytz.all_timezones
 
 
-    def _json_vocab(self, items):
+    def _json_vocab(self, items, tuples=False):
         """ Return a json string from a list filtered by a query string.
 
         """
         req = self.request
         req.response.setHeader("Content-type", "application/json")
+        query = None
         if 'q' in req.form:
             # filter by query string in tag's title.
             # for better matching, all lower cased.
             query = req.form['q']
-            items = [item for item in items if query.lower() in item.lower()]
-        item_map = map(lambda tag: dict(v=tag), items)
+
+        # apply filter
+        if tuples and query:
+            items = filter(lambda it: query.lower() in it[1].lower(), items)
+        elif query:
+            items = filter(lambda it: query.lower() in it.lower(), items)
+
+        # map items into datastructure
+        if tuples:
+            item_map = map(lambda it: dict(v=it[0], n=it[1]), items)
+        else:
+            item_map = map(lambda it: dict(v=it), items)
+
         json_string = json.dumps(item_map)
         return json_string
 
@@ -278,7 +290,7 @@ class Sharingbox(BrowserView):
         """ Return a json string with locations filtered by a query string.
 
         """
-        return self._json_vocab(self.vocabulary_locations)
+        return self._json_vocab(self.vocabulary_locations, tuples=True)
 
     def query_timezones(self):
         """ Return a json string with timezones filtered by a query string.
