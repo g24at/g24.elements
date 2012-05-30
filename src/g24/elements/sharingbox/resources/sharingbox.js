@@ -220,9 +220,7 @@
         editor.observe("load", function () {
             $(this.composer.iframe).autoResize();
         });
-        
         editor.observe("change", function(){shbx_dirty=1;});
-
 
         $('.datepicker').dateinput({
             format: 'yyyy-mm-dd', // display format
@@ -246,10 +244,13 @@
             ajaxURL: document.baseURI + '@@json_recurrence'
         });
 
-
         /* submit */
         $('#sharingbox>form').submit(function (event) {
             event.preventDefault();
+            
+            // process autosuggest fields
+            autosuggest_submit_handler(this);
+            
             //$('#sharingbox-text').val($('#sharingbox-facade-content').html());
             var form_data = $('#sharingbox>form').serialize();
             var form_submit = $('#sharingbox>form input[type="submit"]');
@@ -281,6 +282,9 @@
         $(window).on('beforeunload',function(){
             if ( isInputDirty() ) return false;
         });
+        
+        autosuggest_transform_element($("textarea.autosuggest"));
+        autosuggest_transform_element($("input.autosuggest"));
     }
     
     /*
@@ -295,5 +299,76 @@
     $(document).ready(function () {
         sharingbox_enable();
     });
+    
+    
+    /*
+     * Auto-Suggestion
+     */
+    function autosuggest_transform_element(element, options) {
+    	var default_options = {
+    		preFill:"",
+    		selectedItemProp: "v",
+    		searchObjProps: "name,v",
+    		selectedValuesProp:"v",
+    		queryParam: "q",
+    		minChars: 1,
+    		resultsHighlight: true,
+    		keyDelay: 400,
+    		neverSubmit: true, // block submit through <return>key
+    		limitText:"No more selections allowed",
+    	};
+    		
+    	options = (typeof options !== 'undefined') ? $.merge(options, default_options) : default_options;
+
+    	if ( element.prop('nodeName').toLowerCase() != 'textarea') {
+    		// single value
+    		options.selectionLimit = 1;
+    		// options.selectionAdded = function(el) {};
+    	}
+    	
+    	// determine ajax endpoint
+    	classes = element.attr('class').split(/\s+/);
+    	for ( i in classes ) {
+    		if (classes[i].indexOf('autosuggest-vocabulary') != -1) {
+    			query_endpoint = classes[i].split('-').pop();		
+    		}
+    	}
+    	query_endpoint 		= "http://localhost:9000/stream/@@sharingbox_edit/" + query_endpoint;
+    	
+    	options.preFill 	= element.attr('value').split("\n").join(",");
+
+    	elname 	= element.attr('name');
+    	newname = '_g-auto_' + elname; // create name for intermediate field
+    	options.asHtmlID = elname.replace(/\./g,"-_-");  // set ID to reference orig. field later
+    	autosuggest = $('<input type="text" name="' + newname + '"/>'); 
+    	element.after(autosuggest); // add intermediate field
+
+    	// remove original field, insert again as hidden field
+    	element.remove();
+    	autosuggest.after('<input type="hidden" class="'+(options.selectionLimit==1?'single':'')+'" name="' + element.attr('name') + '" value="' + element.attr('value') + '"/>');
+
+    	// enable autosuggest for new field
+    	autosuggest.autoSuggest( query_endpoint, options );
+    }
+
+    function autosuggest_submit_handler(form)
+    {
+    	$(".as-values").each(function(index,element) {
+    			// perpare value (strip empty tags)
+    			tags = element.value.split(',');
+    			realtags = Array();
+    			for ( i in tags ) { 
+    				if ((tagv = tags[i].trim()) != '') { realtags.push(tagv); }
+    			}
+    				
+    			// determine name/selector for the original formfield
+    			origname 	= element.name.replace(/-_-/g,".").replace('as_values_','');  // recover orig. fieldname			
+    			origfield 	= $('[name='+origname.replace(/\./g,"\\.")+']'); // escape dot in selector '.' 
+
+    			// set value to orig. field
+    			fieldvalue	= origfield.hasClass('single') ? realtags[0] : realtags.join("\n");
+    			origfield.attr('value', fieldvalue);	
+    		});
+    }
 
 }(jQuery));
