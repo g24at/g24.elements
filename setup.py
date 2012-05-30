@@ -35,6 +35,6 @@ setup(name='g24.elements',
           'yafowil.widget.datetime',
           'plone.app.jquery>=1.7',
           'collective.jqueryui',
-          'Solgema.fullcalendar'
+          #'Solgema.fullcalendar'
       ],
       )
