@@ -124,7 +124,7 @@ def edit(obj, data, order=None, ignores=None):
     obj.reindexObject()
 
 
-def _flatten_data(data, required_or_delete):
+def _flatten_data(data):
     """ Flatten the nested data structure.
 
         @param data: Nested data structure: {fieldset: {fieldname: value}}
