@@ -70,8 +70,10 @@ class BaseBehavior(object):
     def _get_text(self):
         return self.context.text.output
     def _set_text(self, value):
-        text = RichTextValue(raw=unicode(value.decode('utf-8')))
-        self.context.text = text
+        if not isinstance(value, unicode):
+            # we assume values to be utf-8 encoded.
+            value = unicode(value.decode('utf-8'))
+        self.context.text = RichTextValue(raw=value)
     text = property(_get_text, _set_text)
 
     def _get_subjects(self):
