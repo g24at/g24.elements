@@ -261,5 +261,7 @@ class BasetypeAccessor(object):
 
     def _delattrs(self, attrs):
         for attr in attrs:
+            # self.context.title cannot be deleted. after deleting, it will be
+            # instantly magically set to ''
             try: delattr(self.context, attr)
             except: pass
