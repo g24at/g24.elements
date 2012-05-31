@@ -28,7 +28,6 @@ from g24.elements import messageFactory as _
 
 
 EDIT, ADD = 0, 1
-FILEMARKER = object()
 
 FEATURES = [
     'is_title',
