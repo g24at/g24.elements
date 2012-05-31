@@ -118,10 +118,6 @@ def edit(obj, data, order=None, ignores=None):
         if key in order or key in ignores: continue
         setattr(accessor, key, val)
 
-    #import pdb; pdb.set_trace()
-    # cleanup and delete unused attributes on the context
-    #accessor.cleanup()
-
     obj.reindexObject()
 
 

@@ -224,38 +224,42 @@ class BasetypeAccessor(object):
             pass
 
 
-    def get_is_title(self):
+    @property
+    def is_title(self):
         return ITitle.providedBy(self.context)
-    def set_is_title(self, value):
+    @is_title.setter
+    def is_title(self, value):
         if value:
             enable_behaviors(self.context, TITLE_BEHAVIORS, TITLE_INTERFACES)
         else:
-            for attr in ('title'):
-                try: delattr(self.context, attr)
-                except: pass
+            self._delattrs(['title'])
             disable_behaviors(self.context, TITLE_BEHAVIORS, TITLE_INTERFACES)
-    is_title = property(get_is_title, set_is_title)
 
-    def get_is_event(self):
+    @property
+    def is_event(self):
         return IDXEvent.providedBy(self.context)
-    def set_is_event(self, value):
+    @is_event.setter
+    def is_event(self, value):
         if value:
             enable_behaviors(self.context, EVENT_BEHAVIORS, EVENT_INTERFACES)
         else:
-           # delete the orphaned attribute from an deleted behavior
-            for attr in ('start', 'end', 'timezone', 'whole_day', 'recurrence', 'location'):
-                try: delattr(self.context, attr)
-                except: pass
+            # delete the orphaned attribute from an deleted behavior
+            self._delattrs(['start', 'end', 'timezone', 'whole_day',
+                            'recurrence', 'location'])
             disable_behaviors(self.context, EVENT_BEHAVIORS, EVENT_INTERFACES)
-    is_event = property(get_is_event, set_is_event)
 
-    def get_is_place(self):
+    @property
+    def is_place(self):
         return IPlace.providedBy(self.context)
-    def set_is_place(self, value):
+    @is_place.setter
+    def is_place(self, value):
         if value:
             enable_behaviors(self.context, PLACE_BEHAVIORS, PLACE_INTERFACES)
         else:
             disable_behaviors(self.context, PLACE_BEHAVIORS, PLACE_INTERFACES)
 
 
-    is_place = property(get_is_place, set_is_place)
+    def _delattrs(self, attrs):
+        for attr in attrs:
+            try: delattr(self.context, attr)
+            except: pass
