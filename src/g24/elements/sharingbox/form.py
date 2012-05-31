@@ -29,6 +29,7 @@ from g24.elements import messageFactory as _
 
 EDIT, ADD = 0, 1
 
+G24_BASETYPE = 'g24.elements.basetype'
 FEATURES = [
     'is_title',
     'is_event',
@@ -49,7 +50,7 @@ DEFAULTS = {
         'location': UNSET,
     },
 }
-
+IGNORES = ['save']
 
 def create(context, type_):
     """ Create element, set attributes and add it to container.
@@ -153,7 +154,7 @@ class Sharingbox(BrowserView):
         self.context = context
         self.request = request
 
-        self.ignores = ['save']
+        self.ignores = IGNORES
         self.features = FEATURES
         self.defaults = DEFAULTS
         self.defaults['features-event']['timezone'] = default_timezone(self.context)
@@ -310,7 +311,7 @@ class Sharingbox(BrowserView):
 
 
 class SharingboxAdd(Sharingbox):
-    portal_type = 'g24.elements.basetype'
+    portal_type = G24_BASETYPE
     mode = ADD
 
     def _save(self, data):
