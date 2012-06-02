@@ -19,6 +19,7 @@ class ThreadView(BrowserView):
         parent = aq_parent(self.context)
         if parent and not IBasetype.providedBy(parent): parent = None
         self.parent = aq_inner(parent)
+        print("ThreadView __init__ %s" % str(context))
 
     def itemtree(self):
         context = self.context
@@ -28,14 +29,17 @@ class ThreadView(BrowserView):
         #query['path']['depth'] = BOTTOMLEVEL
         query['sort_on'] = 'created'
         query['sort_order'] = 'reverse'
+        print("ThreadView itemtree %s" % str(context))
 
         return buildFolderTree(context, obj=context, query=query)
 
     def start_recurse(self):
+        print("ThreadView start_recurse %s" % str(self.context))
         return self.recurse(children=self.itemtree().get('children', []),
             level=1, bottomLevel=self.bottomlevel)
 
     def element_provider(self, context):
+        print("ThreadView element_provider %s" % str(context))
         provider = getMultiAdapter((context, self.request, self),
                                    IContentProvider,
                                    name=u"element_provider")
