@@ -8,12 +8,26 @@
 <body>
 
 <metal:content-core fill-slot="content-core"><metal:block define-macro="content-core">
-<ul class="threadview">
-  <li class="threadview-level-0">
-    <tal:article replace="structure python:view.element_provider(context)"/>
-    <tal:threadrunner replace="structure view/start_recurse"/>
+<ul class="threadview parent" tal:define="parent nocall:view/parent" tal:omit-tag="not:parent">
+  <li class="threadview-level--1 parent" tal:omit-tag="not:parent">
+
+    <tal:article
+        replace="structure python:view.element_provider(parent)"
+        condition="parent" />
+
+    <ul class="threadview">
+      <li class="threadview-level-0">
+
+        <tal:article replace="structure python:view.element_provider(context)" />
+
+        <tal:threadrunner replace="structure view/start_recurse" />
+
+      </li>
+    </ul>
+
   </li>
 </ul>
+
 </metal:block></metal:content-core>
 </body>
 </html>

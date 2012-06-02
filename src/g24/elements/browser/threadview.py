@@ -1,3 +1,4 @@
+from Acquisition import aq_base, aq_inner, aq_parent
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.layout.navigation.navtree import buildFolderTree
@@ -8,6 +9,16 @@ from g24.elements.behaviors import IBasetype
 BOTTOMLEVEL = 6
 
 class ThreadView(BrowserView):
+
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+
+        #parent = getattr(context, '__parent__', None)
+        #parent = self.context.getParentNode()
+        parent = aq_parent(self.context)
+        if parent and not IBasetype.providedBy(parent): parent = None
+        self.parent = aq_inner(parent)
 
     def itemtree(self):
         context = self.context
