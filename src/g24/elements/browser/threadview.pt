@@ -11,16 +11,25 @@
 <ul class="threadview parent" tal:define="parent nocall:view/parent" tal:omit-tag="not:parent">
   <li class="threadview-level--1 parent" tal:omit-tag="not:parent">
 
-    <tal:article
-        replace="structure python:view.element_provider(parent)"
-        condition="parent" />
+    <div class="parent-element">
+      <legend>Parent</legend>
+      <tal:article
+          replace="structure python:view.element_provider(parent)"
+          condition="parent" />
+    </div>
 
     <ul class="threadview">
       <li class="threadview-level-0">
 
-        <tal:article replace="structure python:view.element_provider(context)" />
+        <div class="current-element">
+          <legend>This</legend>
+          <tal:article replace="structure python:view.element_provider(context)" />
+        </div>
 
-        <tal:threadrunner replace="structure view/start_recurse" />
+        <div class="sub-element">
+          <legend>Answers</legend>
+          <tal:threadrunner replace="structure view/start_recurse" />
+        </div>
 
       </li>
     </ul>

@@ -5,12 +5,23 @@ ul.threadview li {
 #sharingbox,
 article.element {
     border-radius:0px 20px 5px 20px;
-    border:1px solid grey;
+    border:1px solid black;
     max-width:50em;
     min-width:15em;
     padding:1em 2em;
     margin:1em 0; }
-article.element header h1 { margin:0 !important; }
+article.element header h1 { margin:0 !important; font-size:1.4em; }
+.parent-element { font-size:0.8em; }
+.current-element { font-size:1em; }
+.sub-element { font-size:0.9em; }
+
+.parent-element article, .sub-element article {
+    box-shadow: 5px 5px 2px #888;
+}
+.current-element article {
+    border-color:#0F0;
+    box-shadow: 5px 5px 2px #050;
+}
 
 
 article.element img { max-width:100%; }
