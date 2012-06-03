@@ -4,6 +4,7 @@ ul.threadview li {
     border-left:1px solid #EAEAEA; }
 #sharingbox,
 article.element {
+    background-color:white;
     border-radius:0px 20px 5px 20px;
     border:1px solid black;
     max-width:50em;
@@ -11,14 +12,11 @@ article.element {
     padding:1em 2em;
     margin:1em 0; }
 article.element header h1 { margin:0 !important; font-size:1.4em; }
-.parent-element { font-size:0.8em; }
-.current-element { font-size:1em; }
-.sub-element { font-size:0.9em; }
 
-.parent-element article, .sub-element article {
+article.element {
     box-shadow: 5px 5px 2px #888;
 }
-.current-element article {
+article.element:hover {
     border-color:#0F0;
     box-shadow: 5px 5px 2px #050;
 }

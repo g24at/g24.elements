@@ -1,6 +1,6 @@
-<div xmlns="http://www.w3.org/1999/xhtml"
+<article xmlns="http://www.w3.org/1999/xhtml"
      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
      i18n:domain="g24.elements"
-     id="sharingbox">
+     id="sharingbox" class="element">
   <tal:form replace="structure python:view.controller.rendered" />
-</div>
+</article>

@@ -17,8 +17,11 @@ class ThreadView(BrowserView):
         #parent = getattr(context, '__parent__', None)
         #parent = self.context.getParentNode()
         parent = aq_parent(self.context)
-        if parent and not IBasetype.providedBy(parent): parent = None
-        self.parent = aq_inner(parent)
+        parent_url = None
+        if parent and IBasetype.providedBy(parent):
+            parent_url = parent.absolute_url()
+        self.parent_url = parent_url
+
         print("ThreadView __init__ %s" % str(context))
 
     def itemtree(self):
