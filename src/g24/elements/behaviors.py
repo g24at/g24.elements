@@ -1,6 +1,7 @@
 from zope import schema
 from zope.interface import alsoProvides, Interface, implements
 from zope.component import adapts
+from zope.component.hooks import getSite
 from plone.app.event.dx.behaviors import (
     IEventBasic,
     IEventRecurrence,
@@ -13,6 +14,7 @@ from plone.app.event.dx.interfaces import (
 )
 from plone.app.textfield import RichText
 from plone.app.textfield.value import RichTextValue
+from plone.app.textfield.interfaces import ITransformer
 from plone.directives import form
 from plone.indexer import indexer
 from z3c.form.browser.textlines import TextLinesFieldWidget
@@ -67,7 +69,7 @@ def searchable_text_indexer(obj):
     # TODO: remove HTML via portal_transforms or plone.app.textfield transform
 
     acc = IBasetypeAccessor(obj)
-    text = acc.text
+    text = acc.plaintext
     title = acc.title
 
     # concat, but only if item not ''
@@ -228,6 +230,20 @@ class BasetypeAccessor(object):
             # attribute not set:
             pass
 
+
+    @property
+    def plaintext(self):
+        behavior = IBase(self.context, None)
+        value = getattr(behavior, 'text', None)
+        if isinstance(value, RichTextValue):
+            site = getSite()
+            trans = ITransformer(site)
+            value = trans(value, 'text/plain')
+        else:
+            raise NotImplementedError(u"""IBasetypeAccessor has no plaintext
+                                          transform implementation for %s."""
+                                      % value)
+        return value
 
     @property
     def is_title(self):
