@@ -66,19 +66,10 @@ def searchable_text_indexer(obj):
 
     # TODO: remove HTML via portal_transforms or plone.app.textfield transform
 
-    def _get_safe_text(behavior, attr):
-        # return unicode text object from a behavior's attribute
-        txt = getattr(behavior, attr, None)
-        if txt and not isinstance(txt, unicode):
-            txt = txt.decode('utf-8')
-        return txt
+    acc = IBasetypeAccessor(obj)
+    text = acc.text
+    title = acc.title
 
-    base_behavior = IBase(obj, None)
-    title_behavior = ITitle(obj, None)
-    title = _get_safe_text(title_behavior, 'title')
-    text = _get_safe_text(base_behavior, 'text')
-
-    print("indexing %s" % obj)
     # concat, but only if item not ''
     return u' '.join([item for item in [title, text] if item])
 
@@ -202,7 +193,10 @@ class BasetypeAccessor(object):
            behavior = bm[name](self.context, None)
            if behavior:
                value = getattr(behavior, name, None)
-               if isinstance(value, RichTextValue): value = value.output
+               if isinstance(value, RichTextValue):
+                   value = value.output
+                   if not isinstance(value, unicode):
+                       value = value.decode('utf-8')
                return value
         return None
 
