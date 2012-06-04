@@ -36,6 +36,7 @@
         for=".behaviors.IBasetype"
         />
 
+    <adapter name="SearchableText" factory=".behaviors.searchable_text_indexer" />
     <adapter factory=".behaviors.BasetypeAccessor" />
 
 </configure>

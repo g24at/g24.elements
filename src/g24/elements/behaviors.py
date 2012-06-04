@@ -14,6 +14,7 @@ from plone.app.event.dx.interfaces import (
 from plone.app.textfield import RichText
 from plone.app.textfield.value import RichTextValue
 from plone.directives import form
+from plone.indexer import indexer
 from z3c.form.browser.textlines import TextLinesFieldWidget
 
 from g24.elements.interfaces import IBasetypeAccessor
@@ -46,6 +47,7 @@ class IBase(form.Schema):
         )
     form.widget(subjects = TextLinesFieldWidget)
 alsoProvides(IBase, form.IFormFieldProvider)
+
 
 class ITitle(form.Schema):
     title = schema.TextLine(
@@ -82,6 +84,26 @@ class BaseBehavior(object):
         self.context.subject = value
     subjects = property(_get_subjects, _set_subjects)
 
+
+@indexer(IBasetype)
+def searchable_text_indexer(obj):
+
+    # TODO: remove HTML via portal_transforms or plone.app.textfield transform
+
+    def _get_safe_text(behavior, attr):
+        # return unicode text object from a behavior's attribute
+        txt = getattr(behavior, attr, None)
+        if txt and not isinstance(txt, unicode):
+            txt = txt.decode('utf-8')
+        return txt
+
+    base_behavior = IBase(obj, None)
+    title_behavior = ITitle(obj, None)
+    title = _get_safe_text(title_behavior, 'title')
+    text = _get_safe_text(base_behavior, 'text')
+
+    # concat, but only if item not ''
+    return u' '.join([item for item in [title, text] if item])
 
 
 EVENT_INTERFACES = (IDXEvent, IDXEventRecurrence, IDXEventLocation)
