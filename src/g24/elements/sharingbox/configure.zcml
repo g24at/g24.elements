@@ -22,7 +22,7 @@
 
   <browser:page
       name="sharingbox_edit"
-      for="g24.elements.behaviors.IBasetype"
+      for="g24.elements.interfaces.IBasetype"
       layer="g24.elements.interfaces.IG24ElementsLayer"
       class=".form.SharingboxEdit"
       permission="g24.ModifyBasetype"

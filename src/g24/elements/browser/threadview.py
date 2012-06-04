@@ -1,10 +1,10 @@
-from Acquisition import aq_base, aq_inner, aq_parent
+from Acquisition import aq_parent
 from Products.Five.browser import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.app.layout.navigation.navtree import buildFolderTree
 from zope.component import getMultiAdapter
 from zope.contentprovider.interfaces import IContentProvider
-from g24.elements.behaviors import IBasetype
+from g24.elements.interfaces import IBasetype
 
 BOTTOMLEVEL = 6
 

@@ -19,7 +19,7 @@
     </property>
     
     <!-- Schema, class and security -->
-    <property name="schema">g24.elements.behaviors.IBasetype</property> 
+    <property name="schema">g24.elements.interfaces.IBasetype</property> 
     <property name="klass">plone.dexterity.content.Container</property>
     <property name="add_permission">g24.AddBasetype</property>
  

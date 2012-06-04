@@ -16,7 +16,7 @@
         />
 
      <browser:page
-        for="g24.elements.behaviors.IBasetype"
+        for="g24.elements.interfaces.IBasetype"
         name="element"
         template="element.pt"
         permission="zope2.View"
@@ -24,7 +24,7 @@
         />
 
      <browser:page
-        for="g24.elements.behaviors.IBasetype"
+        for="g24.elements.interfaces.IBasetype"
         name="stream"
         class=".streamview.StreamView"
         template="streamview.pt"
@@ -33,7 +33,7 @@
         />
 
     <browser:page
-        for="g24.elements.behaviors.IBasetype"
+        for="g24.elements.interfaces.IBasetype"
         name="thread"
         class=".threadview.ThreadView"
         template="threadview.pt"

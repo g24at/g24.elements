@@ -17,15 +17,13 @@ from plone.directives import form
 from plone.indexer import indexer
 from z3c.form.browser.textlines import TextLinesFieldWidget
 
-from g24.elements.interfaces import IBasetypeAccessor
+from g24.elements.interfaces import (
+    IBasetype,
+    IBasetypeAccessor
+)
 from g24.elements.instancebehaviors import enable_behaviors, disable_behaviors
 from g24.elements import messageFactory as _
 
-
-
-class IBasetype(form.Schema):
-    """ g24.elements Basetype content.
-    """
 
 
 class IBase(form.Schema):
@@ -59,30 +57,8 @@ class ITitle(form.Schema):
 alsoProvides(ITitle, form.IFormFieldProvider)
 
 
-
 class IPlace(Interface):
     """ Behavior marker interface for places. """
-
-
-class BaseBehavior(object):
-
-    def __init__(self, context):
-        self.context = context
-
-    def _get_text(self):
-        return self.context.text.output
-    def _set_text(self, value):
-        if not isinstance(value, unicode):
-            # we assume values to be utf-8 encoded.
-            value = unicode(value.decode('utf-8'))
-        self.context.text = RichTextValue(raw=value)
-    text = property(_get_text, _set_text)
-
-    def _get_subjects(self):
-        return self.context.subject
-    def _set_subjects(self, value):
-        self.context.subject = value
-    subjects = property(_get_subjects, _set_subjects)
 
 
 @indexer(IBasetype)
@@ -128,7 +104,7 @@ class BasetypeAccessor(object):
         TODO: Create a mock object / real object with is_event feature enabled.
         >>> context
         <Container at /Plone/stream>
-        >>> from g24.elements.behaviors import IBasetype
+        >>> from g24.elements.interfaces import IBasetype
         >>> IBasetype.providedBy(context)
         True
         >>> from g24.elements.interfaces import IBasetypeAccessor
@@ -223,7 +199,10 @@ class BasetypeAccessor(object):
         bm = self._behavior_map
         if name in bm: # adapt object with behavior and return the attribute
            behavior = bm[name](self.context, None)
-           if behavior: return getattr(behavior, name, None)
+           if behavior:
+               value = getattr(behavior, name, None)
+               if isinstance(value, RichTextValue): value = value.output
+               return value
         return None
 
     def __setattr__(self, name, value):
@@ -233,7 +212,14 @@ class BasetypeAccessor(object):
             object.__setattr__(self, name, value)
         elif name in bm: # set the attributes on behaviors
             behavior = bm[name](self.context, None)
-            if behavior: setattr(behavior, name, value)
+            if behavior:
+                if name == 'text':
+                    # text must be a RichTextValue
+                    if not isinstance(value, unicode):
+                        # we assume values to be utf-8 encoded.
+                        value = unicode(value.decode('utf-8'))
+                    value = RichTextValue(raw=value)
+                setattr(behavior, name, value)
 
     def __delattr__(self, name):
         bm = self._behavior_map

@@ -14,26 +14,21 @@
         title="Base behavior"
         description="Text with formating options and subject tags."
         provides=".behaviors.IBase"
-        factory=".behaviors.BaseBehavior"
-        for=".behaviors.IBasetype"
-        /><!-- marker=".behaviors.IBase" doesn't work here.
-               behavior with custom factory cannot easily provide it's
-               implementation interface as marker interface. -->
+        for=".interfaces.IBasetype"
+        />
 
     <plone:behavior
         title="Title"
         description="Title for the Basetype."
         provides=".behaviors.ITitle"
-        factory="plone.behavior.AnnotationStorage"
-        for=".behaviors.IBasetype"
-        marker=".behaviors.ITitle"
+        for=".interfaces.IBasetype"
         />
 
     <plone:behavior
         title="Place"
         description="A Place"
         provides=".behaviors.IPlace"
-        for=".behaviors.IBasetype"
+        for=".interfaces.IBasetype"
         />
 
     <adapter name="SearchableText" factory=".behaviors.searchable_text_indexer" />
