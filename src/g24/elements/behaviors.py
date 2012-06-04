@@ -78,6 +78,7 @@ def searchable_text_indexer(obj):
     title = _get_safe_text(title_behavior, 'title')
     text = _get_safe_text(base_behavior, 'text')
 
+    print("indexing %s" % obj)
     # concat, but only if item not ''
     return u' '.join([item for item in [title, text] if item])
 
