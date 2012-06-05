@@ -242,10 +242,7 @@ class BasetypeAccessor(object):
             site = getSite()
             trans = ITransformer(site)
             value = trans(value, 'text/plain')
-        else:
-            raise NotImplementedError(u"""IBasetypeAccessor has no plaintext
-                                          transform implementation for %s."""
-                                      % value)
+        # if not, do just index the value as is. (maybe attr not yet set?)
         return value
 
     @property
