@@ -19,32 +19,6 @@
         return typeof arg !== 'undefined' ? arg : def;
     }
 
-    function urlify(text) {
-        /* based on:
-           http://stackoverflow.com/questions/1500260/detect-urls-in-text-with-javascript
-           http://www.codinghorror.com/blog/2008/10/the-problem-with-urls.html
-
-           The following RegExp matches only URLs after an whitespace or
-           newline character or at the beginning of the text. It doesn't match
-           any URLs with preceding characters like: src="http://test nor URLs
-           in parenthesis (http://...)
-
-           ^(https?://[^\s]+)|[\s\n](https?://[^\s]+)
-           */
-        //var urlRegex = /[^"'](https?:\/\/[^\s<]+)/g;
-        var urlRegex = /[^"']?(https?:\/\/[^\s<]+)/g;
-        return text.replace(urlRegex, function (url) {
-            if (url.substr(0, 5) === 'https') { urlnoprot = url.substr(9); }
-            else { urlnoprot = url.substr(8); }
-            var urlpart = url.substr(-4);
-            if (urlpart === '.png' | urlpart === '.gif' | urlpart === '.jpg') {
-                return '<img src="' + url + '"/>';
-            } else {
-                return '<a href="' + url + '">' + urlnoprot + '</a>';
-            }
-        });
-    }
-
 
     /*
      * SHARINGBOX INTEGRATION
@@ -87,29 +61,6 @@
         var context = $(linkel).closest('article');
         var context_id = context.attr('id');
         shbx_last_context = context_id;
-
-// replaced .get by .ajax
-//        /* ajax get */
-//        $.get($(linkel).attr('href'), function(data){
-//            if (mode===ADD) {
-//                if ($(context_id + ' ul').length) {
-//                    /* Add (new element in existing subthread) */
-//                    $(context_id + ' ul').before('<li id="sharingbox_li_wrapper"></li>');
-//                } else {
-//                    /* Add (mew subthread) */
-//                    context.after('<ul id="sharingbox_ul_wrapper"><li id="sharingbox_li_wrapper"></li></ul>');
-//                }
-//                $('#sharingbox_li_wrapper').html($(data));
-//            }
-//            else {
-//                context.hide();
-//                context.after($(data));
-//            }
-//            sharingbox_init(context, mode);
-//
-//            // release lock
-//            shbx_lock = 0;
-//        });
 
         /* ajax get */
         $.ajax({
@@ -160,36 +111,6 @@
          * @param context: JQuery context, in which the sharingbox will be created.
          * @param mode: 0..Edit, 1..Add
          * */
-
-        /* wysiwyg */
-        /*
-        $('#sharingbox-facade-content').html($('#sharingbox-text').val());
-        $('#sharingbox-facade-content').show();
-        $('#sharingbox-text').hide();
-        $('#sharingbox-facade-bold').click(function(event){
-            event.preventDefault();
-            document.execCommand('StyleWithCSS', false, false);
-            document.execCommand('bold',false,null);
-        });
-        $('#sharingbox-facade-italic').click(function(event){
-            event.preventDefault();
-            document.execCommand('StyleWithCSS', false, false);
-            document.execCommand('italic',false,null);
-        });
-        */
-        /* urlify */
-        /*
-        var timeout;
-          $('#sharingbox-facade-content').bind('textchange', function () {
-          clearTimeout(timeout);
-          var self = this;
-          timeout = setTimeout(function () {
-          $('#sharingbox-facade-content').html(
-          urlify($('#sharingbox-facade-content').html())
-          ); }, 1000);
-        });
-        */
-
 
         /* fieldsets */
         function initialize_features(checkbox, fieldset) {
@@ -326,70 +247,72 @@
      * Auto-Suggestion
      */
     function autosuggest_transform_element(element, options) {
-    	var default_options = {
-    		preFill:"",
-    		selectedItemProp: "v",
-    		searchObjProps: "name,v",
-    		selectedValuesProp:"v",
-    		queryParam: "q",
-    		minChars: 1,
-    		resultsHighlight: true,
-    		keyDelay: 400,
-    		neverSubmit: true, // block submit through <return>key
-    		limitText:"No more selections allowed",
-    	};
-    		
-    	options = (typeof options !== 'undefined') ? $.merge(options, default_options) : default_options;
+        var default_options = {
+            preFill:"",
+            selectedItemProp: "v",
+            searchObjProps: "name,v",
+            selectedValuesProp:"v",
+            queryParam: "q",
+            minChars: 1,
+            resultsHighlight: true,
+            keyDelay: 400,
+            neverSubmit: true, // block submit through <return>key
+            limitText:"No more selections allowed",
+        };
+            
+        options = (typeof options !== 'undefined') ? $.merge(options, default_options) : default_options;
 
-    	if ( element.prop('nodeName').toLowerCase() != 'textarea') {
-    		// single value
-    		options.selectionLimit = 1;
-    		// options.selectionAdded = function(el) {};
-    	}
-    	
-    	// determine ajax endpoint
-    	classes = element.attr('class').split(/\s+/);
-    	for ( i in classes ) {
-    		if (classes[i].indexOf('autosuggest-vocabulary') != -1) {
-    			query_endpoint = classes[i].split('-').pop();		
-    		}
-    	}
-    	query_endpoint 		= "http://localhost:9000/stream/@@sharingbox_edit/" + query_endpoint;
-    	
-    	options.preFill 	= element.attr('value').split("\n").join(",");
+        if ( element.prop('nodeName').toLowerCase() != 'textarea') {
+            // single value
+            options.selectionLimit = 1;
+            // options.selectionAdded = function(el) {};
+        }
+        
+        // determine ajax endpoint
+        classes = element.attr('class').split(/\s+/);
+        var item;
+        for (item in classes ) {
+            if (classes[item].indexOf('autosuggest-vocabulary') != -1) {
+                query_endpoint = classes[item].split('-').pop();       
+            }
+        }
+        query_endpoint      = "http://localhost:9000/stream/@@sharingbox_edit/" + query_endpoint;
+        
+        options.preFill     = element.attr('value').split("\n").join(",");
 
-    	elname 	= element.attr('name');
-    	newname = '_g-auto_' + elname; // create name for intermediate field
-    	options.asHtmlID = elname.replace(/\./g,"-_-");  // set ID to reference orig. field later
-    	autosuggest = $('<input type="text" name="' + newname + '"/>'); 
-    	element.after(autosuggest); // add intermediate field
+        elname  = element.attr('name');
+        newname = '_g-auto_' + elname; // create name for intermediate field
+        options.asHtmlID = elname.replace(/\./g,"-_-");  // set ID to reference orig. field later
+        autosuggest = $('<input type="text" name="' + newname + '"/>'); 
+        element.after(autosuggest); // add intermediate field
 
-    	// remove original field, insert again as hidden field
-    	element.remove();
-    	autosuggest.after('<input type="hidden" class="'+(options.selectionLimit==1?'single':'')+'" name="' + element.attr('name') + '" value="' + element.attr('value') + '"/>');
+        // remove original field, insert again as hidden field
+        element.remove();
+        autosuggest.after('<input type="hidden" class="'+(options.selectionLimit==1?'single':'')+'" name="' + element.attr('name') + '" value="' + element.attr('value') + '"/>');
 
-    	// enable autosuggest for new field
-    	autosuggest.autoSuggest( query_endpoint, options );
+        // enable autosuggest for new field
+        autosuggest.autoSuggest( query_endpoint, options );
     }
 
     function autosuggest_submit_handler(form)
     {
-    	$(".as-values").each(function(index,element) {
-    			// perpare value (strip empty tags)
-    			tags = element.value.split(',');
-    			realtags = Array();
-    			for ( i in tags ) { 
-    				if ((tagv = tags[i].trim()) != '') { realtags.push(tagv); }
-    			}
-    				
-    			// determine name/selector for the original formfield
-    			origname 	= element.name.replace(/-_-/g,".").replace('as_values_','');  // recover orig. fieldname			
-    			origfield 	= $('[name='+origname.replace(/\./g,"\\.")+']'); // escape dot in selector '.' 
+        $(".as-values").each(function(index,element) {
+                // perpare value (strip empty tags)
+                tags = element.value.split(',');
+                realtags = Array();
+                var item;
+                for (item in tags) { 
+                    if ((tagv = tags[item].trim()) !== '') { realtags.push(tagv); }
+                }
+                    
+                // determine name/selector for the original formfield
+                origname    = element.name.replace(/-_-/g,".").replace('as_values_','');  // recover orig. fieldname            
+                origfield   = $('[name='+origname.replace(/\./g,"\\.")+']'); // escape dot in selector '.' 
 
-    			// set value to orig. field
-    			fieldvalue	= origfield.hasClass('single') ? realtags[0] : realtags.join("\n");
-    			origfield.attr('value', fieldvalue);	
-    		});
+                // set value to orig. field
+                fieldvalue  = origfield.hasClass('single') ? realtags[0] : realtags.join("\n");
+                origfield.attr('value', fieldvalue);    
+            });
     }
 
 }(jQuery));
