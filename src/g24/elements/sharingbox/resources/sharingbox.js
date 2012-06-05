@@ -2,10 +2,14 @@
 
     var EDIT = 0;
     var ADD = 1;
-    var last_context=null;
+
+    var shbx_last_context = null;
     
     var shbx_lock   = 0;  // lock-counter to prevent multiple loading of sharingboxes
     var shbx_dirty  = 0;  // isDirty marker, set in onchange-handlers 
+
+    var shbx_save_selector   = 'input#input-sharingbox_add_edit-form-controls-save';
+    var shbx_cancel_selector = 'input#input-sharingbox_add_edit-form-controls-cancel';
 
     /* TOols
      * */
@@ -72,19 +76,17 @@
         if (shbx_lock > 0 ) { return; }
         
         // test for dirty inputs
-        if ( isInputDirty() ) {
-            if ( ! confirm('Unsaved changes - really discard ?') ) { return; } 
-        }
+        if (! confirm_unload()) { return; }
         
         // set "create lock" 
         shbx_lock++;
         
         sharingbox_remove();
-        if (last_context !== null) { $('#' + last_context).show(); }
-
+        
+        restore_last_context();
         var context = $(linkel).closest('article');
         var context_id = context.attr('id');
-        last_context = context_id;
+        shbx_last_context = context_id;
 
 // replaced .get by .ajax
 //        /* ajax get */
@@ -244,9 +246,18 @@
             ajaxURL: document.baseURI + '@@json_recurrence'
         });
 
+
         /* submit */
         $('#sharingbox>form').submit(function (event) {
             event.preventDefault();
+
+            if (event.originalEvent.explicitOriginalTarget === jQuery(shbx_cancel_selector)[0]) {
+                // CANCEL ACTION
+                if (! confirm_unload()) { return; }
+                sharingbox_remove();
+                restore_last_context();
+                return; 
+            } 
             
             // process autosuggest fields
             autosuggest_submit_handler(this);
@@ -290,9 +301,19 @@
     /*
      * Dirty Input
      */
-    function isInputDirty()
-    {
-        return (shbx_dirty > 0);
+    function isInputDirty() { return (shbx_dirty > 0); }
+    function confirm_unload() {
+        if (isInputDirty()) {
+            ret = confirm('Unsaved changes - really discard?');
+            if (ret === true) { shbx_dirty = 0; }
+            return ret;
+        } else {
+            return true;
+        }
+    }
+
+    function restore_last_context() {
+        if (shbx_last_context !== null) { $('#' + shbx_last_context).show(); }
     }
 
 

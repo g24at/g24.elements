@@ -128,3 +128,12 @@ widgets:
             handler: context.save
             next: context.next
             label: Save
+
+    - cancel:
+        factory: submit
+        props:
+            action: False
+            expression: True
+            skip: True
+            next: context.next
+            label: Cancel
