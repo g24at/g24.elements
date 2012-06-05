@@ -32,6 +32,7 @@
         />
 
     <adapter name="SearchableText" factory=".behaviors.searchable_text_indexer" />
+    <adapter name="Subject" factory=".behaviors.keyword_indexer" />
     <adapter factory=".behaviors.BasetypeAccessor" />
 
 </configure>

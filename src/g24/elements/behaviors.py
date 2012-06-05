@@ -65,15 +65,18 @@ class IPlace(Interface):
 
 @indexer(IBasetype)
 def searchable_text_indexer(obj):
-
-    # TODO: remove HTML via portal_transforms or plone.app.textfield transform
-
     acc = IBasetypeAccessor(obj)
     text = acc.plaintext
     title = acc.title
 
     # concat, but only if item not ''
     return u' '.join([item for item in [title, text] if item])
+
+
+@indexer(IBasetype)
+def keyword_indexer(obj):
+    acc = IBasetypeAccessor(obj)
+    return acc.subjects
 
 
 EVENT_INTERFACES = (IDXEvent, IDXEventRecurrence, IDXEventLocation)
