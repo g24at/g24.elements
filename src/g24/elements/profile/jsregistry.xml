@@ -2,32 +2,12 @@
 <object name="portal_javascripts" meta_type="JavaScripts Registry">
 
   <!-- jQuery UI -->
-  <javascript
+  <!--javascript
       id="++resource++jquery.ui/ui/jquery.ui.core.js"
       cacheable="True" compression="safe" cookable="True" inline="False"
       enabled="True"
-      />
-  <javascript
-      id="++resource++jquery.ui/ui/jquery.ui.widget.js"
-      cacheable="True" compression="safe" cookable="True" inline="False"
-      enabled="True"
-      />
-  <javascript
-      id="++resource++jquery.ui/ui/jquery.ui.position.js"
-      cacheable="True" compression="safe" cookable="True" inline="False"
-      enabled="True"
-      />
-  <javascript
-      id="++resource++jquery.ui/ui/jquery.ui.menu.js"
-      cacheable="True" compression="safe" cookable="True" inline="False"
-      enabled="True"
-      />
-  <javascript
-      id="++resource++jquery.ui/ui/jquery.ui.autocomplete.js"
-      cacheable="True" compression="safe" cookable="True" inline="False"
-      enabled="True"
-      />
-  
+      /-->
+ 
   <!-- jQueryTools dateinput -->
   <javascript
       id="++resource++plone.app.jquerytools.dateinput.js"
@@ -55,21 +35,6 @@
       />
   <javascript
     id="++resource++g24.elements.sharingbox/editor/wysihtml5-0.3.0_rc3.min.js"
-      cacheable="True" compression="safe" cookable="True" inline="False"
-      enabled="True"
-      />
-  <javascript
-    id="++resource++g24.elements.sharingbox/underscore.js"
-      cacheable="True" compression="safe" cookable="True" inline="False"
-      enabled="True"
-      />
-  <javascript
-    id="++resource++g24.elements.sharingbox/gist2245459-wysihtml5-resize.js"
-      cacheable="True" compression="safe" cookable="True" inline="False"
-      enabled="True"
-      />
-  <javascript
-    id="++resource++g24.elements.sharingbox/jquery.embedly.js"
       cacheable="True" compression="safe" cookable="True" inline="False"
       enabled="True"
       />
@@ -109,6 +74,10 @@
   <!-- disable unused -->  
   <javascript
       id="++resource++yafowil.widget.datetime/widget.js"
+      enabled="False"
+      />
+  <javascript
+      id="++resource++yafowil.widget.autocomplete/widget.js"
       enabled="False"
       />
 

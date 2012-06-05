@@ -33,7 +33,7 @@ setup(name='g24.elements',
           'yafowil.yaml',
           'yafowil.widget.autocomplete',
           'yafowil.widget.datetime',
-          'collective.jqueryui',
+          #'collective.jqueryui',
           #'Solgema.fullcalendar'
       ],
       )
