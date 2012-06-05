@@ -34,7 +34,7 @@
       enabled="True"
       />
   <javascript
-    id="++resource++g24.elements.sharingbox/editor/wysihtml5-0.3.0_rc3.min.js"
+    id="++resource++g24.elements.sharingbox/editor/wysihtml5-0.3.0.js"
       cacheable="True" compression="safe" cookable="True" inline="False"
       enabled="True"
       />
