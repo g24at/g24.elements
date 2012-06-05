@@ -50,7 +50,7 @@ DEFAULTS = {
         'location': UNSET,
     },
 }
-IGNORES = ['save']
+IGNORES = ['save', 'cancel']
 
 def create(context, type_):
     """ Create element, set attributes and add it to container.
