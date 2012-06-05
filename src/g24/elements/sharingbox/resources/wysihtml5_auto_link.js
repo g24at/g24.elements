@@ -113,10 +113,10 @@
               }
             },
             error: function ( data ) {
-            	var emb = '<div>Failed to get contents ..</div>';
-            	iframe = $('iframe.sharingbox').contents();
+                var emb = '<div>Failed to get contents ..</div>';
+                iframe = $('iframe.sharingbox').contents();
                 //iframe.find('div#' + tmp_uid).replaceWith(emb);
-            	iframe.find('div#' + tmp_uid).remove()
+                iframe.find('div#' + tmp_uid).remove();
             }
         });
 
