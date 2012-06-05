@@ -126,7 +126,7 @@
             $('#fieldset-sharingbox_add_edit-features-event')
         );
 
-        /*$('#input-sharingbox_add_edit-features-base-text').wysihtml5();*/
+
         var editor = new wysihtml5.Editor("input-sharingbox_add_edit-features-base-text", {
             parserRules:  wysihtml5_g24_rules,
             name:         'sharingbox',
@@ -140,10 +140,17 @@
             allowObjectResizing:  true,
             supportTouchDevices:  true
         });
+        var wysihtml5_resize_iframe = function() {
+            editor.composer.iframe.style.height = editor.composer.element.scrollHeight + "px";
+        };
         editor.observe("load", function () {
-            $(this.composer.iframe).autoResize();
+            editor.composer.element.addEventListener("keyup", wysihtml5_resize_iframe, false);
+            editor.composer.element.addEventListener("blur", wysihtml5_resize_iframe, false);
+            editor.composer.element.addEventListener("focus", wysihtml5_resize_iframe, false);
+            //$(this.composer.iframe).autoResize();
         });
         editor.observe("change", function(){shbx_dirty=1;});
+
 
         $('.datepicker').dateinput({
             format: 'yyyy-mm-dd', // display format
