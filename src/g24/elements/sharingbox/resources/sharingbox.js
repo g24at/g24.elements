@@ -257,7 +257,7 @@
             resultsHighlight: true,
             keyDelay: 400,
             neverSubmit: true, // block submit through <return>key
-            limitText:"No more selections allowed",
+            limitText:"No more selections allowed"
         };
             
         options = (typeof options !== 'undefined') ? $.merge(options, default_options) : default_options;
