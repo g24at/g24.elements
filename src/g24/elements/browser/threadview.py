@@ -31,7 +31,7 @@ class ThreadView(BrowserView):
         query['path'] = {'query': '/'.join(context.getPhysicalPath())}
         #query['path']['depth'] = BOTTOMLEVEL
         query['sort_on'] = 'created'
-        query['sort_order'] = 'reverse'
+        #query['sort_order'] = 'reverse' ## reverse just doesn't feel natural.
         print("ThreadView itemtree %s" % str(context))
 
         return buildFolderTree(context, obj=context, query=query)
