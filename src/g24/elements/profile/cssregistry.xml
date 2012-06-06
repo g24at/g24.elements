@@ -1,56 +1,31 @@
 <?xml version="1.0"?>
 <object name="portal_css" meta_type="Stylesheets Registry">
 
-  <stylesheet
-    id="++resource++jquery.ui/themes/base/jquery.ui.core.css"
-    cacheable="True" compression="safe" cookable="True" enabled="True"
-    media="screen" rel="stylesheet" rendering="import"/>
-
-  <stylesheet
-    id="++resource++jquery.ui/themes/base/jquery.ui.menu.css"
-    cacheable="True" compression="safe" cookable="True" enabled="True"
-    media="screen" rel="stylesheet" rendering="import"/>
-
-  <stylesheet
-    id="++resource++jquery.ui/themes/base/jquery.ui.autocomplete.css"
-    cacheable="True" compression="safe" cookable="True" enabled="True"
-    media="screen" rel="stylesheet" rendering="import"/>
-
-
   <!-- jQueryTools dateinput -->
   <stylesheet
+    bundle="jquerytools" 
     id="++resource++plone.app.jquerytools.dateinput.css"
-    cacheable="True" compression="safe" cookable="True" enabled="True"
-    media="screen" rel="stylesheet" rendering="import"/>
+    enabled="True" />
 
   <!-- recurrence input -->
   <stylesheet
+    bundle="jquery" 
     id="++resource++plone.formwidget.recurrence/integration.css"
-    cacheable="True" compression="safe" cookable="True" enabled="True"
-    media="screen" rel="stylesheet" rendering="import"/>
-
-
-  <!-- editor -->
-  <!-- stylesheet
-    id="++resource++g24.elements.sharingbox/editor/bootstrap/css/bootstrap.min.css"
-    cacheable="True" compression="safe" cookable="True" enabled="True"
-    media="screen" rel="stylesheet" rendering="import"/>
-  <stylesheet
-    id="++resource++g24.elements.sharingbox/editor/bootstrap-wysihtml5.css"
-    cacheable="True" compression="safe" cookable="True" enabled="True"
-    media="screen" rel="stylesheet" rendering="import"/-->
+    enabled="True" />
 
   <!-- sharingbox -->
   <stylesheet
+    bundle="g24" 
     id="++resource++g24.elements/views.css"
     cacheable="True" compression="safe" cookable="True" enabled="True"
     media="screen" rel="stylesheet" rendering="import"/>
   <stylesheet
+    bundle="g24" 
     id="++resource++g24.elements.sharingbox/sharingbox.css"
     cacheable="True" compression="safe" cookable="True" enabled="True"
     media="screen" rel="stylesheet" rendering="import"/>
-    
   <stylesheet
+    bundle="g24" 
     id="++resource++g24.elements.sharingbox/jquery.autoSuggest.css"
     cacheable="True" compression="safe" cookable="True" enabled="True"
     media="screen" rel="stylesheet" rendering="import"/>
