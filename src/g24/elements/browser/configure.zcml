@@ -3,42 +3,51 @@
     xmlns:browser="http://namespaces.zope.org/browser"
     i18n_domain="g24.elements">
 
-    <browser:resourceDirectory
-        name="g24.elements"
-        directory="resources"
-        layer="g24.elements.interfaces.IG24ElementsLayer"
-        />
+  <browser:resourceDirectory
+      name="g24.elements"
+      directory="resources"
+      layer="g24.elements.interfaces.IG24ElementsLayer"
+      />
 
-    <adapter
-        name="element_provider"
-        provides="zope.contentprovider.interfaces.IContentProvider"
-        factory=".element_provider.ElementProvider"
-        />
+  <adapter
+      name="element_provider"
+      provides="zope.contentprovider.interfaces.IContentProvider"
+      factory=".element_provider.ElementProvider"
+      />
 
-     <browser:page
-        for="g24.elements.interfaces.IBasetype"
-        name="element"
-        template="element.pt"
-        permission="zope2.View"
-        layer="g24.elements.interfaces.IG24ElementsLayer"
-        />
+   <browser:page
+      for="g24.elements.interfaces.IBasetype"
+      name="element"
+      template="element.pt"
+      permission="zope2.View"
+      layer="g24.elements.interfaces.IG24ElementsLayer"
+      />
 
-     <browser:page
-        for="g24.elements.interfaces.IBasetype"
-        name="stream"
-        class=".streamview.StreamView"
-        template="streamview.pt"
-        permission="zope2.View"
-        layer="g24.elements.interfaces.IG24ElementsLayer"
-        />
+   <browser:page
+      for="g24.elements.interfaces.IBasetype"
+      name="stream"
+      class=".streamview.StreamView"
+      template="streamview.pt"
+      permission="zope2.View"
+      layer="g24.elements.interfaces.IG24ElementsLayer"
+      />
 
-    <browser:page
-        for="g24.elements.interfaces.IBasetype"
-        name="thread"
-        class=".threadview.ThreadView"
-        template="threadview.pt"
-        permission="zope2.View"
-        layer="g24.elements.interfaces.IG24ElementsLayer"
-        />
+  <browser:page
+      for="g24.elements.interfaces.IBasetype"
+      name="thread"
+      class=".threadview.ThreadView"
+      template="threadview.pt"
+      permission="zope2.View"
+      layer="g24.elements.interfaces.IG24ElementsLayer"
+      />
+
+  <browser:page
+      name="vocabularies"
+      for="*"
+      layer="g24.elements.interfaces.IG24ElementsLayer"
+      class=".vocabularies.VocabulariesView"
+      permission="zope2.View"
+      allowed_attributes="query_tags query_locations query_timezones"
+      />
 
 </configure>

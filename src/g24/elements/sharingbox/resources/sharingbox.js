@@ -284,7 +284,7 @@
                 query_endpoint = classes[item].split('-').pop();       
             }
         }
-        query_endpoint      = window.location.pathname + '/' + query_endpoint;
+        query_endpoint      = portal_url + '/@@vocabularies/' + query_endpoint;
         
         options.preFill     = element.attr('value').split("\n").join(",");
 

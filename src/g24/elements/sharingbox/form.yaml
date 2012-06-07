@@ -94,11 +94,12 @@ widgets:
             label.title: The event lasts the whole day. Start and end times are not used.
 
     - timezone:
-        factory: field:label:error:select
+        factory: field:label:error:text
         value: expr:context.get('timezone', 'features-event')
         props:
             label: Timezone
-            vocabulary: expr:context.vocabulary_timezones
+            label.title: The timezone, this event happens.
+            class: autosuggest autosuggest-vocabulary-query_timezones
 
     - recurrence:
         factory: field:label:error:textarea
