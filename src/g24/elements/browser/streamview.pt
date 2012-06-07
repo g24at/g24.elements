@@ -8,18 +8,17 @@
 <body>
 
 <metal:content-core fill-slot="content-core">
-  <metal:content-core define-macro="content-core">
+  <metal:content-core define-macro="content-core" tal:define="batch view/items">
 
-  <tal:items tal:define="batch view/items" repeat="item batch">
+  <tal:items repeat="item batch">
 
     <tal:article replace="structure python:view.element_provider(item.getObject())"/>
 
   </tal:items>
 
-  <!-- div metal:use-macro="context/batch_macros/macros/navigation" /-->
-  <!--tal:batchnavigation
+  <tal:batchnavigation
       define="batchnavigation nocall:context/@@batchnavigation"
-      replace="structure python:batchnavigation(batch)" /-->
+      replace="structure python:batchnavigation(batch)" />
 
   </metal:content-core>
 </metal:content-core>
