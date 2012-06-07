@@ -1,8 +1,8 @@
 ul.threadview { margin:0; padding:0; }
-ul.threadview li {
+ul.threadview > li {
     list-style:none;
     border-left:1px solid #EAEAEA; }
-ul.threadview ul { margin-left:2em; }
+ul.threadview ul.threadview { margin-left:2em; }
 
 #sharingbox,
 article.element {

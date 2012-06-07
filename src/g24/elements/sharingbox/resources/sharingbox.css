@@ -12,6 +12,8 @@
     margin-right:0.5em;
 }
 
+ul.as-selections input { margin:0; }
+
 /*
  * styles for the textarea / editable content ( iframe )   
  */ 
