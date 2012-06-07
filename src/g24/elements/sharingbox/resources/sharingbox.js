@@ -223,8 +223,20 @@
             if ( isInputDirty() ) return false;
         });
         
-        autosuggest_transform_element($("textarea.autosuggest"));
-        autosuggest_transform_element($("input.autosuggest"));
+        
+        // autosuggest for tags
+        autosuggest_transform_element($("textarea.autosuggest[name$='subjects']"));
+        
+        // autosuggest for timezone field
+        autosuggest_transform_element($('input.autosuggest[name$="timezone"]'));
+        
+        // autosuggest for place field
+        autosuggest_transform_element($('input[name$="location"]'),
+        		{
+            		selectedItemProp: "n",
+            		searchObjProps: "n",
+            		selectedValuesProp:"n",
+        		});
     }
     
     /*
@@ -258,7 +270,7 @@
         var default_options = {
             preFill:"",
             selectedItemProp: "v",
-            searchObjProps: "name,v",
+            searchObjProps: "v",
             selectedValuesProp:"v",
             queryParam: "q",
             minChars: 1,
@@ -285,7 +297,6 @@
             }
         }
         query_endpoint      = portal_url + '/@@vocabularies/' + query_endpoint;
-        
         options.preFill     = element.attr('value').split("\n").join(",");
 
         elname  = element.attr('name');
