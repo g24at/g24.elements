@@ -3,7 +3,11 @@ from Acquisition.interfaces import IAcquirer
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
-from plone.app.event.base import default_timezone
+from plone.app.event.base import (
+    default_timezone,
+    default_end_dt,
+    default_start_dt
+)
 from plone.app.textfield.value import RichTextValue
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import addContentToContainer
@@ -152,6 +156,8 @@ class Sharingbox(BrowserView):
         self.ignores = IGNORES
         self.features = FEATURES
         self.defaults = DEFAULTS
+        self.defaults['features-event']['start'] = default_start_dt()
+        self.defaults['features-event']['end'] = default_end_dt()
         self.defaults['features-event']['timezone'] = default_timezone(self.context)
         self.defaults['features-base']['subjects'] = []
 
@@ -262,7 +268,8 @@ class SharingboxEdit(Sharingbox):
 
     def get(self, key, basepath):
         accessor = IBasetypeAccessor(self.context)
-        datum = getattr(accessor, key, self.defaults[basepath][key])
+        datum = getattr(accessor, key, None)
+        if not datum: datum = self.defaults[basepath][key]
         if isinstance(datum, RichTextValue): # TODO: yafowil should return unicode object here...
             datum = datum.output
         return datum
