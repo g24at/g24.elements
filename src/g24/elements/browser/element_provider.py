@@ -1,5 +1,6 @@
 import logging
 #from Acquisition import aq_base
+from Acquisition import aq_parent
 from Products.Five.browser import BrowserView
 from plone.uuid.interfaces import IUUID
 from zope.interface import Interface
@@ -11,7 +12,8 @@ from zope.contentprovider.interfaces import IContentProvider
 from zope.security import checkPermission
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
-from g24.elements.interfaces import IBasetypeAccessor
+from g24.elements.behaviors import ITitle
+from g24.elements.interfaces import IBasetype, IBasetypeAccessor
 
 logger = logging.getLogger(__name__)
 
@@ -61,6 +63,20 @@ class ElementProvider(BrowserView):
             return rec.occurrences()
         else:
             return None
+
+    def get_parent_thread(self):
+
+        def _get_parent_thread(ctx):
+            parent = aq_parent(ctx)
+            if not IBasetype.providedBy(parent):
+                return None
+            elif ITitle.providedBy(parent):
+                return parent
+            else:
+                return _get_parent_thread(parent)
+
+        parent = _get_parent_thread(self.context)
+        return IBasetypeAccessor(parent, None)
 
     @property
     def uuid(self):

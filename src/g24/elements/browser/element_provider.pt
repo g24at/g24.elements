@@ -1,10 +1,15 @@
 <article class="element" id=""
-    tal:define="base_url context/absolute_url; data nocall:view/data"
-    tal:attributes="id view/uuid">
+    tal:define="data nocall:view/data; base_url data/url"
+    tal:attributes="id data/uid">
   <header>
-    <h1>
+    <h1 tal:condition="data/is_title">
       <a href="" tal:attributes="href string:${base_url}/thread" tal:content="data/title">Title</a>
     </h1>
+    <i tal:define="parent view/get_parent_thread" tal:condition="python:parent is not None">
+      Show in context:
+      <a href="" tal:attributes="href string:${parent/url}/thread" tal:content="parent/title">Title</a>
+    </i>
+    <hr />
   </header>
   <p tal:content="structure data/text|nothing">Text</p>
 

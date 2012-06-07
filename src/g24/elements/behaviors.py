@@ -16,7 +16,9 @@ from plone.app.textfield import RichText
 from plone.app.textfield.value import RichTextValue
 from plone.app.textfield.interfaces import ITransformer
 from plone.directives import form
+from plone.event.utils import utc
 from plone.indexer import indexer
+from plone.uuid.interfaces import IUUID
 from z3c.form.browser.textlines import TextLinesFieldWidget
 
 from g24.elements.interfaces import (
@@ -245,6 +247,27 @@ class BasetypeAccessor(object):
         # if not, do just index the value as is. (maybe attr not yet set?)
         return value
 
+    # ro properties
+    #
+    @property
+    def uid(self):
+        return IUUID(self.context, None)
+
+    @property
+    def url(self):
+        return self.context.absolute_url()
+
+    @property
+    def created(self):
+        return utc(self.context.creation_date)
+
+    @property
+    def last_modified(self):
+        return utc(self.context.modification_date)
+
+
+    # rw properties
+    #
     @property
     def is_title(self):
         return ITitle.providedBy(self.context)
