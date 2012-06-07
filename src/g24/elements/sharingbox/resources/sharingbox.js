@@ -72,7 +72,7 @@
                         $(context_id + ' ul').before('<li id="sharingbox_li_wrapper"></li>');
                     } else {
                         /* Add (mew subthread) */
-                        context.after('<ul id="sharingbox_ul_wrapper"><li id="sharingbox_li_wrapper"></li></ul>');
+                        context.after('<ul id="sharingbox_ul_wrapper" class="threadview"><li id="sharingbox_li_wrapper"></li></ul>');
                     }
                     $('#sharingbox_li_wrapper').html($(data));
                 }
