@@ -23,8 +23,8 @@ article.element:hover {
     box-shadow: 5px 5px 2px #050;
 }
 
-#content ul.element-controls { margin:0; text-align:right; }
-#content ul.element-controls li { margin:0 0 0 0.5em; display:inline; }
+
+aside.element-controls { margin:0; text-align:right; }
 
 
 /* ELEMENT CONTENT */
@@ -41,7 +41,7 @@ article.element div.embed {
 .wysihtml5-editor.sharingbox div.embed h3,
 article.element div.embed h3 { color:white; }
 .wysihtml5-editor.sharingbox div.embed p,
-#content article.element div.embed p { margin:0; }
+article.element div.embed p { margin:0; }
 article.element div.embed iframe {
     height:auto;
     width:auto;
