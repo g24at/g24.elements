@@ -136,7 +136,8 @@
             parser:       wysihtml5.dom.parse || Prototype.K,
             composerClassName: "wysihtml5-editor",
             bodyClassName:     "wysihtml5-supported",
-            stylesheets:  ['/++resource++g24.elements.sharingbox/sharingbox.css'], // use stylesheet for editor
+            stylesheets:  [portal_url + '/++resource++g24.elements/views.css', 
+                           portal_url + '/++resource++g24.elements.sharingbox/sharingbox.css'], // use stylesheet for editor
             allowObjectResizing:  true,
             supportTouchDevices:  true
         });
@@ -283,7 +284,7 @@
                 query_endpoint = classes[item].split('-').pop();       
             }
         }
-        query_endpoint      = "http://localhost:9000/stream/@@sharingbox_edit/" + query_endpoint;
+        query_endpoint      = window.location.pathname + '/' + query_endpoint;
         
         options.preFill     = element.attr('value').split("\n").join(",");
 

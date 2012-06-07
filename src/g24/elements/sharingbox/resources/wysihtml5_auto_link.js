@@ -1,8 +1,10 @@
 /**
  * Overloaded to support not only auto-linking of urls but also images and
  * oembeds.
+ *
+ * Globals from plone_javascript_variables.js:
+ *      portal_url ... The url to the portal object without trailing slash.
  */
-
 
 /**
  * Find urls in descendant text nodes of an element and auto-links them
@@ -81,7 +83,7 @@
         ret += '<div id="' + tmp_uid + '" class="embed-busy"/>';  // unique element to be replaced
 
         $.ajax({
-            url: window.location.pathname + '/oembed_proxy',
+            url: portal_url + '/oembed_proxy',
             async: true,
             dataType: 'json',
             data: {url: realUrl,

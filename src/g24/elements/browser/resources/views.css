@@ -23,8 +23,14 @@ article.element:hover {
     box-shadow: 5px 5px 2px #050;
 }
 
+#content ul.element-controls { margin:0; text-align:right; }
+#content ul.element-controls li { margin:0 0 0 0.5em; display:inline; }
 
+
+/* ELEMENT CONTENT */
+.wysihtml5-editor.sharingbox img,
 article.element img { max-width:100%; }
+.wysihtml5-editor.sharingbox div.embed,
 article.element div.embed {
     background:grey;
     color:white;
@@ -32,13 +38,12 @@ article.element div.embed {
     border-radius:5px 5px;
     border:1px solid grey;
     padding:1em; }
+.wysihtml5-editor.sharingbox div.embed h3,
 article.element div.embed h3 { color:white; }
+.wysihtml5-editor.sharingbox div.embed p,
 #content article.element div.embed p { margin:0; }
 article.element div.embed iframe {
     height:auto;
     width:auto;
     width:615px;
     height:346px; }
-
-#content ul.element-controls { margin:0; text-align:right; }
-#content ul.element-controls li { margin:0 0 0 0.5em; display:inline; }
