@@ -2,13 +2,33 @@
     tal:define="data nocall:view/data; base_url data/url"
     tal:attributes="id data/uid">
   <header>
+
+
+    <aside class="tags">
+      <tal:tags repeat="tag data/subjects">
+        <tal:label condition="repeat/tag/start">Tags:</tal:label>
+        <tal:sep condition="not: repeat/tag/start">|</tal:sep>
+        <a href="" tal:attributes="href string:${base_url}/stream?tag=${tag}" tal:content="tag">Tag</a>
+        <tal:brk condition="repeat/tag/end"><br/></tal:brk>
+      </tal:tags>
+    </aside>
+
     <h1 tal:condition="data/is_title">
       <a href="" tal:attributes="href string:${base_url}/thread" tal:content="data/title">Title</a>
     </h1>
+
     <i tal:define="parent view/get_parent_thread" tal:condition="python:parent is not None">
       Show in context:
       <a href="" tal:attributes="href string:${parent/url}/thread" tal:content="parent/title">Title</a>
     </i>
+
+    <aside class="metadata pull-right">
+      <i>By</i>
+      <a href="" tal:attributes="href string:${base_url}/stream?user=${context/Creator}" tal:content="context/Creator">Creator</a>
+      <i>on</i>
+      <span tal:content="data/created" />
+    </aside>
+
     <hr />
   </header>
   <p tal:content="structure data/text|nothing">Text</p>
@@ -56,14 +76,7 @@
   </div>
 
   <footer>
-    <tal:tags repeat="tag data/subjects">
-      <tal:label condition="repeat/tag/start"><strong>Tags:</strong></tal:label>
-      <tal:sep condition="not: repeat/tag/start">|</tal:sep>
-      <a href="" tal:attributes="href string:${base_url}/stream?tag=${tag}" tal:content="tag">Tag</a>
-      <tal:brk condition="repeat/tag/end"><br/></tal:brk>
-    </tal:tags>
-    <strong>Created by:</strong> <a href="" tal:attributes="href string:${base_url}/stream?user=${context/Creator}" tal:content="context/Creator">Creator</a><br/>
-    <strong>Created on:</strong> <em tal:content="context/created"/><br/>
+
     <ul class="element-controls" tal:define="can_edit view/can_edit; can_add view/can_add" tal:condition="python:can_edit or can_add">
       <li><a class="sharingbox_edit" tal:condition="can_edit" href="" tal:attributes="href string:${base_url}/@@sharingbox_edit">Edit</a></li>
       <li><a class="ctrl sharingbox_add" tal:condition="can_add" href="" tal:attributes="href string:${base_url}/@@sharingbox_add">Add</a></li>

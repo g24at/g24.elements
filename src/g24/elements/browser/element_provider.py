@@ -2,15 +2,15 @@ import logging
 #from Acquisition import aq_base
 from Acquisition import aq_parent
 from Products.Five.browser import BrowserView
+from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from plone.uuid.interfaces import IUUID
+from zope.component import adapts
+from zope.contentprovider.interfaces import IContentProvider
 from zope.interface import Interface
 from zope.interface import implements
-from zope.component import adapts
 from zope.publisher.interfaces.browser import IBrowserRequest
 from zope.publisher.interfaces.browser import IBrowserView
-from zope.contentprovider.interfaces import IContentProvider
 from zope.security import checkPermission
-from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 
 from g24.elements.behaviors import ITitle
 from g24.elements.interfaces import IBasetype, IBasetypeAccessor

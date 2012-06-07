@@ -16,7 +16,6 @@ from plone.app.textfield import RichText
 from plone.app.textfield.value import RichTextValue
 from plone.app.textfield.interfaces import ITransformer
 from plone.directives import form
-from plone.event.utils import utc
 from plone.indexer import indexer
 from plone.uuid.interfaces import IUUID
 from z3c.form.browser.textlines import TextLinesFieldWidget
@@ -28,6 +27,12 @@ from g24.elements.interfaces import (
 from g24.elements.instancebehaviors import enable_behaviors, disable_behaviors
 from g24.elements import messageFactory as _
 
+from Products.CMFPlone.i18nl10n import ulocalized_time
+from plone.app.event.base import DT
+
+def format_date(date, context):
+    return ulocalized_time(DT(date), long_format=True, time_only=None,
+                           context=context)
 
 
 class IBase(form.Schema):
@@ -259,11 +264,11 @@ class BasetypeAccessor(object):
 
     @property
     def created(self):
-        return utc(self.context.creation_date)
+        return format_date(self.context.created(), self.context)
 
     @property
     def last_modified(self):
-        return utc(self.context.modification_date)
+        return format_date(self.context.modified(), self.context)
 
 
     # rw properties
