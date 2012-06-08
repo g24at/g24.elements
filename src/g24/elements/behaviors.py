@@ -1,7 +1,7 @@
 from zope import schema
 from zope.interface import alsoProvides, Interface, implements
 from zope.component import adapts
-from zope.component.hooks import getSite
+#from zope.component.hooks import getSite
 from plone.app.event.dx.behaviors import (
     IEventBasic,
     IEventRecurrence,
@@ -12,9 +12,9 @@ from plone.app.event.dx.interfaces import (
     IDXEventRecurrence,
     IDXEventLocation
 )
-from plone.app.textfield import RichText
-from plone.app.textfield.value import RichTextValue
-from plone.app.textfield.interfaces import ITransformer
+#from plone.app.textfield import RichText
+#from plone.app.textfield.value import RichTextValue
+#from plone.app.textfield.interfaces import ITransformer
 from plone.directives import form
 from plone.indexer import indexer
 from plone.uuid.interfaces import IUUID
@@ -44,14 +44,20 @@ class IBase(form.Schema):
         )
     form.order_before(title = '*')
 
-    text = RichText(
+    text = schema.Text(
         title = _(u'label_richtext', default=u'Body text'),
         description = _(u'help_richtext', default=u'Main text of this content node.'),
         required = True,
-        default_mime_type='text/html',
-        output_mime_type='text/html',
-        allowed_mime_types=['text/html', 'text/plain', 'text/x-rst', 'text/restructured'],
-        )
+    )
+
+    #    text = RichText(
+    #        title = _(u'label_richtext', default=u'Body text'),
+    #        description = _(u'help_richtext', default=u'Main text of this content node.'),
+    #        required = True,
+    #        default_mime_type='text/html',
+    #        output_mime_type='text/html',
+    #        allowed_mime_types=['text/html', 'text/plain', 'text/x-rst', 'text/restructured'],
+    #        )
 
     subjects = schema.Tuple(
         title = _(u'label_categories', default=u'Categories'),
@@ -207,10 +213,6 @@ class BasetypeAccessor(object):
            behavior = bm[name](self.context, None)
            if behavior:
                value = getattr(behavior, name, None)
-               if isinstance(value, RichTextValue):
-                   value = value.output
-                   if not isinstance(value, unicode):
-                       value = value.decode('utf-8')
                return value
         return None
 
@@ -223,11 +225,10 @@ class BasetypeAccessor(object):
             behavior = bm[name](self.context, None)
             if behavior:
                 if name == 'text':
-                    # text must be a RichTextValue
+                    # text must be unicode
                     if not isinstance(value, unicode):
                         # we assume values to be utf-8 encoded.
                         value = unicode(value.decode('utf-8'))
-                    value = RichTextValue(raw=value)
                 setattr(behavior, name, value)
 
     def __delattr__(self, name):
@@ -243,16 +244,16 @@ class BasetypeAccessor(object):
             pass
 
 
-    @property
-    def plaintext(self):
-        behavior = IBase(self.context, None)
-        value = getattr(behavior, 'text', None)
-        if isinstance(value, RichTextValue):
-            site = getSite()
-            trans = ITransformer(site)
-            value = trans(value, 'text/plain')
-        # if not, do just index the value as is. (maybe attr not yet set?)
-        return value
+    #    @property
+    #    def plaintext(self):
+    #        behavior = IBase(self.context, None)
+    #        value = getattr(behavior, 'text', None)
+    #        if isinstance(value, RichTextValue):
+    #            site = getSite()
+    #            trans = ITransformer(site)
+    #            value = trans(value, 'text/plain')
+    #        # if not, do just index the value as is. (maybe attr not yet set?)
+    #        return value
 
     # ro properties
     #
