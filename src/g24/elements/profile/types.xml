@@ -1,3 +1,4 @@
 <object name="portal_types">
  <object name="g24.elements.basetype" meta_type="Dexterity FTI"/>
+ <object name="g24.elements.basetypecontainer" meta_type="Dexterity FTI"/>
 </object>

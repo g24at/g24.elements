@@ -24,7 +24,7 @@
       />
 
    <browser:page
-      for="g24.elements.interfaces.IBasetype"
+      for="*"
       name="stream"
       class=".streamview.StreamView"
       template="streamview.pt"

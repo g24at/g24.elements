@@ -7,5 +7,10 @@
       factory=".namechooser.ElementIdChooser"
       provides="zope.container.interfaces.INameChooser"
       />
+  <adapter
+      for=".interfaces.IBasetypeContainer"
+      factory=".namechooser.ElementIdChooser"
+      provides="zope.container.interfaces.INameChooser"
+      />
 
 </configure>

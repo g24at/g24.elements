@@ -12,3 +12,7 @@ class IBasetypeAccessor(Interface):
 class IBasetype(form.Schema):
     """ g24.elements Basetype content.
     """
+
+class IBasetypeContainer(form.Schema):
+    """ g24.elements Basetype content.
+    """
