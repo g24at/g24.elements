@@ -12,7 +12,7 @@ from zope.publisher.interfaces.browser import IBrowserRequest
 from zope.publisher.interfaces.browser import IBrowserView
 from zope.security import checkPermission
 
-from g24.elements.behaviors import ITitle
+from g24.elements.behaviors import IThread
 from g24.elements.interfaces import IBasetype, IBasetypeAccessor
 
 logger = logging.getLogger(__name__)
@@ -70,7 +70,7 @@ class ElementProvider(BrowserView):
             parent = aq_parent(ctx)
             if not IBasetype.providedBy(parent):
                 return None
-            elif ITitle.providedBy(parent):
+            elif IThread.providedBy(parent):
                 return parent
             else:
                 return _get_parent_thread(parent)

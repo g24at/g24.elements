@@ -30,13 +30,13 @@ EDIT, ADD = 0, 1
 
 G24_BASETYPE = 'g24.elements.basetype'
 FEATURES = [
-    'is_title',
+    'is_thread',
     'is_event',
     'is_place'
 ]
 DEFAULTS = {
-    'features-title': { 'title': UNSET, },
     'features-base': {
+        'title': UNSET,
         'text': UNSET,
         'subjects': UNSET
     },
@@ -223,11 +223,11 @@ class Sharingbox(BrowserView):
     # features
 
     @property
-    def is_title(self):
+    def is_thread(self):
         # If posting has more than 2 children: True
         # If not: False
         if self.mode == ADD: return False # default
-        else: return IBasetypeAccessor(self.context).is_title
+        else: return IBasetypeAccessor(self.context).is_thread
 
     @property
     def is_event(self):

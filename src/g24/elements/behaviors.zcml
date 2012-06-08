@@ -18,9 +18,9 @@
         />
 
     <plone:behavior
-        title="Title"
-        description="Title for the Basetype."
-        provides=".behaviors.ITitle"
+        title="Thread"
+        description="A Thread."
+        provides=".behaviors.IThread"
         for=".interfaces.IBasetype"
         />
 

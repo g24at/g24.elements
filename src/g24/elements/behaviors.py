@@ -36,6 +36,14 @@ def format_date(date, context):
 
 
 class IBase(form.Schema):
+
+    title = schema.TextLine(
+        title = _(u'label_title', default=u'Title'),
+        description = _(u'help_title', default=u'The title of your post.'),
+        required = True
+        )
+    form.order_before(title = '*')
+
     text = RichText(
         title = _(u'label_richtext', default=u'Body text'),
         description = _(u'help_richtext', default=u'Main text of this content node.'),
@@ -56,14 +64,8 @@ class IBase(form.Schema):
 alsoProvides(IBase, form.IFormFieldProvider)
 
 
-class ITitle(form.Schema):
-    title = schema.TextLine(
-        title = _(u'label_title', default=u'Title'),
-        description = _(u'help_title', default=u'The title of your post.'),
-        required = True
-        )
-    form.order_before(title = '*')
-alsoProvides(ITitle, form.IFormFieldProvider)
+class IThread(Interface):
+    """ Behavior marker interface for threads. """
 
 
 class IPlace(Interface):
@@ -91,8 +93,8 @@ EVENT_BEHAVIORS = ('plone.app.event.dx.behaviors.IEventBasic',
                    'plone.app.event.dx.behaviors.IEventRecurrence',
                    'plone.app.event.dx.behaviors.IEventLocation')
 
-TITLE_INTERFACES =  (ITitle,)
-TITLE_BEHAVIORS = ('g24.elements.behaviors.ITitle',)
+THREAD_INTERFACES =  (IThread,)
+THREAD_BEHAVIORS = ('g24.elements.behaviors.IThread',)
 
 PLACE_INTERFACES = (IPlace,)
 PLACE_BEHAVIORS = ('g24.elements.behaviors.IPlace',)
@@ -117,7 +119,7 @@ class BasetypeAccessor(object):
         >>> acc = IBasetypeAccessor(context)
         >>> acc.is_event
         True
-        >>> acc.is_title
+        >>> acc.is_thread
         False
         >>> acc.is_place
         False
@@ -134,7 +136,7 @@ class BasetypeAccessor(object):
         >>> acc.title
 
         Set the feature:
-        >>> acc.is_title = True
+        >>> acc.is_thread = True
         >>> acc.title = 'postgarasch'
         >>> acc.title
         'postgarasch'
@@ -172,12 +174,12 @@ class BasetypeAccessor(object):
         object.__setattr__(self, 'context', context)
 
         # definition of feature attributes
-        fl = ['is_title', 'is_event', 'is_place']
+        fl = ['is_thread', 'is_event', 'is_place']
         object.__setattr__(self, '_feature_list', fl)
 
         # mapping of behavior attributes to behaviors
         bm = dict(
-            title=ITitle,
+            title=IBase,
             text=IBase,
             subjects=IBase,
             start=IEventBasic,
@@ -274,15 +276,14 @@ class BasetypeAccessor(object):
     # rw properties
     #
     @property
-    def is_title(self):
-        return ITitle.providedBy(self.context)
-    @is_title.setter
-    def is_title(self, value):
+    def is_thread(self):
+        return IThread.providedBy(self.context)
+    @is_thread.setter
+    def is_thread(self, value):
         if value:
-            enable_behaviors(self.context, TITLE_BEHAVIORS, TITLE_INTERFACES)
+            enable_behaviors(self.context, THREAD_BEHAVIORS, THREAD_INTERFACES)
         else:
-            self._delattrs(['title'])
-            disable_behaviors(self.context, TITLE_BEHAVIORS, TITLE_INTERFACES)
+            disable_behaviors(self.context, THREAD_BEHAVIORS, THREAD_INTERFACES)
 
     @property
     def is_event(self):

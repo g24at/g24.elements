@@ -118,10 +118,6 @@
             checkbox.change(function (event) { fieldset.toggle(); });
         }
         initialize_features(
-            $('#input-sharingbox_add_edit-features-is_title'),
-            $('#fieldset-sharingbox_add_edit-features-title')
-        );
-        initialize_features(
             $('#input-sharingbox_add_edit-features-is_event'),
             $('#fieldset-sharingbox_add_edit-features-event')
         );
@@ -232,11 +228,11 @@
         
         // autosuggest for place field
         autosuggest_transform_element($('input[name$="location"]'),
-        		{
-            		selectedItemProp: "n",
-            		searchObjProps: "n",
-            		selectedValuesProp:"n",
-        		});
+                {
+                    selectedItemProp: "n",
+                    searchObjProps: "n",
+                    selectedValuesProp:"n"
+                });
     }
     
     /*
