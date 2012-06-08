@@ -13,7 +13,10 @@ article.element {
     min-width:15em;
     padding:1em 2em;
     margin:1em 0; }
-article.element header h1 { margin:0 !important; font-size:1.4em; }
+article.element header h1 {
+    margin:0 !important;
+    font-size:1.4em;
+    line-height:1.4em; }
 
 article.element {
     box-shadow: 5px 5px 2px #888;
@@ -23,7 +26,7 @@ article.element:hover {
     box-shadow: 5px 5px 2px #050;
 }
 
-
+aside.tags { margin-bottom:0.2em; }
 aside.element-controls { margin:0; text-align:right; }
 
 
