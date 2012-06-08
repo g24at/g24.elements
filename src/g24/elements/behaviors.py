@@ -109,7 +109,7 @@ class BasetypeAccessor(object):
 
         TODO: Create a mock object / real object with is_event feature enabled.
         >>> context
-        <Container at /Plone/stream>
+        <Container at /Plone/posts>
         >>> from g24.elements.interfaces import IBasetype
         >>> IBasetype.providedBy(context)
         True
