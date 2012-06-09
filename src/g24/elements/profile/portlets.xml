@@ -25,6 +25,15 @@
     <property name="restrictTypes"/>
   </assignment>
 
+  <assignment name="user-cloud-portlet" category="context" key="/"
+      manager="plone.leftcolumn" type="qi.portlet.TagClouds.UserCloudPortlet"
+      visible="True">
+    <property name="count">60</property>
+    <property name="levels">6</property>
+    <property name="portletTitle">Users</property>
+    <property name="refreshInterval">3600</property>
+  </assignment>
+
   <assignment name="calendar" category="context" key="/"
       manager="plone.leftcolumn" type="portlets.Calendar" visible="True"/>
 
