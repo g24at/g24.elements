@@ -10,7 +10,7 @@
   <!-- recurrence input -->
   <stylesheet
     bundle="jquery" 
-    id="++resource++plone.formwidget.recurrence/integration.css"
+    id="++resource++plone.formwidget.recurrence/jquery.recurrenceinput.css"
     enabled="True" />
 
   <!-- sharingbox -->
