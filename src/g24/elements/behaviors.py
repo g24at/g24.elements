@@ -251,11 +251,12 @@ class BasetypeAccessor(object):
         #    site = getSite()
         #    trans = ITransformer(site)
         #    value = trans(value, 'text/plain')
-
-        pt = getToolByName(self.context, 'portal_transforms')
-        data = pt.convertTo('text/plain', value, mimetype='text/html')
-        text = data.getData()
-        return text
+        if value:
+            pt = getToolByName(self.context, 'portal_transforms')
+            data = pt.convertTo('text/plain', value, mimetype='text/html')
+            text = data.getData()
+            return text
+        return None
 
     # ro properties
     #

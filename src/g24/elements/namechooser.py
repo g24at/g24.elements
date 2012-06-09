@@ -34,5 +34,6 @@ class ElementIdChooser(object):
             g24element_max_id += 1
             site.g24element_max_id = g24element_max_id
             transaction.commit() # TODO: thread safety?
+            #transaction.commit(1) # subtransaction commit
 
         return str(g24element_max_id)
