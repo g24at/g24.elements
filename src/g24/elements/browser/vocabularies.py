@@ -11,7 +11,7 @@ class VocabulariesView(BrowserView):
     def __call__(self):
         # does nothin', if called directly
         return None
-    
+
     # vocabularies
 
     # TODO: cache/memoize

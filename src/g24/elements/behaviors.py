@@ -1,34 +1,31 @@
-from zope import schema
-from zope.interface import alsoProvides, Interface, implements
-from zope.component import adapts
-#from zope.component.hooks import getSite
-from plone.app.event.dx.behaviors import (
-    IEventBasic,
-    IEventRecurrence,
-    IEventLocation
-)
-from plone.app.event.dx.interfaces import (
-    IDXEvent,
-    IDXEventRecurrence,
-    IDXEventLocation
-)
-#from plone.app.textfield import RichText
-#from plone.app.textfield.value import RichTextValue
-#from plone.app.textfield.interfaces import ITransformer
+from Products.CMFCore.utils import getToolByName
+from Products.CMFPlone.i18nl10n import ulocalized_time
+from plone.app.event.base import DT
+from plone.app.event.dx.behaviors import IEventBasic
+from plone.app.event.dx.behaviors import IEventLocation
+from plone.app.event.dx.behaviors import IEventRecurrence
+from plone.app.event.dx.interfaces import IDXEvent
+from plone.app.event.dx.interfaces import IDXEventLocation
+from plone.app.event.dx.interfaces import IDXEventRecurrence
 from plone.directives import form
 from plone.indexer import indexer
 from plone.uuid.interfaces import IUUID
 from z3c.form.browser.textlines import TextLinesFieldWidget
+from zope import schema
+from zope.component import adapts
+from zope.interface import alsoProvides, Interface, implements
 
-from g24.elements.interfaces import (
-    IBasetype,
-    IBasetypeAccessor
-)
-from g24.elements.instancebehaviors import enable_behaviors, disable_behaviors
+from g24.elements import safe_decode
+from g24.elements.instancebehaviors import disable_behaviors
+from g24.elements.instancebehaviors import enable_behaviors
+from g24.elements.interfaces import IBasetype
+from g24.elements.interfaces import IBasetypeAccessor
 from g24.elements import messageFactory as _
 
-from Products.CMFPlone.i18nl10n import ulocalized_time
-from plone.app.event.base import DT
+#from zope.component.hooks import getSite
+#from plone.app.textfield import RichText
+#from plone.app.textfield.value import RichTextValue
+#from plone.app.textfield.interfaces import ITransformer
 
 def format_date(date, context):
     return ulocalized_time(DT(date), long_format=True, time_only=None,
@@ -224,11 +221,13 @@ class BasetypeAccessor(object):
         elif name in bm: # set the attributes on behaviors
             behavior = bm[name](self.context, None)
             if behavior:
-                if name == 'text':
-                    # text must be unicode
-                    if not isinstance(value, unicode):
-                        # we assume values to be utf-8 encoded.
-                        value = unicode(value.decode('utf-8'))
+                # all strings go unicode
+                value = safe_decode(value)
+                #if name == 'text':
+                #    # text must be unicode
+                #    if not isinstance(value, unicode):
+                #        # we assume values to be utf-8 encoded.
+                #        value = unicode(value.decode('utf-8'))
                 setattr(behavior, name, value)
 
     def __delattr__(self, name):
@@ -244,16 +243,19 @@ class BasetypeAccessor(object):
             pass
 
 
-    #    @property
-    #    def plaintext(self):
-    #        behavior = IBase(self.context, None)
-    #        value = getattr(behavior, 'text', None)
-    #        if isinstance(value, RichTextValue):
-    #            site = getSite()
-    #            trans = ITransformer(site)
-    #            value = trans(value, 'text/plain')
-    #        # if not, do just index the value as is. (maybe attr not yet set?)
-    #        return value
+    @property
+    def plaintext(self):
+        behavior = IBase(self.context, None)
+        value = getattr(behavior, 'text', None)
+        #if isinstance(value, RichTextValue):
+        #    site = getSite()
+        #    trans = ITransformer(site)
+        #    value = trans(value, 'text/plain')
+
+        pt = getToolByName(self.context, 'portal_transforms')
+        data = pt.convertTo('text/plain', value, mimetype='text/html')
+        text = data.getData()
+        return text
 
     # ro properties
     #
