@@ -3,7 +3,10 @@ from plone.batching import Batch
 from Products.Five.browser import BrowserView
 from zope.component import getMultiAdapter
 from zope.contentprovider.interfaces import IContentProvider
+
 from g24.elements.interfaces import IBasetype
+from g24.elements.behaviors import IPlace, IThread
+from plone.app.event.interfaces import IEvent
 
 class StreamView(BrowserView):
 
@@ -24,17 +27,22 @@ class StreamView(BrowserView):
         if not type_ and 'type' in self.request.form:
             type_ = self.request.form['type']
         if type_:
-            if type_.lower() == 'event':
-                type_ = 'plone.app.event.interfaces.IEvent'
-
-        cat = getToolByName(self.context, 'portal_catalog')
+            ty = type_.lower()
+            if ty == 'event':
+                type_ = IEvent.__identifier__
+            elif ty == 'thread':
+                type_ = IThread.__identifier__
+            elif ty == 'place':
+                type_ = IPlace.__identifier__
+            else:
+                type_= None
+        else:
+            # if no other type is given, search for IBasetype
+            type_ = IBasetype.__identifier__
 
         query = {}
-        if type_:
-            query['object_provides'] = type_
-        else:
-            query['object_provides'] = IBasetype.__identifier__
 
+        query['object_provides'] = type_
         query['sort_on'] = 'created'
         query['sort_order'] = 'reverse'
 
@@ -45,6 +53,7 @@ class StreamView(BrowserView):
         if tag:
             query['Subject'] = tag
 
+        cat = getToolByName(self.context, 'portal_catalog')
         result = cat(batch=True, **query)
         return Batch(result, size=b_size, start=b_start)
 

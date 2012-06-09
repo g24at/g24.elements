@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:plone="http://namespaces.plone.org/plone"
+    i18n_domain="g24.elements">
+
+  <plone:portlet
+      name="g24.elements.filter_type"
+      interface=".filter_type.IFilterType"
+      assignment=".filter_type.Assignment"
+      renderer=".filter_type.Renderer"
+      addview=".filter_type.AddForm"
+      />
+
+</configure>

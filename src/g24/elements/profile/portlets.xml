@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portlets
+  xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+  i18n:domain="plone">
+
+  <portlet
+    addview="g24.elements.filter_type"
+    title="Filter type portlet"
+    description="" />
+
+  <assignment name="filter-type-portlet" category="context" key="/"
+      manager="plone.leftcolumn" type="g24.elements.filter_type" visible="True"/>
+
+  <assignment name="tag-cloud-portlet" category="context" key="/"
+      manager="plone.leftcolumn" type="qi.portlet.TagClouds.TagCloudPortlet"
+      visible="True">
+    <property name="count">0</property>
+    <property name="filterSubjects"/>
+    <property name="levels">5</property>
+    <property name="wfStates"/>
+    <property name="portletTitle">Tags</property>
+    <property name="restrictSubjects"/>
+    <property name="refreshInterval">3600</property>
+    <property name="root"/>
+    <property name="restrictTypes"/>
+  </assignment>
+
+  <assignment name="calendar" category="context" key="/"
+      manager="plone.leftcolumn" type="portlets.Calendar" visible="True"/>
+
+  <assignment name="events" category="context" key="/"
+      manager="plone.leftcolumn" type="portlets.Events" visible="True">
+    <property name="count">5</property>
+    <property name="state">
+      <element>published</element>
+    </property>
+  </assignment>
+  
+</portlets>

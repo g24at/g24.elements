@@ -1,0 +1,27 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="g24.elements"
+      tal:omit-tag="">
+
+<dl class="portlet portletFilterType">
+
+  <dt class="portletheader">
+    <span class="portlettopleft"></span>
+    <span class="tile">Type filter</span>
+    <span class="portlettopright"></span>
+  </dt>
+
+  <dd class="portletitem"
+      tal:define="plone_view context/@@plone;
+                  portal_url context/@@plone_portal_state/portal_url">
+
+    <a href="" tal:attributes="href string:${portal_url}/posts">Alle</a>
+    <a href="" tal:attributes="href string:${portal_url}/posts?type=thread">Threads</a>
+    <a href="" tal:attributes="href string:${portal_url}/posts?type=event">Events</a>
+    <a href="" tal:attributes="href string:${portal_url}/posts?type=place">Places</a>
+
+  </dd>
+</dl>
+</html>

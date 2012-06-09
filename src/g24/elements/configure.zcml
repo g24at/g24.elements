@@ -12,6 +12,7 @@
   <include file="instancebehaviors.zcml" />
   <include file="namechooser.zcml" />
   <include package=".browser"/>
+  <include package=".portlets"/>
   <include package=".sharingbox"/>
 
   <genericsetup:registerProfile
