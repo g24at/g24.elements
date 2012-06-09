@@ -247,6 +247,7 @@ class BasetypeAccessor(object):
     def plaintext(self):
         behavior = IBase(self.context, None)
         value = getattr(behavior, 'text', None)
+        return value
         #if isinstance(value, RichTextValue):
         #    site = getSite()
         #    trans = ITransformer(site)
