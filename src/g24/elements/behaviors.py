@@ -245,6 +245,7 @@ class BasetypeAccessor(object):
 
     @property
     def plaintext(self):
+        # TODO: reenable transform
         behavior = IBase(self.context, None)
         value = getattr(behavior, 'text', None)
         return value
