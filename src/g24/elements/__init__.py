@@ -15,7 +15,7 @@ def safe_decode(value):
     123
 
     """
-    if isinstance(value, str):
+    if isinstance(value, basestring):
         return value.decode('utf-8')
     else:
         return value

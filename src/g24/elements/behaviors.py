@@ -223,11 +223,6 @@ class BasetypeAccessor(object):
             if behavior:
                 # all strings go unicode
                 value = safe_decode(value)
-                #if name == 'text':
-                #    # text must be unicode
-                #    if not isinstance(value, unicode):
-                #        # we assume values to be utf-8 encoded.
-                #        value = unicode(value.decode('utf-8'))
                 setattr(behavior, name, value)
 
     def __delattr__(self, name):
