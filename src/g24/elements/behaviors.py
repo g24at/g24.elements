@@ -245,14 +245,16 @@ class BasetypeAccessor(object):
 
     @property
     def plaintext(self):
-        # TODO: reenable transform
         behavior = IBase(self.context, None)
         value = getattr(behavior, 'text', None)
-        return value
+        ## TODO: reenable transform
+        #return value
+
         #if isinstance(value, RichTextValue):
         #    site = getSite()
         #    trans = ITransformer(site)
         #    value = trans(value, 'text/plain')
+
         if value:
             pt = getToolByName(self.context, 'portal_transforms')
             data = pt.convertTo('text/plain', value, mimetype='text/html')
