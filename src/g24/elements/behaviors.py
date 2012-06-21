@@ -296,7 +296,8 @@ class BasetypeAccessor(object):
         if value:
             enable_behaviors(self.context, EVENT_BEHAVIORS, EVENT_INTERFACES)
         else:
-            # delete the orphaned attribute from an deleted behavior
+            # delete the orphaned attribute from an deleted behaviors
+            # so that indexers do not index them.
             self._delattrs(['start', 'end', 'timezone', 'whole_day',
                             'recurrence', 'location'])
             disable_behaviors(self.context, EVENT_BEHAVIORS, EVENT_INTERFACES)
