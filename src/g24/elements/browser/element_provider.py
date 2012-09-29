@@ -17,7 +17,8 @@ from g24.elements.interfaces import IBasetype, IBasetypeAccessor
 
 logger = logging.getLogger(__name__)
 
-from plone.app.event.interfaces import IRecurrence
+from plone.event.interfaces import IRecurrenceSupport
+
 from plone.app.event.browser.event_view import prepare_for_display
 def format_event_dates(context, start, end, whole_day=False):
     formated_dates = prepare_for_display(context, start, end, whole_day)
@@ -58,7 +59,7 @@ class ElementProvider(BrowserView):
 
     def occurrences(self):
         if not self.data.is_event: return None
-        rec = IRecurrence(self.context, None)
+        rec = IRecurrenceSupport(self.context, None)
         if rec:
             return rec.occurrences()
         else:

@@ -7,7 +7,7 @@ from zope.contentprovider.interfaces import IContentProvider
 from g24.elements import safe_decode
 from g24.elements.interfaces import IBasetype
 from g24.elements.behaviors import IPlace, IThread
-from plone.app.event.interfaces import IEvent
+from plone.event.interfaces import IEvent
 
 class StreamView(BrowserView):
 
