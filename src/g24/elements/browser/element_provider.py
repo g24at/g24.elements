@@ -21,7 +21,9 @@ from plone.event.interfaces import IRecurrenceSupport
 
 from plone.app.event.browser.event_view import prepare_for_display
 def format_event_dates(context, start, end, whole_day=False):
+
     formated_dates = prepare_for_display(context, start, end, whole_day)
+
     if formated_dates['same_day'] and whole_day:
         return '%s' % formated_dates['start_date']
     elif formated_dates['same_day'] and formated_dates['same_time']:
