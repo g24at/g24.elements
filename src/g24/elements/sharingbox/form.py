@@ -268,8 +268,8 @@ class SharingboxEdit(Sharingbox):
 
     def get(self, key, basepath):
         accessor = IBasetypeAccessor(self.context)
-        datum = getattr(accessor, key, None)
-        if not datum: datum = self.defaults[basepath][key]
-        if isinstance(datum, RichTextValue): # TODO: yafowil should return unicode object here...
-            datum = datum.output
-        return datum
+        attr = getattr(accessor, key, None)
+        if not attr: attr = self.defaults[basepath][key]
+        if isinstance(attr, RichTextValue): # TODO: yafowil should return unicode object here...
+            attr = attr.output
+        return attr
