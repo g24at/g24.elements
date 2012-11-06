@@ -12,21 +12,21 @@ widgets:
 
     - is_thread:
         factory: field:label:checkbox
-        value: expr:context.is_thread
+        value: expr:context.get('is_thread')
         props:
             label: Thread
             label.title: I want to create a thread...
 
     - is_event:
         factory: field:label:checkbox
-        value: expr:context.is_event
+        value: expr:context.get('is_event')
         props:
             label: Event
             label.title: I want to create an event...
 
     - is_place:
         factory: field:label:checkbox
-        value: expr:context.is_place
+        value: expr:context.get('is_place')
         props:
             label: Place
             label.title: I want to add a place...

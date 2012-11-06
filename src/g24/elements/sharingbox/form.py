@@ -35,6 +35,10 @@ FEATURES = [
     'is_place'
 ]
 DEFAULTS = {
+    # FEATURES
+    'is_thread': False,
+    'is_event': False,
+    'is_place': False,
     # BASE
     'title': UNSET,
     'text': UNSET,
@@ -189,27 +193,6 @@ class Sharingbox(BrowserView):
 
     def _save(self, data):
         raise NotImplementedError
-
-
-    ###
-    # features
-
-    @property
-    def is_thread(self):
-        # If posting has more than 2 children: True
-        # If not: False
-        if self.mode == ADD: return False # default
-        else: return IBasetypeAccessor(self.context).is_thread
-
-    @property
-    def is_event(self):
-        if self.mode == ADD: return False # default
-        else: return IBasetypeAccessor(self.context).is_event
-
-    @property
-    def is_place(self):
-        if self.mode == ADD: return False # default
-        else: return IBasetypeAccessor(self.context).is_place
 
 
 class SharingboxAdd(Sharingbox):
