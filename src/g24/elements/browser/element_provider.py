@@ -98,6 +98,7 @@ class ElementProvider(BrowserView):
 
     @property
     def can_edit(self):
+        #import pdb; pdb.set_trace()
         return checkPermission('g24.ModifyBasetype', self.context)
 
     def update(self): pass

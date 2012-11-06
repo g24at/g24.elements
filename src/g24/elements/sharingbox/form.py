@@ -35,19 +35,17 @@ FEATURES = [
     'is_place'
 ]
 DEFAULTS = {
-    'features-base': {
-        'title': UNSET,
-        'text': UNSET,
-        'subjects': UNSET
-    },
-    'features-event': {
-        'start': UNSET,
-        'end': UNSET,
-        'timezone': UNSET,
-        'whole_day': UNSET,
-        'recurrence': UNSET,
-        'location': UNSET,
-    },
+    # BASE
+    'title': UNSET,
+    'text': UNSET,
+    'subjects': UNSET,
+    # EVENT
+    'start': UNSET,
+    'end': UNSET,
+    'timezone': UNSET,
+    'whole_day': UNSET,
+    'recurrence': UNSET,
+    'location': UNSET,
 }
 IGNORES = ['save', 'cancel']
 
@@ -156,10 +154,10 @@ class Sharingbox(BrowserView):
         self.ignores = IGNORES
         self.features = FEATURES
         self.defaults = DEFAULTS
-        self.defaults['features-event']['start'] = default_start_dt()
-        self.defaults['features-event']['end'] = default_end_dt()
-        self.defaults['features-event']['timezone'] = default_timezone(self.context)
-        self.defaults['features-base']['subjects'] = []
+        self.defaults['start'] = default_start_dt()
+        self.defaults['end'] = default_end_dt()
+        self.defaults['timezone'] = default_timezone(self.context)
+        self.defaults['subjects'] = []
 
     def _fetch_form(self):
         return parse_from_YAML('g24.elements.sharingbox:form.yaml', self, _)
@@ -226,8 +224,8 @@ class SharingboxAdd(Sharingbox):
             IStatusMessage(self.request).addStatusMessage(_(u"Item created"), "info")
         return obj
 
-    def get(self, key, basepath):
-        return self.defaults[basepath][key]
+    def get(self, key):
+        return self.defaults[key]
 
 
 class SharingboxEdit(Sharingbox):
@@ -240,10 +238,10 @@ class SharingboxEdit(Sharingbox):
         IStatusMessage(self.request).addStatusMessage(_(u"Item edited"), "info")
         return self.context
 
-    def get(self, key, basepath):
+    def get(self, key):
         accessor = IBasetypeAccessor(self.context)
         attr = getattr(accessor, key, None)
-        if not attr: attr = self.defaults[basepath][key]
+        if not attr: attr = self.defaults[key]
         if isinstance(attr, RichTextValue): # TODO: yafowil should return unicode object here...
             attr = attr.output
         return attr
