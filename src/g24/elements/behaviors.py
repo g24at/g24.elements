@@ -280,6 +280,11 @@ class BasetypeAccessor(object):
     #
     @property
     def is_thread(self):
+        # TODO: rethink.
+        # Currently: manually set IThread
+        # Alternative:
+        #   If posting has more than 2 children: True
+        #   If not: False
         return IThread.providedBy(self.context)
     @is_thread.setter
     def is_thread(self, value):

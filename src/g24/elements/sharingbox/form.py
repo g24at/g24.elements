@@ -35,19 +35,21 @@ FEATURES = [
     'is_place'
 ]
 DEFAULTS = {
-    'features-base': {
-        'title': UNSET,
-        'text': UNSET,
-        'subjects': UNSET
-    },
-    'features-event': {
-        'start': UNSET,
-        'end': UNSET,
-        'timezone': UNSET,
-        'whole_day': UNSET,
-        'recurrence': UNSET,
-        'location': UNSET,
-    },
+    # FEATURES
+    'is_thread': False,
+    'is_event': False,
+    'is_place': False,
+    # BASE
+    'title': UNSET,
+    'text': UNSET,
+    'subjects': UNSET,
+    # EVENT
+    'start': UNSET,
+    'end': UNSET,
+    'timezone': UNSET,
+    'whole_day': UNSET,
+    'recurrence': UNSET,
+    'location': UNSET,
 }
 IGNORES = ['save', 'cancel']
 
@@ -90,15 +92,18 @@ def add(obj, container):
 
 
 def edit(obj, data, order=None, ignores=None):
-    """ Edit the attributes of an object.
+    """Edit the attributes of an object.
 
-        @param data:    Flat data structure:   {fieldname: value}
+    :param data:    Flat data structure:   {fieldname: value}
+    :type data: dict
 
-        @param order:   Optional list of attribute names to be set in the
-                        defined order. If a attribute defined in order isn't
-                        found in data, it is deleted from the object.
+    :param order:   Optional list of attribute names to be set in the defined
+                    order. If a attribute defined in order isn't found in data,
+                    it is deleted from the object.
+    :type order: list
 
-        @param ignores: Optional list of attribute names to be ignored.
+    :param ignores: Optional list of attribute names to be ignored.
+    :type ignores: list
 
     """
 
@@ -121,19 +126,16 @@ def edit(obj, data, order=None, ignores=None):
 
 
 def _flatten_data(data):
-    """ Flatten the nested data structure.
+    """Flatten the nested data structure.
 
-        @param data: Nested data structure: {fieldset: {fieldname: value}}
+    :param data: Nested data structure: {fieldset: {fieldname: value}}
+    :type data: dict
 
-        @param feature_fieldset_map: Dictionary with featurename to fieldsets
-        @param required_or_delete: List of fieldnames which are required or -
-                                   if the value is not present in data, deleted
-                                   from the object.
+    :returns: Flat data structure: {fieldname: value}
+    :rtype: dict
 
-        @returns:    Flat data structure:   {fieldname: value}
-
-        The fieldnames should be unique over the data parameter nested
-        structure. Two keys with the same name are getting overwritten.
+    The fieldnames should be unique over the data parameter nested structure.
+    Two keys with the same name are getting overwritten.
 
     """
     items = {}
@@ -156,10 +158,10 @@ class Sharingbox(BrowserView):
         self.ignores = IGNORES
         self.features = FEATURES
         self.defaults = DEFAULTS
-        self.defaults['features-event']['start'] = default_start_dt()
-        self.defaults['features-event']['end'] = default_end_dt()
-        self.defaults['features-event']['timezone'] = default_timezone(self.context)
-        self.defaults['features-base']['subjects'] = []
+        self.defaults['start'] = default_start_dt()
+        self.defaults['end'] = default_end_dt()
+        self.defaults['timezone'] = default_timezone(self.context)
+        self.defaults['subjects'] = []
 
     def _fetch_form(self):
         return parse_from_YAML('g24.elements.sharingbox:form.yaml', self, _)
@@ -192,53 +194,6 @@ class Sharingbox(BrowserView):
     def _save(self, data):
         raise NotImplementedError
 
-    #    def set_data(self, obj, data):
-    #
-    #        # access content via an accessor, respecting the behaviors
-    #        accessor = IBasetypeAccessor(obj)
-    #
-    #        # first, en/disable behaviors
-    #        for feature in self.features:
-    #            setattr(accessor, feature, data['features'][feature].extracted)
-    #
-    #        # then set all other attributes
-    #        for basepath, keys in self.defaults.items():
-    #            for key in keys:
-    #                datum = data[basepath][key].extracted
-    #                if basepath == 'features-title' and not data['features']['is_title'].extracted or\
-    #                   basepath == 'features-event' and not data['features']['is_event'].extracted:
-    #                    try: delattr(accessor, key)
-    #                    except AttributeError: continue
-    #                    continue
-    #
-    #                if datum is UNSET: continue
-    #                else:
-    #                    if key=='text': # TODO: yafowil should return unicode object here...
-    #                        datum = RichTextValue(raw=unicode(datum.decode('utf-8')))
-    #                    setattr(accessor, key, datum)
-    #
-    #        obj.reindexObject()
-
-
-    # features
-
-    @property
-    def is_thread(self):
-        # If posting has more than 2 children: True
-        # If not: False
-        if self.mode == ADD: return False # default
-        else: return IBasetypeAccessor(self.context).is_thread
-
-    @property
-    def is_event(self):
-        if self.mode == ADD: return False # default
-        else: return IBasetypeAccessor(self.context).is_event
-
-    @property
-    def is_place(self):
-        if self.mode == ADD: return False # default
-        else: return IBasetypeAccessor(self.context).is_place
-
 
 class SharingboxAdd(Sharingbox):
     portal_type = G24_BASETYPE
@@ -252,8 +207,8 @@ class SharingboxAdd(Sharingbox):
             IStatusMessage(self.request).addStatusMessage(_(u"Item created"), "info")
         return obj
 
-    def get(self, key, basepath):
-        return self.defaults[basepath][key]
+    def get(self, key):
+        return self.defaults[key]
 
 
 class SharingboxEdit(Sharingbox):
@@ -266,10 +221,10 @@ class SharingboxEdit(Sharingbox):
         IStatusMessage(self.request).addStatusMessage(_(u"Item edited"), "info")
         return self.context
 
-    def get(self, key, basepath):
+    def get(self, key):
         accessor = IBasetypeAccessor(self.context)
-        datum = getattr(accessor, key, None)
-        if not datum: datum = self.defaults[basepath][key]
-        if isinstance(datum, RichTextValue): # TODO: yafowil should return unicode object here...
-            datum = datum.output
-        return datum
+        attr = getattr(accessor, key, None)
+        if not attr: attr = self.defaults[key]
+        if isinstance(attr, RichTextValue): # TODO: yafowil should return unicode object here...
+            attr = attr.output
+        return attr

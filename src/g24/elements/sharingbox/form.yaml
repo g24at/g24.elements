@@ -12,21 +12,21 @@ widgets:
 
     - is_thread:
         factory: field:label:checkbox
-        value: expr:context.is_thread
+        value: expr:context.get('is_thread')
         props:
             label: Thread
             label.title: I want to create a thread...
 
     - is_event:
         factory: field:label:checkbox
-        value: expr:context.is_event
+        value: expr:context.get('is_event')
         props:
             label: Event
             label.title: I want to create an event...
 
     - is_place:
         factory: field:label:checkbox
-        value: expr:context.is_place
+        value: expr:context.get('is_place')
         props:
             label: Place
             label.title: I want to add a place...
@@ -38,13 +38,13 @@ widgets:
 
     - title:
         factory: field:label:error:text
-        value: expr:context.get('title', 'features-base')
+        value: expr:context.get('title')
         props:
             label: Title
 
     - text:
         factory: field:label:error:textarea
-        value: expr:context.get('text', 'features-base')
+        value: expr:context.get('text')
         props:
             label: Text
             label.title: Share some content with us!
@@ -52,7 +52,7 @@ widgets:
 
     - subjects:
         factory: field:label:error:lines
-        value: expr:context.get('subjects', 'features-base')
+        value: expr:context.get('subjects')
         props:
             label: Tags
             label.title: Tag the content with categories, so that it can be better found.
@@ -66,7 +66,7 @@ widgets:
     widgets:
     - start:
         factory: field:label:error:datetime
-        value: expr:context.get('start', 'features-event')
+        value: expr:context.get('start')
         props:
             label: Start Date and Time
             label.title: Date and Time, when the Event begins. E.g. 10.10.2010 10:00
@@ -76,7 +76,7 @@ widgets:
 
     - end:
         factory: field:label:error:datetime
-        value: expr:context.get('end', 'features-event')
+        value: expr:context.get('end')
         props:
             label: End Date and Time
             label.title: Date and Time, when the Event ends. E.g. 10.10.2010 11:00. It's the single's event end, not of a recurrence, if one is defined.
@@ -86,14 +86,14 @@ widgets:
 
     - whole_day:
         factory: field:label:error:checkbox
-        value: expr:context.get('whole_day', 'features-event')
+        value: expr:context.get('whole_day')
         props:
             label: Whole Day
             label.title: The event lasts the whole day. Start and end times are not used.
 
     - timezone:
         factory: field:label:error:text
-        value: expr:context.get('timezone', 'features-event')
+        value: expr:context.get('timezone')
         props:
             label: Timezone
             label.title: The timezone, this event happens.
@@ -101,7 +101,7 @@ widgets:
 
     - recurrence:
         factory: field:label:error:textarea
-        value: expr:context.get('recurrence', 'features-event')
+        value: expr:context.get('recurrence')
         props:
             label: Recurrence
             label.title: This event has a recurrence rule.
@@ -109,7 +109,7 @@ widgets:
 
     - location:
         factory: field:label:error:text
-        value: expr:context.get('location', 'features-event')
+        value: expr:context.get('location')
         props:
             label: Location
             label.title: The place where the event happens.
