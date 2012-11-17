@@ -8,6 +8,8 @@ widgets:
 
 - features:
     factory: fieldset
+    props:
+        structural: True
     widgets:
 
     - is_thread:
@@ -34,6 +36,8 @@ widgets:
 
 - features-base:
     factory: fieldset
+    props:
+        structural: True
     widgets:
 
     - title:
@@ -63,6 +67,8 @@ widgets:
 
 - features-event:
     factory: fieldset
+    props:
+        structural: True
     widgets:
     - start:
         factory: field:label:error:datetime
@@ -118,6 +124,8 @@ widgets:
 
 - form-controls:
     factory: fieldset
+    props:
+        structural: True
     widgets:
     - save:
         factory: submit

@@ -186,8 +186,7 @@ class Sharingbox(BrowserView):
     def save(self, widget, data):
         if self.request.method != 'POST':
             raise Unauthorized('POST only')
-        flat_data = _flatten_data(data.extracted)
-        obj = self._save(flat_data)
+        obj = self._save(data.extracted)
         # return the rendered element html snippet
         self.request.response.redirect('%s%s' % (obj.absolute_url(), '/element'))
 
