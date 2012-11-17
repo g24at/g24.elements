@@ -10,6 +10,7 @@ widgets:
     factory: fieldset
     props:
         structural: True
+        class: sharingbox-features
     widgets:
 
     - is_thread:
@@ -38,6 +39,7 @@ widgets:
     factory: fieldset
     props:
         structural: True
+        class: sharingbox-base
     widgets:
 
     - title:
@@ -69,6 +71,7 @@ widgets:
     factory: fieldset
     props:
         structural: True
+        class: sharingbox-event
     widgets:
     - start:
         factory: field:label:error:datetime
@@ -126,6 +129,7 @@ widgets:
     factory: fieldset
     props:
         structural: True
+        class: sharingbox-controls
     widgets:
     - save:
         factory: submit

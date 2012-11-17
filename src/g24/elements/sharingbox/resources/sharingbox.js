@@ -118,12 +118,12 @@
             checkbox.change(function (event) { fieldset.toggle(); });
         }
         initialize_features(
-            $('#input-sharingbox_add_edit-features-is_event'),
-            $('#fieldset-sharingbox_add_edit-features-event')
+            $('#input-sharingbox_add_edit-is_event'),
+            $('.sharingbox-event')
         );
 
 
-        var editor = new wysihtml5.Editor("input-sharingbox_add_edit-features-base-text", {
+        var editor = new wysihtml5.Editor("input-sharingbox_add_edit-text", {
             parserRules:  wysihtml5_g24_rules,
             name:         'sharingbox',
             style:        true,
@@ -168,10 +168,10 @@
         // $.tools.recurrenceinput.localize('${request/LANGUAGE}', ${view/translation});
         // TODO
         /*
-        jQuery('#input-sharingbox_add_edit-features-event-recurrence').recurrenceinput({
+        jQuery('#input-sharingbox_add_edit-recurrence').recurrenceinput({
             lang: 'en',
             readOnly: false,
-            startField: '#input-sharingbox_add_edit-features-event-start',
+            startField: '#input-sharingbox_add_edit-start',
             ajaxURL: document.baseURI + '@@json_recurrence'
         });
         */
