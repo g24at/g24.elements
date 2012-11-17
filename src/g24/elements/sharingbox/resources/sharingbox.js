@@ -148,7 +148,8 @@
         });
         editor.observe("change", function(){shbx_dirty=1;});
 
-
+        // TODO: TEMPORARY
+        /*
         $('.datepicker').dateinput({
             format: 'yyyy-mm-dd', // display format
             change: function () {
@@ -157,6 +158,7 @@
             }
         });
         //yafowil.datepicker.binder();
+        */
 
         /* recurrenceinput */
         /* TODO: create yafowil.widget.recurrenceinput
@@ -164,13 +166,15 @@
          *       both need a zope view and are better handled in a dedicated
          *       widget */
         // $.tools.recurrenceinput.localize('${request/LANGUAGE}', ${view/translation});
+        // TODO
+        /*
         jQuery('#input-sharingbox_add_edit-features-event-recurrence').recurrenceinput({
             lang: 'en',
             readOnly: false,
             startField: '#input-sharingbox_add_edit-features-event-start',
             ajaxURL: document.baseURI + '@@json_recurrence'
         });
-
+        */
 
         /* submit */
         $('#sharingbox>form').submit(function (event) {
