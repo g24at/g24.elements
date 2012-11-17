@@ -3,9 +3,6 @@
            xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
            i18n_domain="g24.elements">
 
-  <include
-      zcml:condition="installed z3c.unconfigure"
-      package="plone.app.event.ploneintegration" />
   <include package="plone.app.event"/>
 
   <include package="yafowil.plone"/>
