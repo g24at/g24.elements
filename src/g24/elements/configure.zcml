@@ -1,8 +1,13 @@
 <configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:zcml="http://namespaces.zope.org/zcml"
            xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
            i18n_domain="g24.elements">
 
+  <include
+      zcml:condition="installed z3c.unconfigure"
+      package="plone.app.event.ploneintegration" />
   <include package="plone.app.event"/>
+
   <include package="yafowil.plone"/>
   <!-- include package="collective.jqueryui"/-->
   <!-- include package="Solgema.fullcalendar"/-->
