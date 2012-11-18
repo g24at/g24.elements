@@ -8,8 +8,8 @@
     var shbx_lock   = 0;  // lock-counter to prevent multiple loading of sharingboxes
     var shbx_dirty  = 0;  // isDirty marker, set in onchange-handlers 
 
-    var shbx_save_selector   = 'input#input-sharingbox_add_edit-form-controls-save';
-    var shbx_cancel_selector = 'input#input-sharingbox_add_edit-form-controls-cancel';
+    var shbx_save_selector   = 'input#input-sharingbox_add_edit-save';
+    var shbx_cancel_selector = 'input#input-sharingbox_add_edit-cancel';
 
     /* TOols
      * */
