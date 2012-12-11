@@ -1,14 +1,11 @@
 <configure
     xmlns="http://namespaces.zope.org/zope"
     xmlns:plone="http://namespaces.plone.org/plone"
-    xmlns:grok="http://namespaces.zope.org/grok"
     i18n_domain="g24.elements">
 
-    <include package="plone.dexterity" />
-    <include package="plone.behavior" file="meta.zcml" />
-    <include package="plone.directives.form" file="meta.zcml" />
-    <include package="plone.directives.form" />
-    <grok:grok package=".behaviors" />
+    <include package="plone.app.dexterity"/>
+    <include package="plone.app.dexterity" file="meta.zcml"/>
+    <include package="plone.supermodel"/>
 
     <plone:behavior
         title="Base behavior"

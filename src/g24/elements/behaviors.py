@@ -7,8 +7,10 @@ from plone.app.event.dx.behaviors import IEventRecurrence
 from plone.app.event.dx.interfaces import IDXEvent
 from plone.app.event.dx.interfaces import IDXEventLocation
 from plone.app.event.dx.interfaces import IDXEventRecurrence
-from plone.directives import form
+from plone.autoform import directives as form
+from plone.autoform.interfaces import IFormFieldProvider
 from plone.indexer import indexer
+from plone.supermodel import model
 from plone.uuid.interfaces import IUUID
 from z3c.form.browser.textlines import TextLinesFieldWidget
 from zope import schema
@@ -32,7 +34,7 @@ def format_date(date, context):
                            context=context)
 
 
-class IBase(form.Schema):
+class IBase(model.Schema):
 
     title = schema.TextLine(
         title = _(u'label_title', default=u'Title'),
@@ -64,7 +66,7 @@ class IBase(form.Schema):
         missing_value = (),
         )
     form.widget(subjects = TextLinesFieldWidget)
-alsoProvides(IBase, form.IFormFieldProvider)
+alsoProvides(IBase, IFormFieldProvider)
 
 
 class IThread(Interface):
