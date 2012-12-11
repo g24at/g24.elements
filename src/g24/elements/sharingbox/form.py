@@ -106,6 +106,8 @@ def edit(obj, data, order=None, ignores=None):
     :type ignores: list
 
     """
+    if not order: order = []
+    if not ignores: ignores = []
 
     # access content via an accessor, respecting the behaviors
     accessor = IBasetypeAccessor(obj)
