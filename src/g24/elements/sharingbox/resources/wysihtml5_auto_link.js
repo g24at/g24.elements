@@ -115,8 +115,8 @@
               }
             },
             error: function ( data ) {
-//            	console.log(data.status);
-//            	console.log(data);
+                //console.log(data.status);
+                //console.log(data);
                 var emb = '<div>' + data.statusText + '</div>';
                 iframe = $('iframe.sharingbox').contents();
                 iframe.find('div#' + tmp_uid).replaceWith(emb);
