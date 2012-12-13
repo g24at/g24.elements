@@ -123,6 +123,10 @@
         );
 
 
+        // rebind yafowil widgets
+        yafowil.wysihtml5.binder();
+
+        /*
         var editor = new wysihtml5.Editor("input-sharingbox_add_edit-text", {
             parserRules:  wysihtml5_g24_rules,
             name:         'sharingbox',
@@ -147,7 +151,7 @@
             //$(this.composer.iframe).autoResize();
         });
         editor.observe("change", function(){shbx_dirty=1;});
-
+        */
         // TODO: TEMPORARY
         /*
         $('.datepicker').dateinput({

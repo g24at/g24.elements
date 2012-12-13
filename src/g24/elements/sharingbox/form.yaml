@@ -49,12 +49,24 @@ widgets:
             label: Title
 
     - text:
-        factory: field:label:error:textarea
+        factory: field:label:error:wysihtml5
         value: expr:context.get('text')
         props:
             label: Text
             label.title: Share some content with us!
             rows: 5
+            focus: True
+            resize: True
+            size: mini
+            stylesheet: /++resource++g24.elements/views.css
+            color: True
+            emphasis: True
+            font-styles: True
+            html: True
+            image: True
+            justify: True
+            link: True
+            lists: True
 
     - subjects:
         factory: field:label:error:lines

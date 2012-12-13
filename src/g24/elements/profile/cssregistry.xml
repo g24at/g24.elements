@@ -1,33 +1,50 @@
 <?xml version="1.0"?>
 <object name="portal_css" meta_type="Stylesheets Registry">
 
-  <!-- jQueryTools dateinput -->
+
+  <!-- widgets -->
   <stylesheet
-    bundle="jquerytools" 
+    bundle="jquerytools"
     id="++resource++plone.app.jquerytools.dateinput.css"
     enabled="True" />
-
-  <!-- recurrence input -->
   <stylesheet
-    bundle="jquery" 
+    bundle="jquery"
     id="++resource++plone.formwidget.recurrence/jquery.recurrenceinput.css"
     enabled="True" />
 
-  <!-- sharingbox -->
   <stylesheet
-    bundle="g24" 
-    id="++resource++g24.elements/views.css"
+    bundle="g24"
+    id="++resource++yafowil.widget.wysihtml5/bootstrap-wysihtml5/src/bootstrap-wysihtml5.css"
     cacheable="True" compression="safe" cookable="True" enabled="True"
     media="screen" rel="stylesheet" rendering="link"/>
   <stylesheet
-    bundle="g24" 
-    id="++resource++g24.elements.sharingbox/sharingbox.css"
+    bundle="g24"
+    id="++resource++yafowil.widget.wysihtml5/bootstrap-wysihtml5/lib/css/wysiwyg-color.css"
     cacheable="True" compression="safe" cookable="True" enabled="True"
     media="screen" rel="stylesheet" rendering="link"/>
   <stylesheet
-    bundle="g24" 
+    bundle="g24"
+    id="++resource++yafowil.widget.wysihtml5/yafowil.widget.wysihtml5.common"
+    cacheable="True" compression="safe" cookable="True" enabled="True"
+    media="screen" rel="stylesheet" rendering="link"/>
+
+  <stylesheet
+    bundle="g24"
     id="++resource++g24.elements.sharingbox/jquery.autoSuggest.css"
     cacheable="True" compression="safe" cookable="True" enabled="True"
     media="screen" rel="stylesheet" rendering="link"/>
 
-</object> 
+
+  <!-- sharingbox -->
+  <stylesheet
+    bundle="g24"
+    id="++resource++g24.elements/views.css"
+    cacheable="True" compression="safe" cookable="True" enabled="True"
+    media="screen" rel="stylesheet" rendering="link"/>
+  <stylesheet
+    bundle="g24"
+    id="++resource++g24.elements.sharingbox/sharingbox.css"
+    cacheable="True" compression="safe" cookable="True" enabled="True"
+    media="screen" rel="stylesheet" rendering="link"/>
+
+</object>
