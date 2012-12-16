@@ -44,5 +44,24 @@
       <element>published</element>
     </property>
   </assignment>
-  
+
+  <assignment name="social-buttons" category="context" key="/"
+      manager="plone.leftcolumn" type="plone.portlet.static.Static"
+      visible="True">
+    <property
+      name="text"><![CDATA[
+      <div class="kulturserver rss">
+        <link rel="stylesheet" type="text/css"
+            href="http://www.kulturserver-graz.at/kalender_rss/rssHomepage.css" />
+        <script type="text/javascript"
+            src="http://www.kulturserver-graz.at/kalender_rss/rssHpMusikU.js"></script>
+      </div>
+      ]]>
+    </property>
+    <property name="more_url"/>
+    <property name="omit_border">False</property>
+    <property name="header">kulturserver</property>
+    <property name="footer"/>
+  </assignment>
+
 </portlets>
