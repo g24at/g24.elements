@@ -43,17 +43,19 @@ widgets:
     widgets:
 
     - title:
-        factory: field:label:error:text
+        factory: field:error:text
         value: expr:context.get('title')
         props:
-            label: Title
+            placeholder: Titel
+            title: Titel
+
 
     - text:
-        factory: field:label:error:wysihtml5
+        factory: field:error:wysihtml5
         value: expr:context.get('text')
         props:
-            label: Text
-            label.title: Share some content with us!
+            placeholder: Text
+            title: Share some content with us!
             rows: 5
             focus: True
             resize: True
