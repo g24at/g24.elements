@@ -1,12 +1,14 @@
 #sharingbox-facade-content { display:none; }
 
 #sharingbox fieldset {
-    margin:0;
+    margin:20px 0;
     border:none;
 }
+
 #sharingbox fieldset>div {
     margin:0;
 }
+
 #sharingbox .sharingbox-features>div {
     display:inline-block;
     margin-right:0.5em;
@@ -16,3 +18,11 @@
     margin:0 -4px !important; }
 
 ul.as-selections input { margin:0; }
+
+.sharingbox-controls {
+    display:block;
+    text-align:right;
+}
+.sharingbox-controls input {
+    margin-left:4px;
+}

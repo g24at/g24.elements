@@ -27,8 +27,12 @@ article.element:hover {
 }
 
 aside.tags { margin-bottom:0.2em; }
-aside.element-controls { margin:0; text-align:right; }
 
+aside.element-controls {
+    display:block;
+    margin:0;
+    text-align:right;
+}
 
 /* ELEMENT CONTENT */
 .wysihtml5-editor.sharingbox img,
