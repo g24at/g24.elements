@@ -93,16 +93,16 @@ def keyword_indexer(obj):
     return acc.subjects
 
 
-EVENT_INTERFACES = (IDXEvent, IDXEventRecurrence, IDXEventLocation)
-EVENT_BEHAVIORS = ('plone.app.event.dx.behaviors.IEventBasic',
+EVENT_INTERFACES = [IDXEvent, IDXEventRecurrence, IDXEventLocation]
+EVENT_BEHAVIORS = ['plone.app.event.dx.behaviors.IEventBasic',
                    'plone.app.event.dx.behaviors.IEventRecurrence',
-                   'plone.app.event.dx.behaviors.IEventLocation')
+                   'plone.app.event.dx.behaviors.IEventLocation']
 
-THREAD_INTERFACES =  (IThread,)
-THREAD_BEHAVIORS = ('g24.elements.behaviors.IThread',)
+THREAD_INTERFACES =  [IThread,]
+THREAD_BEHAVIORS = ['g24.elements.behaviors.IThread',]
 
-PLACE_INTERFACES = (IPlace,)
-PLACE_BEHAVIORS = ('g24.elements.behaviors.IPlace',)
+PLACE_INTERFACES = [IPlace,]
+PLACE_BEHAVIORS = ['g24.elements.behaviors.IPlace',]
 
 
 class BasetypeAccessor(object):

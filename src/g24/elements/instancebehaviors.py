@@ -23,10 +23,10 @@ class DexterityInstanceBehaviorAssignable(DexterityBehaviorAssignable):
     def __init__(self, context):
         super(DexterityInstanceBehaviorAssignable, self).__init__(context)
         annotations = IAnnotations(context)
-        self.instance_behaviors = annotations.get(KEY, ())
+        self.instance_behaviors = annotations.get(KEY, [])
 
     def enumerateBehaviors(self):
-        self.behaviors = self.fti.behaviors + self.instance_behaviors
+        self.behaviors = list(self.fti.behaviors) + list(self.instance_behaviors)
         for name in self.behaviors:
             behavior = queryUtility(IBehavior, name=name)
             if behavior is not None:
@@ -52,7 +52,7 @@ def enable_behaviors(obj, behaviors, ifaces):
 
     """
     annotations = IAnnotations(obj)
-    instance_behaviors = annotations.get(KEY, ())
+    instance_behaviors = list(annotations.get(KEY, []))
     instance_behaviors += behaviors
     annotations[KEY] = instance_behaviors
 
@@ -82,7 +82,7 @@ def disable_behaviors(obj, behaviors, ifaces):
 
     """
     annotations = IAnnotations(obj)
-    instance_behaviors = annotations.get(KEY, ())
+    instance_behaviors = list(annotations.get(KEY, []))
     instance_behaviors = filter(lambda x: x not in behaviors,
                                 instance_behaviors)
     annotations[KEY] = instance_behaviors
@@ -92,4 +92,3 @@ def disable_behaviors(obj, behaviors, ifaces):
 
     # TODO UNTESTED:
     obj.reindexObject(idxs=('object_provides'))
-
