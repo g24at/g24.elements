@@ -30,8 +30,17 @@ ul.as-selections input { margin:0; }
 .sharingbox-controls input {
     margin-left:4px;
 }
+
+fieldset div.field { position:relative; }
 div.field ul.wysihtml5-toolbar { display:none; }
-div.field:hover ul.wysihtml5-toolbar { display:block; }
+div.field:hover ul.wysihtml5-toolbar {
+    display:block;
+    position:absolute;
+    top:-25px;
+    left:0;
+    background-color:white;
+}
+
 
 div.field label {
     display:inline-block;
