@@ -4,6 +4,7 @@
            i18n_domain="g24.elements">
 
   <include package="plone.app.event"/>
+  <include package="collective.geolocationbehavior"/>
 
   <include package="yafowil.plone"/>
   <!-- include package="collective.jqueryui"/-->

@@ -18,6 +18,7 @@ widgets:
         value: expr:context.get('is_thread')
         props:
             label: Thread
+            label.class: icon-star-empty
             label.title: I want to create a thread...
 
     - is_event:
@@ -25,6 +26,7 @@ widgets:
         value: expr:context.get('is_event')
         props:
             label: Event
+            label.class: icon-time
             label.title: I want to create an event...
 
     - is_place:
@@ -32,6 +34,7 @@ widgets:
         value: expr:context.get('is_place')
         props:
             label: Place
+            label.class: icon-map-marker
             label.title: I want to add a place...
 
 
@@ -60,7 +63,7 @@ widgets:
             focus: True
             resize: True
             size: mini
-            stylesheet: /++resource++g24.elements/views.css
+            stylesheet: ++resource++g24.elements/views.css
             color: True
             emphasis: True
             font-styles: True

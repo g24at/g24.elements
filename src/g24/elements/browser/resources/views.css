@@ -1,8 +1,8 @@
-ul.threadview { margin:0; padding:0; }
-ul.threadview > li {
+#content ul, #content ul.threadview { margin:0; padding:0; }
+#content ul.threadview > li {
     list-style:none;
     border-left:1px solid #EAEAEA; }
-ul.threadview ul.threadview { margin-left:2em; }
+#content ul.threadview ul.threadview { margin-left:2em; }
 
 #sharingbox,
 article.element {
@@ -60,3 +60,5 @@ body.wysihtml5-editor div.embed-busy {
 	width: 20px;
 	border:0px;
 }
+
+body.wysihtml5 { background-color:#FFFFFF !important; }

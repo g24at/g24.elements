@@ -1,13 +1,17 @@
 #sharingbox-facade-content { display:none; }
 
+#sharingbox fieldset:last-of-type {
+    margin:0;
+}
 #sharingbox fieldset {
-    margin:20px 0;
+    margin:0 0 0.5em 0;
     border:none;
 }
 
 #sharingbox fieldset>div {
     margin:0;
 }
+#sharingbox form { margin:0; }
 
 #sharingbox .sharingbox-features>div {
     display:inline-block;
@@ -26,3 +30,12 @@ ul.as-selections input { margin:0; }
 .sharingbox-controls input {
     margin-left:4px;
 }
+div.field ul.wysihtml5-toolbar { display:none; }
+div.field:hover ul.wysihtml5-toolbar { display:block; }
+
+div.field label {
+    display:inline-block;
+    margin:0;
+    color:transparent;
+}
+div.field input[type='checkbox'] { margin:0 0 0 0.2em; }

@@ -4,9 +4,9 @@
     var ADD = 1;
 
     var shbx_last_context = null;
-    
+
     var shbx_lock   = 0;  // lock-counter to prevent multiple loading of sharingboxes
-    var shbx_dirty  = 0;  // isDirty marker, set in onchange-handlers 
+    var shbx_dirty  = 0;  // isDirty marker, set in onchange-handlers
 
     var shbx_save_selector   = 'input#input-sharingbox_add_edit-save';
     var shbx_cancel_selector = 'input#input-sharingbox_add_edit-cancel';
@@ -48,15 +48,15 @@
 
         // test for "create-lock" (prevent double creation)
         if (shbx_lock > 0 ) { return; }
-        
+
         // test for dirty inputs
         if (! confirm_unload()) { return; }
-        
-        // set "create lock" 
+
+        // set "create lock"
         shbx_lock++;
-        
+
         sharingbox_remove();
-        
+
         restore_last_context();
         var context = $(linkel).closest('article');
         var context_id = context.attr('id');
@@ -126,6 +126,10 @@
         // rebind yafowil widgets
         yafowil.wysihtml5.binder();
 
+        // tooltips
+        $('.field label').tooltip({
+        });
+
         /*
         var editor = new wysihtml5.Editor("input-sharingbox_add_edit-text", {
             parserRules:  wysihtml5_g24_rules,
@@ -136,7 +140,7 @@
             parser:       wysihtml5.dom.parse || Prototype.K,
             composerClassName: "wysihtml5-editor",
             bodyClassName:     "wysihtml5-supported",
-            stylesheets:  [portal_url + '/++resource++g24.elements/views.css', 
+            stylesheets:  [portal_url + '/++resource++g24.elements/views.css',
                            portal_url + '/++resource++g24.elements.sharingbox/sharingbox.css'], // use stylesheet for editor
             allowObjectResizing:  true,
             supportTouchDevices:  true
@@ -189,12 +193,12 @@
                 if (! confirm_unload()) { return; }
                 sharingbox_remove();
                 restore_last_context();
-                return; 
-            } 
-            
+                return;
+            }
+
             // process autosuggest fields
             autosuggest_submit_handler(this);
-            
+
             //$('#sharingbox-text').val($('#sharingbox-facade-content').html());
             var form_data = $('#sharingbox>form').serialize();
             var form_submit = $('#sharingbox>form input[type="submit"]');
@@ -215,25 +219,25 @@
                     sharingbox_enable();
                 }
             );
-            
+
             shbx_dirty = 0; // submitted, reset dirty marker
         });
-        
+
         // set onchange handlers
         $("#sharingbox>form input").change(function(){shbx_dirty=1;});
         $("#sharingbox>form select").change(function(){shbx_dirty=1;});
-        
+
         $(window).on('beforeunload',function(){
             if ( isInputDirty() ) return false;
         });
-        
-        
+
+
         // autosuggest for tags
         autosuggest_transform_element($("textarea.autosuggest[name$='subjects']"));
-        
+
         // autosuggest for timezone field
         autosuggest_transform_element($('input.autosuggest[name$="timezone"]'));
-        
+
         // autosuggest for place field
         autosuggest_transform_element($('input[name$="location"]'),
                 {
@@ -242,7 +246,7 @@
                     selectedValuesProp:"n"
                 });
     }
-    
+
     /*
      * Dirty Input
      */
@@ -265,8 +269,8 @@
     $(document).ready(function () {
         sharingbox_enable();
     });
-    
-    
+
+
     /*
      * Auto-Suggestion
      */
@@ -283,7 +287,7 @@
             neverSubmit: true, // block submit through <return>key
             limitText:"No more selections allowed"
         };
-            
+
         options = (typeof options !== 'undefined') ? $.merge(options, default_options) : default_options;
 
         if ( element.prop('nodeName').toLowerCase() != 'textarea') {
@@ -291,13 +295,13 @@
             options.selectionLimit = 1;
             // options.selectionAdded = function(el) {};
         }
-        
+
         // determine ajax endpoint
         classes = element.attr('class').split(/\s+/);
         var item;
         for (item in classes ) {
             if (classes[item].indexOf('autosuggest-vocabulary') != -1) {
-                query_endpoint = classes[item].split('-').pop();       
+                query_endpoint = classes[item].split('-').pop();
             }
         }
         query_endpoint      = portal_url + '/@@vocabularies/' + query_endpoint;
@@ -306,7 +310,7 @@
         elname  = element.attr('name');
         newname = '_g-auto_' + elname; // create name for intermediate field
         options.asHtmlID = elname.replace(/\./g,"-_-");  // set ID to reference orig. field later
-        autosuggest = $('<input type="text" name="' + newname + '"/>'); 
+        autosuggest = $('<input type="text" name="' + newname + '"/>');
         element.after(autosuggest); // add intermediate field
 
         // remove original field, insert again as hidden field
@@ -324,17 +328,17 @@
                 tags = element.value.split(',');
                 realtags = Array();
                 var item;
-                for (item in tags) { 
+                for (item in tags) {
                     if ((tagv = tags[item].trim()) !== '') { realtags.push(tagv); }
                 }
-                    
+
                 // determine name/selector for the original formfield
-                origname    = element.name.replace(/-_-/g,".").replace('as_values_','');  // recover orig. fieldname            
-                origfield   = $('[name='+origname.replace(/\./g,"\\.")+']'); // escape dot in selector '.' 
+                origname    = element.name.replace(/-_-/g,".").replace('as_values_','');  // recover orig. fieldname
+                origfield   = $('[name='+origname.replace(/\./g,"\\.")+']'); // escape dot in selector '.'
 
                 // set value to orig. field
                 fieldvalue  = origfield.hasClass('single') ? realtags[0] : realtags.join("\n");
-                origfield.attr('value', fieldvalue);    
+                origfield.attr('value', fieldvalue);
             });
     }
 
