@@ -42,9 +42,12 @@ div.field:hover ul.wysihtml5-toolbar {
 }
 
 
-div.field label {
+fieldset.sharingbox-features label {
     display:inline-block;
     margin:0;
     color:transparent;
 }
-div.field input[type='checkbox'] { margin:0 0 0 0.2em; }
+fieldset.sharingbox-features label.inactive { opacity:0.5; }
+fieldset.sharingbox-features input[type='checkbox'] { display:none; margin:0 0 0 0.2em; }
+
+div.tooltip { min-width:12em; }

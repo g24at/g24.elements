@@ -20,6 +20,7 @@ widgets:
             label: Thread
             label.class: icon-star-empty
             label.title: I want to create a thread...
+            class: field sharingbox-feature-thread
 
     - is_event:
         factory: field:label:checkbox
@@ -28,6 +29,7 @@ widgets:
             label: Event
             label.class: icon-time
             label.title: I want to create an event...
+            class: field sharingbox-feature-event
 
     - is_place:
         factory: field:label:checkbox
@@ -36,6 +38,7 @@ widgets:
             label: Place
             label.class: icon-map-marker
             label.title: I want to add a place...
+            class: field sharingbox-feature-place
 
 
 - features-base:
@@ -88,7 +91,7 @@ widgets:
     factory: fieldset
     props:
         structural: True
-        class: sharingbox-event
+        class: sharingbox-feature-event
     widgets:
     - start:
         factory: field:label:error:datetime

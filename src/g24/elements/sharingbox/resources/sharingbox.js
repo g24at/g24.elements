@@ -112,23 +112,32 @@
          * @param mode: 0..Edit, 1..Add
          * */
 
-        /* fieldsets */
-        function initialize_features(checkbox, fieldset) {
-            if (checkbox.is(':checked') === false) { fieldset.hide(); }
-            checkbox.change(function (event) { fieldset.toggle(); });
+        /* features */
+        function initialize_feature_labels(checkbox, label, fieldset) {
+            if (checkbox.is(':checked') === true) {
+                label.removeClass('inactive');
+                if (fieldset.length) { fieldset.show(); }
+            } else {
+                label.addClass('inactive');
+                if (fieldset.length) { fieldset.hide(); }
+            }
         }
-        initialize_features(
-            $('#input-sharingbox_add_edit-is_event'),
-            $('.sharingbox-event')
-        );
-
+        function initialize_feature(feature) {
+            var checkbox = $('fieldset.sharingbox-features ' + feature + ' input:checkbox');
+            var label    = $('fieldset.sharingbox-features ' + feature + ' label');
+            var fieldset = $('fieldset.' + feature);
+            initialize_feature_labels(checkbox, label, fieldset);
+            checkbox.change(function (event) { initialize_feature_labels(checkbox, label, fieldset); });
+        }
+        initialize_feature('.sharingbox-feature-thread');
+        initialize_feature('.sharingbox-feature-event');
+        initialize_feature('.sharingbox-feature-place');
 
         // rebind yafowil widgets
         yafowil.wysihtml5.binder();
 
         // tooltips
-        $('.field label').tooltip({
-        });
+        $('.field label').tooltip({});
 
         /*
         var editor = new wysihtml5.Editor("input-sharingbox_add_edit-text", {
