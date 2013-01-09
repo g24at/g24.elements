@@ -77,15 +77,18 @@ widgets:
             lists: True
 
     - subjects:
-        factory: field:label:error:lines
+        factory: field:label:error:select2
         value: expr:context.get('subjects')
         props:
             label: Tags
             label.title: Tag the content with categories, so that it can be better found.
             rows: 4
             cols: 10
-            class: autosuggest autosuggest-vocabulary-query_tags
-
+            class: select2
+            placeholder: 'Select some tags'
+            vocabulary: expr:context.vocabulary_keywords
+            multiple: 'multiple'
+            allowClear: True,
 
 - features-event:
     factory: fieldset
@@ -121,12 +124,15 @@ widgets:
             label.title: The event lasts the whole day. Start and end times are not used.
 
     - timezone:
-        factory: field:label:error:text
+        factory: field:label:error:select2
         value: expr:context.get('timezone')
         props:
             label: Timezone
             label.title: The timezone, this event happens.
-            class: autosuggest autosuggest-vocabulary-query_timezones
+            class: select2
+            placeholder: 'Select the timezone'
+            vocabulary: expr:context.vocabulary_timezones
+            allowClear: True,
 
     - recurrence:
         factory: field:label:error:textarea
@@ -137,12 +143,15 @@ widgets:
             rows: 2
 
     - location:
-        factory: field:label:error:text
+        factory: field:label:error:select2
         value: expr:context.get('location')
         props:
             label: Location
             label.title: The place where the event happens.
-            class: autosuggest autosuggest-vocabulary-query_locations
+            class: select2
+            placeholder: 'Select the location'
+            vocabulary: expr:context.vocabulary_locations
+            allowClear: True,
 
 
 - form-controls:

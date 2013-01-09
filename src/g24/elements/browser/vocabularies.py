@@ -6,6 +6,22 @@ from plone.app.vocabularies.catalog import KeywordsVocabulary
 from g24.elements.behaviors import IPlace
 
 
+def keywords(context):
+    vocab = KeywordsVocabulary()
+    result = vocab(context)
+    return [it.title for it in result]
+
+def locations(context):
+    cat = getToolByName(context, 'portal_catalog')
+    query = {}
+    query['object_provides'] = IPlace.__identifier__
+    query['sort_on'] = 'sortable_title'
+    return [(it.id, it.Title) for it in cat(**query)]
+
+def timezones():
+    return pytz.all_timezones
+
+
 class VocabulariesView(BrowserView):
 
     def __call__(self):
@@ -17,21 +33,15 @@ class VocabulariesView(BrowserView):
     # TODO: cache/memoize
     @property
     def vocabulary_keywords(self):
-        vocab = KeywordsVocabulary()
-        result = vocab(self.context)
-        return [it.title for it in result]
+        return keywords(self.context)
 
     @property
     def vocabulary_locations(self):
-        cat = getToolByName(self.context, 'portal_catalog')
-        query = {}
-        query['object_provides'] = IPlace.__identifier__
-        query['sort_on'] = 'sortable_title'
-        return [(it.id, it.Title) for it in cat(**query)]
+        return locations(self.context)
 
     @property
     def vocabulary_timezones(self):
-        return pytz.all_timezones
+        return timezones()
 
 
     def _json_vocab(self, items, tuples=False):

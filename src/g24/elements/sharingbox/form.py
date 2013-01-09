@@ -22,6 +22,7 @@ from zope.lifecycleevent import (
     ObjectCreatedEvent,
     ObjectModifiedEvent
 )
+from g24.elements.browser.vocabularies import keywords, timezones, locations
 from g24.elements.interfaces import IBasetypeAccessor
 from g24.elements import messageFactory as _
 
@@ -194,6 +195,18 @@ class Sharingbox(BrowserView):
 
     def _save(self, data):
         raise NotImplementedError
+
+    @property
+    def vocabulary_keywords(self):
+        return keywords(self.context)
+
+    @property
+    def vocabulary_timezones(self):
+        return timezones()
+
+    @property
+    def vocabulary_locations(self):
+        return locations(self.context)
 
 
 class SharingboxAdd(Sharingbox):

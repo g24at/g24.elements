@@ -135,6 +135,7 @@
 
         // rebind yafowil widgets
         yafowil.wysihtml5.binder();
+        yafowil.select2.binder();
 
         // tooltips
         $('.field label').tooltip({});
@@ -206,7 +207,7 @@
             }
 
             // process autosuggest fields
-            autosuggest_submit_handler(this);
+            //autosuggest_submit_handler(this);
 
             //$('#sharingbox-text').val($('#sharingbox-facade-content').html());
             var form_data = $('#sharingbox>form').serialize();
@@ -241,6 +242,7 @@
         });
 
 
+        /*
         // autosuggest for tags
         autosuggest_transform_element($("textarea.autosuggest[name$='subjects']"));
 
@@ -254,6 +256,9 @@
                     searchObjProps: "n",
                     selectedValuesProp:"n"
                 });
+        */
+    
+    
     }
 
     /*

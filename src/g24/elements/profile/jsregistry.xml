@@ -1,6 +1,15 @@
 <?xml version="1.0"?>
 <object name="portal_javascripts" meta_type="JavaScripts Registry">
 
+  <!-- upgrade -->
+  <javascript
+      remove="True"
+      bundle="g24"
+      id="++resource++g24.elements.sharingbox/jquery.autoSuggest.js"
+      cacheable="True" compression="safe" cookable="True" inline="False"
+      enabled="True" />
+
+
   <!-- jQuery UI -->
   <!--javascript
       id="++resource++jquery.ui/ui/jquery.ui.core.js"
@@ -14,11 +23,6 @@
   <javascript bundle="jquery" id="++resource++jquery.tmpl.js" enabled="True" />
   <javascript bundle="jquery" id="++resource++plone.formwidget.recurrence/jquery.recurrenceinput.js" enabled="True" />
 
-  <javascript
-      bundle="g24"
-      id="++resource++g24.elements.sharingbox/jquery.autoSuggest.js"
-      cacheable="True" compression="safe" cookable="True" inline="False"
-      enabled="True" />
 
   <!-- editor -->
   <!-- not cache/cookable, to prevent errors -->
@@ -31,18 +35,29 @@
       bundle="g24"
       id="++resource++yafowil.widget.wysihtml5/bootstrap-wysihtml5/src/bootstrap-wysihtml5.js"
       insert-after="*"
-      cacheable="False" compression="none" cookable="False" />
+      cacheable="True" compression="safe" cookable="True" />
   <javascript
       bundle="g24"
       id="++resource++yafowil.widget.wysihtml5/widget.js"
       insert-after="*"
-      cacheable="False" compression="none" cookable="False" />
+      cacheable="True" compression="safe" cookable="True" />
   <javascript
       bundle="g24"
       id="++resource++g24.elements.sharingbox/wysihtml5_auto_link.js"
       insert-after="*"
       cacheable="True" compression="safe" cookable="True" inline="False"
       enabled="True" />
+  <!-- select2 -->
+  <javascript
+      bundle="g24"
+      id="++resource++yafowil.widget.select2/select2/select2.js"
+      insert-after="*"
+      cacheable="True" compression="safe" cookable="True" />
+  <javascript
+      bundle="g24"
+      id="++resource++yafowil.widget.select2/widget.js"
+      insert-after="*"
+      cacheable="True" compression="safe" cookable="True" />
 
   <!-- sharingbox -->
   <javascript
@@ -59,7 +74,7 @@
       enabled="True" />
 
   <!-- disable unused -->
-  <javascript
+  <!--javascript
       id="++resource++yafowil.widget.datetime/widget.js"
       enabled="False" />
   <javascript
@@ -67,6 +82,6 @@
       enabled="False" />
   <javascript
       id="jquery-integration.js"
-      enabled="False" />
+      enabled="False" /-->
 
 </object>
