@@ -6,12 +6,11 @@ props:
 widgets:
     
     - tags:
-        factory: field:chosen
+        factory: field:select2
         value: expr:context.get()
         props:
-            class: chosen
+            class: select2
             placeholder: 'Search or Tag'
             vocabulary: expr:context.vocabulary_keywords
-            multivalued: true
-            search_contains: true
-            new_values: true
+            multiple: 'multiple'
+            allowClear: true
