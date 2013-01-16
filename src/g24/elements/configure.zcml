@@ -17,6 +17,7 @@
   <include package=".browser"/>
   <include package=".portlets"/>
   <include package=".sharingbox"/>
+  <include package=".filter"/>
 
   <genericsetup:registerProfile
       name="default"

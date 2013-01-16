@@ -1,0 +1,17 @@
+factory: form
+name: filter_box
+props:
+    action: expr:context.action
+    class: g24_filter
+widgets:
+    
+    - tags:
+        factory: field:chosen
+        value: expr:context.get()
+        props:
+            class: chosen
+            placeholder: 'Search or Tag'
+            vocabulary: expr:context.vocabulary_keywords
+            multivalued: true
+            search_contains: true
+            new_values: true

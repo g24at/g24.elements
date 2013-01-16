@@ -1,0 +1,14 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="g24.elements">
+
+  <browser:page
+      name="filter"
+      for="*"
+      layer="g24.elements.interfaces.IG24ElementsLayer"
+      class=".filter.Filter"
+      permission="g24.AddBasetype"
+      />
+
+</configure>

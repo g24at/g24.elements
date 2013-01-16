@@ -77,7 +77,7 @@ widgets:
             lists: True
 
     - subjects:
-        factory: field:label:error:select2
+        factory: field:label:error:select2input
         value: expr:context.get('subjects')
         props:
             label: Tags
