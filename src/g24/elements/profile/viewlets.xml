@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<object>
+  <order manager="plone.portaltop">
+    <viewlet name="collective.ie8nomore" inser-before="*" />
+  </order>
+  <order manager="plone.portalheader">
+      <viewlet name="bda.htu.theme.layout_selector" insert-before="*" />
+  </order>
+</object>
