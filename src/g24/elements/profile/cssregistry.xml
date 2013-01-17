@@ -46,6 +46,18 @@
     id="++resource++yafowil.widget.select2/widget.css"
     cacheable="True" compression="safe" cookable="True" enabled="True"
     media="screen" rel="stylesheet" rendering="link"/>
+  <!-- chosen -->
+  <stylesheet
+    bundle="g24"
+    id="++resource++yafowil.widget.chosen/chosen/chosen/chosen.css"
+    cacheable="True" compression="safe" cookable="True" enabled="True"
+    media="screen" rel="stylesheet" rendering="link"/>
+  <stylesheet
+    bundle="g24"
+    id="++resource++yafowil.widget.chosen/widget.css"
+    cacheable="True" compression="safe" cookable="True" enabled="True"
+    media="screen" rel="stylesheet" rendering="link"/>
+
 
   <!-- sharingbox -->
   <stylesheet

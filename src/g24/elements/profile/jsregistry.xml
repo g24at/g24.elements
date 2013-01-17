@@ -58,6 +58,18 @@
       id="++resource++yafowil.widget.select2/widget.js"
       insert-after="*"
       cacheable="True" compression="safe" cookable="True" />
+  <!-- chosen -->
+  <javascript
+      bundle="g24"
+      id="++resource++yafowil.widget.chosen/chosen/chosen/chosen.jquery.js"
+      insert-after="*"
+      cacheable="True" compression="safe" cookable="True" />
+  <javascript
+      bundle="g24"
+      id="++resource++yafowil.widget.chosen/widget.js"
+      insert-after="*"
+      cacheable="True" compression="safe" cookable="True" />
+
 
   <!-- sharingbox -->
   <javascript

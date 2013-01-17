@@ -10,6 +10,7 @@ from g24.elements import messageFactory as _
 
 IGNORES = ['save', 'cancel']
 
+
 class Filter(BrowserView):
     template = ViewPageTemplateFile('filter.pt')
 
@@ -64,3 +65,29 @@ class Filter(BrowserView):
     @property
     def vocabulary_locations(self):
         return locations(self.context)
+
+
+from zope.viewlet.interfaces import IViewlet
+from zope.interface import implements
+
+
+class FilterViewlet(Filter):
+    """ Base class with common functions for link viewlets.
+    """
+    # TODO: make me a generic viewlet factory!
+    # TODO: make me configurable: name = prefix in plone.registry.
+    implements(IViewlet)
+
+    def __init__(self, context, request, view, manager=None):
+        super(FilterViewlet, self).__init__(context, request)
+        self.__parent__ = view
+        self.context = context
+        self.request = request
+        self.view = view
+        self.manager = manager
+        self.index = self.template
+
+    def render(self):
+        # defer to index method, because that's what gets overridden by the template ZCML attribute
+        #return self.index()
+        return self()

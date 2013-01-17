@@ -6,9 +6,15 @@
   <browser:page
       name="filter"
       for="*"
-      layer="g24.elements.interfaces.IG24ElementsLayer"
       class=".filter.Filter"
       permission="g24.AddBasetype"
+      />
+
+  <browser:viewlet
+      name="filter_viewlet"
+      manager="plone.app.layout.viewlets.interfaces.IPortalHeader"
+      class=".filter.FilterViewlet"
+      permission="zope2.View"
       />
 
 </configure>
