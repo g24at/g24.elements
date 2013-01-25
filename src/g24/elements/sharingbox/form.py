@@ -51,6 +51,9 @@ DEFAULTS = {
     'whole_day': UNSET,
     'recurrence': UNSET,
     'location': UNSET,
+    'altitude': UNSET,
+    'latitude': UNSET,
+    'longitude': UNSET,
 }
 IGNORES = ['save', 'cancel']
 

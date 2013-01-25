@@ -70,11 +70,14 @@ alsoProvides(IBase, IFormFieldProvider)
 
 
 class IThread(Interface):
-    """ Behavior marker interface for threads. """
+    """Behavior marker interface for threads."""
 
 
-class IPlace(Interface):
-    """ Behavior marker interface for places. """
+class IPlace(model.Schema):
+    """Behavior marker interface for places."""
+    altitude = schema.Float(title = _(u'Altitude'))
+    latitude = schema.Float(title = _(u'Latitude'))
+    longitude = schema.Float(title = _(u'Longitude'))
 
 
 @indexer(IBasetype)
@@ -192,7 +195,10 @@ class BasetypeAccessor(object):
             timezone=IEventBasic,
             whole_day=IEventBasic,
             recurrence=IEventRecurrence,
-            location=IEventLocation
+            location=IEventLocation,
+            altitude=IPlace,
+            latitude=IPlace,
+            longitude=IPlace
         )
         object.__setattr__(self, '_behavior_map', bm)
 

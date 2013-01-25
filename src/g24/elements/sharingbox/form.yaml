@@ -153,6 +153,31 @@ widgets:
             vocabulary: expr:context.vocabulary_locations
             allowClear: True,
 
+- features-place:
+    factory: fieldset
+    props:
+        structural: True
+        class: sharingbox-feature-place
+    widgets:
+
+    - altitude:
+        factory: field:error:text
+        value: expr:context.get('altitude')
+        props:
+            placeholder: Altitude
+            title: Altitude
+    - latitude:
+        factory: field:error:text
+        value: expr:context.get('latitude')
+        props:
+            placeholder: Latitude
+            title: Latitude
+    - longitude:
+        factory: field:error:text
+        value: expr:context.get('longitude')
+        props:
+            placeholder: Longitude
+            title: Longitude
 
 - form-controls:
     factory: fieldset
