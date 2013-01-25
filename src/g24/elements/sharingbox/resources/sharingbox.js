@@ -257,8 +257,8 @@
                     selectedValuesProp:"n"
                 });
         */
-    
-    
+
+
     }
 
     /*
@@ -355,5 +355,18 @@
                 origfield.attr('value', fieldvalue);
             });
     }
+
+
+    $(document).ready(function () {
+      var options = $('#map').closest('div.g24_place').data();
+      // replace "toner" here with "terrain" or "watercolor"
+      var layer = new L.StamenTileLayer("watercolor");
+      var map = new L.Map("map", {
+          center: new L.LatLng(options.latitude, options.longitude),
+          zoom: 12
+      });
+      map.addLayer(layer);
+    });
+
 
 }(jQuery));
