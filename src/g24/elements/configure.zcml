@@ -6,6 +6,8 @@
   <include package="plone.app.event"/>
   <include package="collective.geolocationbehavior"/>
 
+  <include package="plone.fanstatic"/>
+
   <include package="yafowil.plone"/>
   <!-- include package="collective.jqueryui"/-->
   <!-- include package="Solgema.fullcalendar"/-->

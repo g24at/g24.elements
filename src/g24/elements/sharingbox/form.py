@@ -26,6 +26,10 @@ from g24.elements.browser.vocabularies import keywords, timezones, locations
 from g24.elements.interfaces import IBasetypeAccessor
 from g24.elements import messageFactory as _
 
+from js.leaflet import leaflet
+from plone.fanstatic import groups
+groups.append(leaflet)
+
 
 EDIT, ADD = 0, 1
 
