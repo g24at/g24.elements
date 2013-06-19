@@ -3,11 +3,12 @@ from Acquisition.interfaces import IAcquirer
 from Products.Five import BrowserView
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
-from plone.app.event.base import (
-    default_timezone,
-    default_end_dt,
-    default_start_dt
-)
+from g24.elements import messageFactory as _
+from g24.elements.browser.vocabularies import keywords, timezones, locations
+from g24.elements.interfaces import IBasetypeAccessor
+from plone.app.event.base import default_end
+from plone.app.event.base import default_start
+from plone.app.event.base import default_timezone
 from plone.app.textfield.value import RichTextValue
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import addContentToContainer
@@ -17,18 +18,13 @@ from yafowil.yaml import parse_from_YAML
 from zExceptions import Unauthorized
 from zope.component import getUtility, createObject
 from zope.event import notify
-from zope.lifecycleevent import (
-    ObjectAddedEvent,
-    ObjectCreatedEvent,
-    ObjectModifiedEvent
-)
-from g24.elements.browser.vocabularies import keywords, timezones, locations
-from g24.elements.interfaces import IBasetypeAccessor
-from g24.elements import messageFactory as _
+from zope.lifecycleevent import ObjectAddedEvent
+from zope.lifecycleevent import ObjectCreatedEvent
+from zope.lifecycleevent import ObjectModifiedEvent
 
-from js.leaflet import leaflet
-from plone.fanstatic import groups
-groups.append(leaflet)
+#from js.leaflet import leaflet
+#from plone.fanstatic import groups
+#groups.append(leaflet)
 
 
 EDIT, ADD = 0, 1
@@ -168,8 +164,8 @@ class Sharingbox(BrowserView):
         self.ignores = IGNORES
         self.features = FEATURES
         self.defaults = DEFAULTS
-        self.defaults['start'] = default_start_dt()
-        self.defaults['end'] = default_end_dt()
+        self.defaults['start'] = default_start()
+        self.defaults['end'] = default_end()
         self.defaults['timezone'] = default_timezone(self.context)
         self.defaults['subjects'] = []
 
