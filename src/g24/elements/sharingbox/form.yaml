@@ -77,18 +77,16 @@ widgets:
             lists: True
 
     - subjects:
-        factory: field:label:error:select2input
+        factory: field:label:error:select2
         value: expr:context.get('subjects')
         props:
             label: Tags
-            label.title: Tag the content with categories, so that it can be better found.
-            rows: 4
-            cols: 10
+            label.title: Tag the content with categories.
             class: select2
-            placeholder: 'Select some tags'
+            minimumInputLength: 1
+            multiple: True
             vocabulary: expr:context.vocabulary_keywords
-            multiple: 'multiple'
-            allowClear: True,
+            placeholder: 'Select some tags'
 
 - features-event:
     factory: fieldset
