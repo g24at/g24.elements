@@ -21,7 +21,8 @@
 
   <!-- recurrenceinput -->
   <javascript bundle="jquery" id="++resource++jquery.tmpl.js" enabled="True" />
-  <javascript bundle="jquery" id="++resource++plone.formwidget.recurrence/jquery.recurrenceinput.js" enabled="True" />
+  <javascript bundle="jquery" id="++resource++plone.formwidget.recurrence/jquery.recurrenceinput.js" enabled="True"
+    insert-after="++resource++jquery.tmpl.js"/>
 
 
   <!-- editor -->
