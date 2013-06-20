@@ -5,6 +5,13 @@
 
   <include package="Products.CMFCore" file="permissions.zcml"/>
 
+  <browser:page
+        name="place_edit_form"
+        for="*"
+        permission="zope2.View"
+        class=".form.PlaceEditForm"
+        />
+        
   <browser:resourceDirectory
       name="g24.elements.sharingbox"
       directory="resources"

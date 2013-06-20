@@ -26,6 +26,37 @@ from zope.lifecycleevent import ObjectModifiedEvent
 #from plone.fanstatic import groups
 #groups.append(leaflet)
 
+from plone.z3cform.layout import wrap_form
+from z3c.form import button
+from z3c.form import field
+from z3c.form import form
+
+from g24.elements.behaviors import IPlace
+
+
+class PlaceEditForm(form.Form):
+    fields = field.Fields(IPlace)
+    ignoreContext = False
+
+    def getContent(self):
+        data = {}
+        return data
+
+    def form_next(self):
+        self.request.response.redirect(self.context.absolute_url())
+
+    @button.buttonAndHandler(u'Save')
+    def handleSave(self, action):
+        data, errors = self.extractData()
+        if errors:
+            return False
+        self.form_next()
+
+    @button.buttonAndHandler(u'Cancel')
+    def handleCancel(self, action):
+        self.form_next()
+EventListingSettingsFormView = wrap_form(PlaceEditForm)
+
 
 EDIT, ADD = 0, 1
 

@@ -16,6 +16,9 @@ from z3c.form.browser.textlines import TextLinesFieldWidget
 from zope import schema
 from zope.component import adapts
 from zope.interface import alsoProvides, Interface, implements
+from collective.address.behaviors import IAddress
+from collective.geolocationbehavior.geolocation import IGeolocatable
+
 
 from g24.elements import safe_decode
 from g24.elements.instancebehaviors import disable_behaviors
@@ -72,12 +75,14 @@ alsoProvides(IBase, IFormFieldProvider)
 class IThread(Interface):
     """Behavior marker interface for threads."""
 
-
-class IPlace(model.Schema):
+class IPlace(IAddress, IGeolocatable):
     """Behavior marker interface for places."""
-    altitude = schema.Float(title = _(u'Altitude'))
-    latitude = schema.Float(title = _(u'Latitude'))
-    longitude = schema.Float(title = _(u'Longitude'))
+
+#class IPlace(model.Schema):
+#    """Behavior marker interface for places."""
+#    altitude = schema.Float(title = _(u'Altitude'))
+#    latitude = schema.Float(title = _(u'Latitude'))
+#    longitude = schema.Float(title = _(u'Longitude'))
 
 
 @indexer(IBasetype)
