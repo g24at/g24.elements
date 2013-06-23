@@ -30,20 +30,75 @@ from plone.z3cform.layout import wrap_form
 from z3c.form import button
 from z3c.form import field
 from z3c.form import form
+from z3c.form import subform
 
+from g24.elements.interfaces import ISharingbox
+from g24.elements.behaviors import IBase
+from g24.elements.behaviors import IEvent
 from g24.elements.behaviors import IPlace
+import os
+
+template_path = os.path.dirname(__file__)
 
 
-class PlaceEditForm(form.Form):
-    fields = field.Fields(IPlace)
+class ABaseForm(object):
+    title = u"Base"
+    fields = field.Fields(IBase)
+    prefix = 'base'
     ignoreContext = False
+class BaseSubForm(ABaseForm, subform.EditSubForm):
+    """z3cform based Place subform"""
+    template = ViewPageTemplateFile('subform.pt', template_path)
+class BaseForm(ABaseForm, form.Form):
+    """z3cform based Place Form"""
+BaseFormView = wrap_form(BaseForm)
 
-    def getContent(self):
-        data = {}
-        return data
+
+class AEventForm(object):
+    title = u"Event"
+    fields = field.Fields(IEvent)
+    prefix = 'event'
+    ignoreContext = False
+class EventSubForm(AEventForm, subform.EditSubForm):
+    """z3cform Event Form"""
+    template = ViewPageTemplateFile('subform.pt', template_path)
+class EventForm(AEventForm, form.Form):
+    """z3cform Event Form"""
+EventFormView = wrap_form(EventForm)
+
+
+class APlaceForm(object):
+    title = u"Place"
+    fields = field.Fields(IPlace)
+    prefix = 'place'
+    ignoreContext = True
+class PlaceSubForm(APlaceForm, subform.EditSubForm):
+    """z3cform based Place subform"""
+    template = ViewPageTemplateFile('subform.pt', template_path)
+class PlaceForm(APlaceForm, form.Form):
+    """z3cform based Place Form"""
+PlaceFormView = wrap_form(PlaceForm)
+
+
+class SharingboxForm(form.Form):
+    """z3cform Sharingbox"""
+    template = ViewPageTemplateFile('editform.pt', template_path)
+    fields = field.Fields(ISharingbox)
+    prefix = 'shbx'
+    ignoreContext = False
+    subforms = []
+
+    def update(self):
+        super(SharingboxForm, self).update()
+        self.subforms = [
+            BaseSubForm(self.context, self.request, self),
+            EventSubForm(self.context, self.request, self),
+            PlaceSubForm(self.context, self.request, self),
+        ]
+        [subform.update() for subform in self.subforms]
 
     def form_next(self):
-        self.request.response.redirect(self.context.absolute_url())
+        return
 
     @button.buttonAndHandler(u'Save')
     def handleSave(self, action):
@@ -55,7 +110,7 @@ class PlaceEditForm(form.Form):
     @button.buttonAndHandler(u'Cancel')
     def handleCancel(self, action):
         self.form_next()
-EventListingSettingsFormView = wrap_form(PlaceEditForm)
+
 
 
 EDIT, ADD = 0, 1

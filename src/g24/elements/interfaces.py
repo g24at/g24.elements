@@ -1,6 +1,7 @@
 from zope.interface import Interface
 from plone.supermodel import model
 
+
 class IG24ElementsLayer(Interface):
     """ g24 elements theme layer.
     """
@@ -16,3 +17,6 @@ class IBasetype(model.Schema):
 class IBasetypeContainer(model.Schema):
     """ g24.elements Basetype content.
     """
+
+class ISharingbox(model.Schema):
+    """Sharingbo marker interface."""

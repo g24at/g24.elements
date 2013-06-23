@@ -26,6 +26,7 @@ from g24.elements.instancebehaviors import enable_behaviors
 from g24.elements.interfaces import IBasetype
 from g24.elements.interfaces import IBasetypeAccessor
 from g24.elements import messageFactory as _
+from plone.event.interfaces import IEvent as IPEvent
 
 #from zope.component.hooks import getSite
 #from plone.app.textfield import RichText
@@ -77,6 +78,10 @@ class IThread(Interface):
 
 class IPlace(IAddress, IGeolocatable):
     """Behavior marker interface for places."""
+
+class IEvent(IPEvent, IEventBasic, IEventRecurrence, IEventLocation):
+    """Behavior marker interface for events."""
+
 
 #class IPlace(model.Schema):
 #    """Behavior marker interface for places."""
