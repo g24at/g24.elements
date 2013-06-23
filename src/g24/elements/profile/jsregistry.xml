@@ -1,6 +1,9 @@
 <?xml version="1.0"?>
 <object name="portal_javascripts" meta_type="JavaScripts Registry">
 
+</object>
+<disabled>
+
   <!-- upgrade -->
   <javascript
       remove="True"
@@ -97,4 +100,6 @@
       id="jquery-integration.js"
       enabled="False" /-->
 
-</object>
+
+
+</disabled>
