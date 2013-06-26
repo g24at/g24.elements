@@ -17,7 +17,19 @@
         class=".form.SharingboxEditForm"
         permission="g24.ModifyBasetype"
         />
-  
+  <browser:page
+        name="shbxadd_view"
+        for="*"
+        class=".form.SharingboxAddFormView"
+        permission="g24.AddBasetype"
+        />
+  <browser:page
+        name="shbxedit_view"
+        for="*"
+        class=".form.SharingboxEditFormView"
+        permission="g24.ModifyBasetype"
+        />
+
   <browser:resourceDirectory
       name="g24.elements.sharingbox"
       directory="resources"

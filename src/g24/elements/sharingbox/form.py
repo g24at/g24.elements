@@ -127,6 +127,8 @@ class SharingboxEditForm(ASharingboxForm, form.EditForm):
         ignore_ctx = self.ignoreContext
         self.update_subforms(context, request, ignore_ctx)
 
+SharingboxEditFormView = wrap_form(SharingboxEditForm)
+
 
 class SharingboxAddForm(ASharingboxForm, form.AddForm):
     """z3cform Sharingbox add form"""
@@ -138,6 +140,8 @@ class SharingboxAddForm(ASharingboxForm, form.AddForm):
         request = self.request
         ignore_ctx = self.ignoreContext
         self.update_subforms(context, request, ignore_ctx)
+
+SharingboxAddFormView = wrap_form(SharingboxAddForm)
 
 
 EDIT, ADD = 0, 1
