@@ -18,5 +18,4 @@ class IBasetypeContainer(model.Schema):
     """ g24.elements Basetype content.
     """
 
-class ISharingbox(model.Schema):
-    """Sharingbo marker interface."""
+

@@ -32,13 +32,23 @@ from z3c.form import field
 from z3c.form import form
 from z3c.form import subform
 
-from g24.elements.interfaces import ISharingbox
+from g24.elements.interfaces import IBasetype
+from g24.elements.behaviors import ISharingbox
 from g24.elements.behaviors import IBase
 from g24.elements.behaviors import IEvent
 from g24.elements.behaviors import IPlace
 import os
 
 template_path = os.path.dirname(__file__)
+
+
+class SharingboxSubForm(subform.EditSubForm):
+    """z3cform based Place subform"""
+    template = ViewPageTemplateFile('subform.pt', template_path)
+    title = u"Sharingbox"
+    fields = field.Fields(ISharingbox)
+    prefix = 'shbx'
+    ignoreContext = True
 
 
 class ABaseForm(object):
@@ -83,7 +93,7 @@ PlaceFormView = wrap_form(PlaceForm)
 class SharingboxForm(form.Form):
     """z3cform Sharingbox"""
     template = ViewPageTemplateFile('editform.pt', template_path)
-    fields = field.Fields(ISharingbox)
+    fields = field.Fields(IBasetype)
     prefix = 'shbx'
     ignoreContext = False
     subforms = []
@@ -91,6 +101,7 @@ class SharingboxForm(form.Form):
     def update(self):
         super(SharingboxForm, self).update()
         self.subforms = [
+            SharingboxSubForm(self.context, self.request, self),
             BaseSubForm(self.context, self.request, self),
             EventSubForm(self.context, self.request, self),
             PlaceSubForm(self.context, self.request, self),

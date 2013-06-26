@@ -38,6 +38,29 @@ def format_date(date, context):
                            context=context)
 
 
+class ISharingbox(model.Schema):
+    """Sharingbo marker interface."""
+
+    is_thread = schema.Bool(
+        title = _(u'label_is_thread', default=u"I'm a Thread"),
+        description = _(u'help_thread', default=u"Start a new thread."),
+        required = False
+        )
+
+    is_event = schema.Bool(
+        title = _(u'label_is_event', default=u"I'm an Event"),
+        description = _(u'help_event', default=u"Make me an event."),
+        required = False
+        )
+
+    is_place = schema.Bool(
+        title = _(u'label_is_place', default=u"I'm a Place"),
+        description = _(u'help_is_place', default=u"Define a place with address and/or geolocation data."),
+        required = False
+        )
+alsoProvides(ISharingbox, IFormFieldProvider)
+
+
 class IBase(model.Schema):
 
     title = schema.TextLine(
@@ -146,7 +169,7 @@ class BasetypeAccessor(object):
 
         Nonexistent throws no Error
         TODO: ok? ^^
-        >>> acc.is_location
+        >>> acc.is_SOMETHING
 
         Setting something, where the feature is not enabled, doesn't work.
         So set the features first!
