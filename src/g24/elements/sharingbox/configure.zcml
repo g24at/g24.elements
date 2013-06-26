@@ -6,30 +6,18 @@
   <include package="Products.CMFCore" file="permissions.zcml"/>
 
   <browser:page
-        name="shbx"
+        name="shbxadd"
         for="*"
-        permission="zope2.View"
-        class=".form.SharingboxForm"
+        class=".form.SharingboxAddForm"
+        permission="g24.AddBasetype"
         />
   <browser:page
-        name="shbx_base"
+        name="shbxedit"
         for="*"
-        permission="zope2.View"
-        class=".form.BaseFormView"
+        class=".form.SharingboxEditForm"
+        permission="g24.ModifyBasetype"
         />
-  <browser:page
-        name="shbx_place"
-        for="*"
-        permission="zope2.View"
-        class=".form.PlaceFormView"
-        />
-  <browser:page
-        name="shbx_event"
-        for="*"
-        permission="zope2.View"
-        class=".form.EventFormView"
-        />
-
+  
   <browser:resourceDirectory
       name="g24.elements.sharingbox"
       directory="resources"

@@ -51,77 +51,93 @@ class SharingboxSubForm(subform.EditSubForm):
     ignoreContext = True
 
 
-class ABaseForm(object):
+class ASubForm(subform.EditSubForm):
+    template = ViewPageTemplateFile('subform.pt', template_path)
+
+    def __init__(self, context, request, form, iface, ignore_ctx):
+        self.fields = field.Fields(iface)
+        if not ignore_ctx:
+            # if not addform (ignore_ctx=True)
+            # ignore_ctx, if not provided
+            ignore_ctx = not iface.providedBy(context)
+        self.ignoreContext = ignore_ctx
+        super(ASubForm, self).__init__(context, request, form)
+
+#    def getContent(self):
+#        super(ASubForm, self).getContent()
+#    def update(self):
+#        super(ASubForm, self).update()
+
+
+class BaseSubForm(ASubForm):
+    """z3cform based Place subform"""
     title = u"Base"
-    fields = field.Fields(IBase)
     prefix = 'base'
-    ignoreContext = False
-class BaseSubForm(ABaseForm, subform.EditSubForm):
-    """z3cform based Place subform"""
-    template = ViewPageTemplateFile('subform.pt', template_path)
-class BaseForm(ABaseForm, form.Form):
-    """z3cform based Place Form"""
-BaseFormView = wrap_form(BaseForm)
 
 
-class AEventForm(object):
+class EventSubForm(ASubForm):
     title = u"Event"
-    fields = field.Fields(IEvent)
     prefix = 'event'
-    ignoreContext = False
-class EventSubForm(AEventForm, subform.EditSubForm):
-    """z3cform Event Form"""
-    template = ViewPageTemplateFile('subform.pt', template_path)
-class EventForm(AEventForm, form.Form):
-    """z3cform Event Form"""
-EventFormView = wrap_form(EventForm)
 
 
-class APlaceForm(object):
+class PlaceSubForm(ASubForm):
     title = u"Place"
-    fields = field.Fields(IPlace)
     prefix = 'place'
-    ignoreContext = True
-class PlaceSubForm(APlaceForm, subform.EditSubForm):
-    """z3cform based Place subform"""
-    template = ViewPageTemplateFile('subform.pt', template_path)
-class PlaceForm(APlaceForm, form.Form):
-    """z3cform based Place Form"""
-PlaceFormView = wrap_form(PlaceForm)
 
 
-class SharingboxForm(form.Form):
+class ASharingboxForm(object):
     """z3cform Sharingbox"""
     template = ViewPageTemplateFile('editform.pt', template_path)
     fields = field.Fields(IBasetype)
     prefix = 'shbx'
-    ignoreContext = False
     subforms = []
 
-    def update(self):
-        super(SharingboxForm, self).update()
+    def update_subforms(self, context, request, ignore_ctx):
         self.subforms = [
-            SharingboxSubForm(self.context, self.request, self),
-            BaseSubForm(self.context, self.request, self),
-            EventSubForm(self.context, self.request, self),
-            PlaceSubForm(self.context, self.request, self),
+            SharingboxSubForm(context, request, self),
+            BaseSubForm(context, request, self, IBase, ignore_ctx),
+            EventSubForm(context, request, self, IEvent, ignore_ctx),
+            PlaceSubForm(context, request, self, IPlace, ignore_ctx),
         ]
         [subform.update() for subform in self.subforms]
 
     def form_next(self):
         return
 
-    @button.buttonAndHandler(u'Save')
-    def handleSave(self, action):
-        data, errors = self.extractData()
-        if errors:
-            return False
-        self.form_next()
+#    @button.buttonAndHandler(u'Save')
+#    def handleSave(self, action):
+#        data, errors = self.extractData()
+#        if errors:
+#            return False
+#        self.form_next()
+#
+#    @button.buttonAndHandler(u'Cancel')
+#    def handleCancel(self, action):
+#        self.form_next()
 
-    @button.buttonAndHandler(u'Cancel')
-    def handleCancel(self, action):
-        self.form_next()
 
+class SharingboxEditForm(ASharingboxForm, form.EditForm):
+    """z3cform Sharingbox"""
+    #ignoreContext = False
+
+    def update(self):
+        super(SharingboxEditForm, self).update()
+        context = self.context
+        request = self.request
+        ignore_ctx = self.ignoreContext
+        self.update_subforms(context, request, ignore_ctx)
+
+
+class SharingboxAddForm(ASharingboxForm, form.AddForm):
+    """z3cform Sharingbox add form"""
+    #ignoreContext = True
+
+    def update(self):
+        super(SharingboxAddForm, self).update()
+        context = self.context
+        request = self.request
+        ignore_ctx = self.ignoreContext
+        self.update_subforms(context, request, ignore_ctx)
 
 
 EDIT, ADD = 0, 1
