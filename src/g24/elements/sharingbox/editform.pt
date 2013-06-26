@@ -86,7 +86,7 @@
           </metal:fields-slot>
           
           <tal:subforms repeat="subform view/subforms">
-          <fieldset>
+          <fieldset tal:attributes="id subform/prefix">
             <legend tal:content="subform/title">Subform</legend>
             <div tal:replace="structure subform/render" />
           </fieldset>
