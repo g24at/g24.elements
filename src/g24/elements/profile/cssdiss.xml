@@ -1,0 +1,72 @@
+<disabled>
+  <!-- upgrade -->
+  <stylesheet
+    remove="True"
+    bundle="g24"
+    id="++resource++g24.elements.sharingbox/jquery.autoSuggest.css"
+    cacheable="True" compression="safe" cookable="True" enabled="True"
+    media="screen" rel="stylesheet" rendering="link"/>
+
+  <!-- widgets -->
+  <stylesheet
+    bundle="jquerytools"
+    id="++resource++plone.app.jquerytools.dateinput.css"
+    enabled="True" />
+  <stylesheet
+    bundle="jquery"
+    id="++resource++plone.formwidget.recurrence/jquery.recurrenceinput.css"
+    enabled="True" />
+
+  <!-- wysihtml5 -->
+  <stylesheet
+    bundle="g24"
+    id="++resource++yafowil.widget.wysihtml5/bootstrap-wysihtml5/src/bootstrap-wysihtml5.css"
+    cacheable="True" compression="safe" cookable="True" enabled="True"
+    media="screen" rel="stylesheet" rendering="link"/>
+  <stylesheet
+    bundle="g24"
+    id="++resource++yafowil.widget.wysihtml5/bootstrap-wysihtml5/lib/css/wysiwyg-color.css"
+    cacheable="True" compression="safe" cookable="True" enabled="True"
+    media="screen" rel="stylesheet" rendering="link"/>
+  <stylesheet
+    bundle="g24"
+    id="++resource++yafowil.widget.wysihtml5/widget.css"
+    cacheable="True" compression="safe" cookable="True" enabled="True"
+    media="screen" rel="stylesheet" rendering="link"/>
+  <!-- select2 -->
+  <stylesheet
+    bundle="g24"
+    id="++resource++yafowil.widget.select2/select2/select2.css"
+    cacheable="True" compression="safe" cookable="True" enabled="True"
+    media="screen" rel="stylesheet" rendering="link"/>
+  <stylesheet
+    bundle="g24"
+    id="++resource++yafowil.widget.select2/widget.css"
+    cacheable="True" compression="safe" cookable="True" enabled="True"
+    media="screen" rel="stylesheet" rendering="link"/>
+  <!-- chosen -->
+  <stylesheet
+    bundle="g24"
+    id="++resource++yafowil.widget.chosen/chosen/chosen/chosen.css"
+    cacheable="True" compression="safe" cookable="True" enabled="True"
+    media="screen" rel="stylesheet" rendering="link"/>
+  <stylesheet
+    bundle="g24"
+    id="++resource++yafowil.widget.chosen/widget.css"
+    cacheable="True" compression="safe" cookable="True" enabled="True"
+    media="screen" rel="stylesheet" rendering="link"/>
+
+
+  <!-- sharingbox -->
+  <stylesheet
+    bundle="g24"
+    id="++resource++g24.elements/views.css"
+    cacheable="True" compression="safe" cookable="True" enabled="True"
+    media="screen" rel="stylesheet" rendering="link"/>
+  <stylesheet
+    bundle="g24"
+    id="++resource++g24.elements.sharingbox/sharingbox.css"
+    cacheable="True" compression="safe" cookable="True" enabled="True"
+    media="screen" rel="stylesheet" rendering="link"/>
+
+</disabled>

@@ -1,105 +1,13 @@
 <?xml version="1.0"?>
 <object name="portal_javascripts" meta_type="JavaScripts Registry">
 
+  <javascript bundle="widgets" id="++resource++collective.venue/scripts.js"/>
+  <javascript bundle="widgets" id="++resource++plone.app.event.portlet_calendar.js"/>
+  <javascript bundle="widgets" id="++resource++plone.app.event/event.js"/>
+  <javascript bundle="widgets" id="++resource++plone.app.jquerytools.dateinput.js"/>
+  <javascript bundle="widgets" id="++resource++plone.formwidget.recurrence/jquery.recurrenceinput.js"/>
+  <javascript bundle="widgets" id="++resource++plone.formwidget.recurrence/jquery.tmpl-beta1.js"/>
+  <javascript bundle="widgets" id="++resource++collective.js.leaflet/leaflet.js"/>
+  <javascript bundle="widgets" id="popupforms.js"/>
+
 </object>
-<disabled>
-
-  <!-- upgrade -->
-  <javascript
-      remove="True"
-      bundle="g24"
-      id="++resource++g24.elements.sharingbox/jquery.autoSuggest.js"
-      cacheable="True" compression="safe" cookable="True" inline="False"
-      enabled="True" />
-
-
-  <!-- jQuery UI -->
-  <!--javascript
-      id="++resource++jquery.ui/ui/jquery.ui.core.js"
-      cacheable="True" compression="safe" cookable="True" inline="False"
-      enabled="True" /-->
-
-  <!-- jQueryTools dateinput -->
-  <javascript id="++resource++plone.app.jquerytools.dateinput.js" enabled="True" />
-
-  <!-- recurrenceinput -->
-  <javascript bundle="jquery" id="++resource++jquery.tmpl.js" enabled="True" />
-  <javascript bundle="jquery" id="++resource++plone.formwidget.recurrence/jquery.recurrenceinput.js" enabled="True"
-    insert-after="++resource++jquery.tmpl.js"/>
-
-
-  <!-- editor -->
-  <!-- not cache/cookable, to prevent errors -->
-  <javascript
-      bundle="g24"
-      id="++resource++yafowil.widget.wysihtml5/wysihtml5/dist/wysihtml5-0.3.0.js"
-      insert-after="*"
-      cacheable="False" compression="none" cookable="False" />
-  <javascript
-      bundle="g24"
-      id="++resource++yafowil.widget.wysihtml5/bootstrap-wysihtml5/src/bootstrap-wysihtml5.js"
-      insert-after="*"
-      cacheable="True" compression="safe" cookable="True" />
-  <javascript
-      bundle="g24"
-      id="++resource++yafowil.widget.wysihtml5/widget.js"
-      insert-after="*"
-      cacheable="True" compression="safe" cookable="True" />
-  <javascript
-      bundle="g24"
-      id="++resource++g24.elements.sharingbox/wysihtml5_auto_link.js"
-      insert-after="*"
-      cacheable="True" compression="safe" cookable="True" inline="False"
-      enabled="True" />
-  <!-- select2 -->
-  <javascript
-      bundle="g24"
-      id="++resource++yafowil.widget.select2/select2/select2.js"
-      insert-after="*"
-      cacheable="True" compression="safe" cookable="True" />
-  <javascript
-      bundle="g24"
-      id="++resource++yafowil.widget.select2/widget.js"
-      insert-after="*"
-      cacheable="True" compression="safe" cookable="True" />
-  <!-- chosen -->
-  <javascript
-      bundle="g24"
-      id="++resource++yafowil.widget.chosen/chosen/chosen/chosen.jquery.js"
-      insert-after="*"
-      cacheable="True" compression="safe" cookable="True" />
-  <javascript
-      bundle="g24"
-      id="++resource++yafowil.widget.chosen/widget.js"
-      insert-after="*"
-      cacheable="True" compression="safe" cookable="True" />
-
-
-  <!-- sharingbox -->
-  <javascript
-      bundle="g24"
-      id="++resource++g24.elements/views.js"
-      insert-after="*"
-      cacheable="True" compression="safe" cookable="True" inline="False"
-      enabled="True" />
-  <javascript
-      bundle="g24"
-      id="++resource++g24.elements.sharingbox/sharingbox.js"
-      insert-after="*"
-      cacheable="True" compression="safe" cookable="True" inline="False"
-      enabled="True" />
-
-  <!-- disable unused -->
-  <!--javascript
-      id="++resource++yafowil.widget.datetime/widget.js"
-      enabled="False" />
-  <javascript
-      id="++resource++yafowil.widget.autocomplete/widget.js"
-      enabled="False" />
-  <javascript
-      id="jquery-integration.js"
-      enabled="False" /-->
-
-
-
-</disabled>
