@@ -9,6 +9,7 @@ from g24.elements.interfaces import IBasetypeAccessor
 from plone.app.event.base import default_end
 from plone.app.event.base import default_start
 from plone.app.event.base import default_timezone
+from plone.app.event.dx.behaviors import first_weekday_sun0
 from plone.app.textfield.value import RichTextValue
 from plone.dexterity.interfaces import IDexterityFTI
 from plone.dexterity.utils import addContentToContainer
@@ -78,6 +79,17 @@ class BaseSubForm(ASubForm):
 class EventSubForm(ASubForm):
     title = u"Event"
     prefix = 'event'
+
+    def update(self):
+        super(EventSubForm, self).update()
+        # Set widget parameters, as plone.autoform doesn't support subforms yet
+        # (not: ObjectSubForm, which is something else).
+        widgets = self.widgets
+        widgets['start'].first_day = first_weekday_sun0
+        widgets['end'].first_day = first_weekday_sun0
+        widgets['recurrence'].first_day = first_weekday_sun0
+        widgets['recurrence'].start_field = 'start'  # Plain z3cform seems not
+                                                     # to prefix schema fields
 
 
 class PlaceSubForm(ASubForm):
