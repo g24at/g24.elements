@@ -22,6 +22,14 @@
         />
 
     <plone:behavior
+        title="Event"
+        description="A Event"
+        provides=".behaviors.IEvent"
+        for=".interfaces.IBasetype"
+        />
+
+
+    <plone:behavior
         title="Place"
         description="A Place"
         provides=".behaviors.IPlace"

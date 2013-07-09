@@ -4,11 +4,13 @@ from plone.app.event.base import DT
 from plone.app.event.dx.behaviors import IEventBasic
 from plone.app.event.dx.behaviors import IEventLocation
 from plone.app.event.dx.behaviors import IEventRecurrence
+from plone.app.event.dx.behaviors import first_weekday_sun0
 from plone.app.event.dx.interfaces import IDXEvent
 from plone.app.event.dx.interfaces import IDXEventLocation
 from plone.app.event.dx.interfaces import IDXEventRecurrence
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
+from plone.formwidget.recurrence.z3cform.widget import RecurrenceFieldWidget
 from plone.indexer import indexer
 from plone.supermodel import model
 from plone.uuid.interfaces import IUUID
@@ -27,6 +29,7 @@ from g24.elements.interfaces import IBasetype
 from g24.elements.interfaces import IBasetypeAccessor
 from g24.elements import messageFactory as _
 from plone.event.interfaces import IEvent as IPEvent
+from plone.app.event.dx.interfaces import IDXEvent
 
 #from zope.component.hooks import getSite
 #from plone.app.textfield import RichText
@@ -39,7 +42,7 @@ def format_date(date, context):
 
 
 class ISharingbox(model.Schema):
-    """Sharingbo marker interface."""
+    """Sharingbox marker interface."""
 
     is_thread = schema.Bool(
         title = _(u'label_is_thread', default=u"I'm a Thread"),
@@ -92,18 +95,27 @@ class IBase(model.Schema):
         required = False,
         missing_value = (),
         )
-    form.widget(subjects = TextLinesFieldWidget)
+    form.widget('subjects', TextLinesFieldWidget)
 alsoProvides(IBase, IFormFieldProvider)
 
 
 class IThread(Interface):
     """Behavior marker interface for threads."""
 
+class IEvent(IPEvent, IDXEvent, IEventBasic, IEventRecurrence, IEventLocation):
+    """Behavior marker interface for events."""
+    # For Plone autoform based forms. Plain z3cforms get their properties set
+    # within the form's update method.
+    form.widget('start', first_day=first_weekday_sun0)
+    form.widget('end', first_day=first_weekday_sun0)
+    form.widget('recurrence',
+                start_field='IEvent.start',
+                first_day=first_weekday_sun0)
+alsoProvides(IEvent, IFormFieldProvider)
+
 class IPlace(IAddress, IGeolocatable):
     """Behavior marker interface for places."""
-
-class IEvent(IPEvent, IEventBasic, IEventRecurrence, IEventLocation):
-    """Behavior marker interface for events."""
+alsoProvides(IPlace, IFormFieldProvider)
 
 
 #class IPlace(model.Schema):
@@ -129,10 +141,13 @@ def keyword_indexer(obj):
     return acc.subjects
 
 
-EVENT_INTERFACES = [IDXEvent, IDXEventRecurrence, IDXEventLocation]
-EVENT_BEHAVIORS = ['plone.app.event.dx.behaviors.IEventBasic',
-                   'plone.app.event.dx.behaviors.IEventRecurrence',
-                   'plone.app.event.dx.behaviors.IEventLocation']
+#EVENT_INTERFACES = [IDXEvent, IDXEventRecurrence, IDXEventLocation]
+#EVENT_BEHAVIORS = ['plone.app.event.dx.behaviors.IEventBasic',
+#                   'plone.app.event.dx.behaviors.IEventRecurrence',
+#                   'plone.app.event.dx.behaviors.IEventLocation']
+
+EVENT_INTERFACES = [IEvent,]
+EVENT_BEHAVIORS = ['g24.elements.behaviors.IEvent',]
 
 THREAD_INTERFACES =  [IThread,]
 THREAD_BEHAVIORS = ['g24.elements.behaviors.IThread',]
@@ -205,8 +220,6 @@ class BasetypeAccessor(object):
             exec code in self.namespace, self.globs
           File "<web>", line 1, in <module>
         AttributeError: start
-
-
     """
     adapts(IBasetype)
     implements(IBasetypeAccessor)
