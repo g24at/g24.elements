@@ -20,6 +20,8 @@ from zope.component import adapts
 from zope.interface import alsoProvides, Interface, implements
 from collective.address.behaviors import IAddress
 from collective.geolocationbehavior.geolocation import IGeolocatable
+from zope.component import provideAdapter
+from z3c.form.widget import ComputedWidgetAttribute
 
 
 from g24.elements import safe_decode
@@ -41,27 +43,43 @@ def format_date(date, context):
                            context=context)
 
 
-class ISharingbox(model.Schema):
-    """Sharingbox marker interface."""
+class IFeatures(model.Schema):
+    """Sharingbox features marker interface."""
 
     is_thread = schema.Bool(
         title = _(u'label_is_thread', default=u"I'm a Thread"),
         description = _(u'help_thread', default=u"Start a new thread."),
         required = False
-        )
+    )
 
     is_event = schema.Bool(
         title = _(u'label_is_event', default=u"I'm an Event"),
         description = _(u'help_event', default=u"Make me an event."),
         required = False
-        )
+    )
 
     is_place = schema.Bool(
         title = _(u'label_is_place', default=u"I'm a Place"),
-        description = _(u'help_is_place', default=u"Define a place with address and/or geolocation data."),
+        description = _(
+            u'help_is_place',
+            default=u"Define a place with address and/or geolocation data."
+        ),
         required = False
-        )
-alsoProvides(ISharingbox, IFormFieldProvider)
+    )
+alsoProvides(IFeatures, IFormFieldProvider)
+
+def feature_thread(data):
+    return IBasetypeAccessor(data.context).is_thread
+provideAdapter(ComputedWidgetAttribute(
+    feature_thread, field=IFeatures['is_thread']), name='default')
+def feature_event(data):
+    return IBasetypeAccessor(data.context).is_event
+provideAdapter(ComputedWidgetAttribute(
+    feature_event, field=IFeatures['is_event']), name='default')
+def feature_place(data):
+    return IBasetypeAccessor(data.context).is_place
+provideAdapter(ComputedWidgetAttribute(
+    feature_place, field=IFeatures['is_place']), name='default')
 
 
 class IBase(model.Schema):

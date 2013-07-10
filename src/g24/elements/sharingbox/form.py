@@ -6,6 +6,7 @@ from Products.statusmessages.interfaces import IStatusMessage
 from g24.elements import messageFactory as _
 from g24.elements.browser.vocabularies import keywords, timezones, locations
 from g24.elements.interfaces import IBasetypeAccessor
+from g24.elements.behaviors import IThread, IEvent, IPlace
 from plone.app.event.base import default_end
 from plone.app.event.base import default_start
 from plone.app.event.base import default_timezone
@@ -32,9 +33,11 @@ from z3c.form import button
 from z3c.form import field
 from z3c.form import form
 from z3c.form import subform
+from z3c.form.i18n import MessageFactory as __
+from plone.dexterity.i18n import MessageFactory as ___
 
 from g24.elements.interfaces import IBasetype
-from g24.elements.behaviors import ISharingbox
+from g24.elements.behaviors import IFeatures
 from g24.elements.behaviors import IBase
 from g24.elements.behaviors import IEvent
 from g24.elements.behaviors import IPlace
@@ -42,14 +45,35 @@ import os
 
 template_path = os.path.dirname(__file__)
 
+EDIT, ADD = 0, 1
 
-class SharingboxSubForm(subform.EditSubForm):
-    """z3cform based Place subform"""
-    template = ViewPageTemplateFile('subform.pt', template_path)
-    title = u"Sharingbox"
-    fields = field.Fields(ISharingbox)
-    prefix = 'shbx'
-    ignoreContext = True
+G24_BASETYPE = 'g24.elements.basetype'
+FEATURES = [
+    'is_thread',
+    'is_event',
+    'is_place'
+]
+DEFAULTS = {
+    # FEATURES
+    'is_thread': False,
+    'is_event': False,
+    'is_place': False,
+    # BASE
+    'title': UNSET,
+    'text': UNSET,
+    'subjects': UNSET,
+    # EVENT
+    'start': UNSET,
+    'end': UNSET,
+    'timezone': UNSET,
+    'whole_day': UNSET,
+    'recurrence': UNSET,
+    'location': UNSET,
+    'altitude': UNSET,
+    'latitude': UNSET,
+    'longitude': UNSET,
+}
+IGNORES = ['save', 'cancel']
 
 
 class ASubForm(subform.EditSubForm):
@@ -64,10 +88,23 @@ class ASubForm(subform.EditSubForm):
         self.ignoreContext = ignore_ctx
         super(ASubForm, self).__init__(context, request, form)
 
-#    def getContent(self):
-#        super(ASubForm, self).getContent()
-#    def update(self):
-#        super(ASubForm, self).update()
+    @button.handler(form.EditForm.buttons['apply'])
+    def handleApply(self, action):
+        self.apply_data(context=self.context)
+
+    def apply_data(self, context):
+        data, errors = self.widgets.extract()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+        import pdb; pdb.set_trace()
+        edit(context, data)
+
+
+class FeaturesSubForm(ASubForm):
+    """z3cform based Features subform"""
+    title = u"Features"
+    prefix = 'features'
 
 
 class BaseSubForm(ASubForm):
@@ -103,29 +140,23 @@ class ASharingboxForm(object):
     fields = field.Fields(IBasetype)
     prefix = 'shbx'
     subforms = []
+    portal_type = G24_BASETYPE
+    immediate_view = None
 
     def update_subforms(self, context, request, ignore_ctx):
         self.subforms = [
-            SharingboxSubForm(context, request, self),
+            FeaturesSubForm(context, request, self, IFeatures, ignore_ctx),
             BaseSubForm(context, request, self, IBase, ignore_ctx),
             EventSubForm(context, request, self, IEvent, ignore_ctx),
             PlaceSubForm(context, request, self, IPlace, ignore_ctx),
         ]
         [subform.update() for subform in self.subforms]
 
-    def form_next(self):
-        return
-
-#    @button.buttonAndHandler(u'Save')
-#    def handleSave(self, action):
-#        data, errors = self.extractData()
-#        if errors:
-#            return False
-#        self.form_next()
-#
-#    @button.buttonAndHandler(u'Cancel')
-#    def handleCancel(self, action):
-#        self.form_next()
+    def nextURL(self):
+        if self.immediate_view is not None:
+            return self.immediate_view
+        else:
+            return self.context.absolute_url()
 
 
 class SharingboxEditForm(ASharingboxForm, form.EditForm):
@@ -138,6 +169,19 @@ class SharingboxEditForm(ASharingboxForm, form.EditForm):
         request = self.request
         ignore_ctx = self.ignoreContext
         self.update_subforms(context, request, ignore_ctx)
+
+#    @button.buttonAndHandler(__('Apply'), name='apply')
+#    def handleApply(self, action):
+#        import pdb; pdb.set_trace()
+#        data, errors = self.widgets.extract()
+#        if errors:
+#            self.status = self.formErrorsMessage
+#            return
+#        content = self.getContent()
+#        edit(content, data)
+#        notify(ObjectModifiedEvent(content))
+#        self.status = self.successMessage
+
 
 SharingboxEditFormView = wrap_form(SharingboxEditForm)
 
@@ -153,38 +197,38 @@ class SharingboxAddForm(ASharingboxForm, form.AddForm):
         ignore_ctx = self.ignoreContext
         self.update_subforms(context, request, ignore_ctx)
 
+    def extractData(self):
+        # update_subforms - self.update is called on rendering.
+        self.update_subforms(self.context, self.request, self.ignoreContext)
+        data = {}
+        errors = []
+        main_data, main_errors = super(SharingboxAddForm, self).extractData()
+        data.update(main_data)
+        errors += list(main_errors)
+        for subform in self.subforms:
+            sub_data, sub_errors = subform.extractData()
+            data.update(sub_data)
+            errors += list(sub_errors)
+        return [data, errors]
+
+    def create(self, data):
+        obj = create(self.context, self.portal_type)
+        import pdb; pdb.set_trace()
+        # update_subforms - self.update is called on rendering.
+        #self.update_subforms(self.context, self.request, self.ignoreContext)
+        #for subform in self.subforms:
+        #    subform.apply_data(obj)
+        edit(obj, data, order=FEATURES)
+        return obj
+
+    def add(self, obj):
+        container = aq_inner(self.context)
+        obj = add(obj, container)
+        self.immediate_view = obj.absolute_url()
+
+
 SharingboxAddFormView = wrap_form(SharingboxAddForm)
 
-
-EDIT, ADD = 0, 1
-
-G24_BASETYPE = 'g24.elements.basetype'
-FEATURES = [
-    'is_thread',
-    'is_event',
-    'is_place'
-]
-DEFAULTS = {
-    # FEATURES
-    'is_thread': False,
-    'is_event': False,
-    'is_place': False,
-    # BASE
-    'title': UNSET,
-    'text': UNSET,
-    'subjects': UNSET,
-    # EVENT
-    'start': UNSET,
-    'end': UNSET,
-    'timezone': UNSET,
-    'whole_day': UNSET,
-    'recurrence': UNSET,
-    'location': UNSET,
-    'altitude': UNSET,
-    'latitude': UNSET,
-    'longitude': UNSET,
-}
-IGNORES = ['save', 'cancel']
 
 def create(context, type_):
     """ Create element, set attributes and add it to container.
