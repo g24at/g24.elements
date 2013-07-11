@@ -23,6 +23,10 @@ from zope.event import notify
 from zope.lifecycleevent import ObjectAddedEvent
 from zope.lifecycleevent import ObjectCreatedEvent
 from zope.lifecycleevent import ObjectModifiedEvent
+from Products.statusmessages.interfaces import IStatusMessage
+from plone.dexterity.events import EditBegunEvent
+from plone.dexterity.events import EditCancelledEvent
+from plone.dexterity.events import EditFinishedEvent
 
 #from js.leaflet import leaflet
 #from plone.fanstatic import groups
@@ -88,18 +92,6 @@ class ASubForm(subform.EditSubForm):
         self.ignoreContext = ignore_ctx
         super(ASubForm, self).__init__(context, request, form)
 
-    @button.handler(form.EditForm.buttons['apply'])
-    def handleApply(self, action):
-        self.apply_data(context=self.context)
-
-    def apply_data(self, context):
-        data, errors = self.widgets.extract()
-        if errors:
-            self.status = self.formErrorsMessage
-            return
-        import pdb; pdb.set_trace()
-        edit(context, data)
-
 
 class FeaturesSubForm(ASubForm):
     """z3cform based Features subform"""
@@ -134,7 +126,7 @@ class PlaceSubForm(ASubForm):
     prefix = 'place'
 
 
-class ASharingboxForm(object):
+class ASharingboxForm(form.Form):
     """z3cform Sharingbox"""
     template = ViewPageTemplateFile('editform.pt', template_path)
     fields = field.Fields(IBasetype)
@@ -142,6 +134,13 @@ class ASharingboxForm(object):
     subforms = []
     portal_type = G24_BASETYPE
     immediate_view = None
+
+    def update(self):
+        super(ASharingboxForm, self).update()
+        context = self.context
+        request = self.request
+        ignore_ctx = self.ignoreContext
+        self.update_subforms(context, request, ignore_ctx)
 
     def update_subforms(self, context, request, ignore_ctx):
         self.subforms = [
@@ -158,51 +157,12 @@ class ASharingboxForm(object):
         else:
             return self.context.absolute_url()
 
-
-class SharingboxEditForm(ASharingboxForm, form.EditForm):
-    """z3cform Sharingbox"""
-    #ignoreContext = False
-
-    def update(self):
-        super(SharingboxEditForm, self).update()
-        context = self.context
-        request = self.request
-        ignore_ctx = self.ignoreContext
-        self.update_subforms(context, request, ignore_ctx)
-
-#    @button.buttonAndHandler(__('Apply'), name='apply')
-#    def handleApply(self, action):
-#        import pdb; pdb.set_trace()
-#        data, errors = self.widgets.extract()
-#        if errors:
-#            self.status = self.formErrorsMessage
-#            return
-#        content = self.getContent()
-#        edit(content, data)
-#        notify(ObjectModifiedEvent(content))
-#        self.status = self.successMessage
-
-
-SharingboxEditFormView = wrap_form(SharingboxEditForm)
-
-
-class SharingboxAddForm(ASharingboxForm, form.AddForm):
-    """z3cform Sharingbox add form"""
-    #ignoreContext = True
-
-    def update(self):
-        super(SharingboxAddForm, self).update()
-        context = self.context
-        request = self.request
-        ignore_ctx = self.ignoreContext
-        self.update_subforms(context, request, ignore_ctx)
-
     def extractData(self):
         # update_subforms - self.update is called on rendering.
         self.update_subforms(self.context, self.request, self.ignoreContext)
         data = {}
         errors = []
-        main_data, main_errors = super(SharingboxAddForm, self).extractData()
+        main_data, main_errors = super(ASharingboxForm, self).extractData()
         data.update(main_data)
         errors += list(main_errors)
         for subform in self.subforms:
@@ -211,13 +171,59 @@ class SharingboxAddForm(ASharingboxForm, form.AddForm):
             errors += list(sub_errors)
         return [data, errors]
 
+
+class SharingboxEditForm(ASharingboxForm):
+    """z3cform Sharingbox"""
+    ignoreContext = False
+
+    @button.buttonAndHandler(___(u'Save'), name='save')
+    def handleApply(self, action):
+        import pdb; pdb.set_trace()
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+        content = self.getContent()
+        edit(content, data)
+        IStatusMessage(self.request).addStatusMessage(___(u"Changes saved"), "info")
+        self.request.response.redirect(self.nextURL())
+        notify(EditFinishedEvent(self.context))
+
+    @button.buttonAndHandler(_(u'Cancel'), name='cancel')
+    def handleCancel(self, action):
+        IStatusMessage(self.request).addStatusMessage(___(u"Edit cancelled"), "info")
+        self.request.response.redirect(self.nextURL())
+        notify(EditCancelledEvent(self.context))
+
+SharingboxEditFormView = wrap_form(SharingboxEditForm)
+
+
+class SharingboxAddForm(ASharingboxForm):
+    """z3cform Sharingbox add form"""
+    ignoreContext = True
+
+    @button.buttonAndHandler(___('Add'), name='add')
+    def handleAdd(self, action):
+        data, errors = self.extractData()
+        if errors:
+            self.status = self.formErrorsMessage
+            return
+        obj = self.create(data)
+        self.add(obj)
+        if obj is not None:
+            # mark only as finished if we get the new object
+            self._finishedAdd = True
+            IStatusMessage(self.request).addStatusMessage(___(u"Item created"), "info")
+        self.request.response.redirect(self.nextURL())
+
+    @button.buttonAndHandler(___(u'Cancel'), name='cancel')
+    def handleCancel(self, action):
+        IStatusMessage(self.request).addStatusMessage(___(u"Add New Item operation cancelled"), "info")
+        self.request.response.redirect(self.nextURL())
+        notify(AddCancelledEvent(self.context))
+
     def create(self, data):
         obj = create(self.context, self.portal_type)
-        import pdb; pdb.set_trace()
-        # update_subforms - self.update is called on rendering.
-        #self.update_subforms(self.context, self.request, self.ignoreContext)
-        #for subform in self.subforms:
-        #    subform.apply_data(obj)
         edit(obj, data, order=FEATURES)
         return obj
 
@@ -225,8 +231,6 @@ class SharingboxAddForm(ASharingboxForm, form.AddForm):
         container = aq_inner(self.context)
         obj = add(obj, container)
         self.immediate_view = obj.absolute_url()
-
-
 SharingboxAddFormView = wrap_form(SharingboxAddForm)
 
 
