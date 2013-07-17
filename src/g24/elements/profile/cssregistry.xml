@@ -7,5 +7,7 @@
   <stylesheet bundle="widgets" id="++resource++plone.formwidget.datetime/styles.css"/>
   <stylesheet bundle="widgets" id="++resource++plone.formwidget.recurrence/integration.css"/>
   <stylesheet bundle="widgets" id="++resource++plone.formwidget.recurrence/jquery.recurrenceinput.css"/>
+  <stylesheet bundle="widgets" id="++resource++collective.js.leaflet/leaflet.css"/>
+  <stylesheet bundle="widgets" id="++resource++collective.js.leaflet/leaflet.ie.css"/>
 
 </object>

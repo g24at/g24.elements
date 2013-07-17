@@ -164,8 +164,8 @@ class SharingboxAddForm(ASharingboxForm):
         if errors:
             self.status = self.formErrorsMessage
             return
-        obj = self.create(data)
-        self.add(obj)
+        obj = self.create()
+        self.add(obj, data)
         if obj is not None:
             # mark only as finished if we get the new object
             self._finishedAdd = True
@@ -178,13 +178,13 @@ class SharingboxAddForm(ASharingboxForm):
         self.request.response.redirect(self.nextURL())
         notify(AddCancelledEvent(self.context))
 
-    def create(self, data):
+    def create(self):
         obj = create(self.context, self.portal_type)
-        edit(obj, data, order=FEATURES)
         return obj
 
-    def add(self, obj):
+    def add(self, obj, data):
         container = aq_inner(self.context)
         obj = add(obj, container)
+        edit(obj, data, order=FEATURES)
         self.immediate_view = obj.absolute_url()
 SharingboxAddFormView = wrap_form(SharingboxAddForm)

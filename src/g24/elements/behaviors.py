@@ -260,9 +260,7 @@ class BasetypeAccessor(object):
             whole_day=IEventBasic,
             recurrence=IEventRecurrence,
             location=IEventLocation,
-            altitude=IPlace,
-            latitude=IPlace,
-            longitude=IPlace
+            geolocation=IPlace,
         )
         object.__setattr__(self, '_behavior_map', bm)
 
@@ -309,6 +307,13 @@ class BasetypeAccessor(object):
             # attribute not set:
             pass
 
+    @property
+    def latitude(self):
+        return self.is_place and self.geolocation.latitude or None
+
+    @property
+    def longitude(self):
+        return self.is_place and self.geolocation.longitude or None
 
     @property
     def plaintext(self):
@@ -373,7 +378,7 @@ class BasetypeAccessor(object):
         if value:
             enable_behaviors(self.context, EVENT_BEHAVIORS, EVENT_INTERFACES)
         else:
-            # delete the orphaned attribute from an deleted behaviors
+            # delete orphaned attributes from disabled behaviors
             # so that indexers do not index them.
             self._delattrs(['start', 'end', 'timezone', 'whole_day',
                             'recurrence', 'location'])
