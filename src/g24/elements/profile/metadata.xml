@@ -5,7 +5,5 @@
     <dependency>profile-plone.app.event:default</dependency>
     <dependency>profile-plone.app.dexterity:default</dependency>
     <dependency>profile-collective.js.leaflet:default</dependency>
-    <!--dependency>profile-yafowil.plone:default</dependency-->
-    <!-- dependency>profile-Solgema.fullcalendar:default</dependency-->
   </dependencies>
 </metadata>

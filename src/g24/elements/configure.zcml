@@ -7,12 +7,6 @@
   <include package="collective.venue"/>
   <include package="collective.geolocationbehavior"/>
 
-  <!-- include package="plone.fanstatic"/-->
-
-  <include package="yafowil.plone"/>
-  <!-- include package="collective.jqueryui"/-->
-  <!-- include package="Solgema.fullcalendar"/-->
-
   <include file="behaviors.zcml" />
   <include file="permissions.zcml" />
   <include file="instancebehaviors.zcml" />
