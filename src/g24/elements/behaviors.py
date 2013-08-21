@@ -256,11 +256,16 @@ class BasetypeAccessor(object):
             subjects=IBase,
             start=IEventBasic,
             end=IEventBasic,
-            timezone=IEventBasic,
             whole_day=IEventBasic,
+            open_end=IEventBasic,
+            timezone=IEventBasic,
             recurrence=IEventRecurrence,
             location=IEventLocation,
-            geolocation=IPlace,
+            geolocation=IGeolocatable,
+            street=IAddress,
+            zip_code=IAddress,
+            city=IAddress,
+            country=IAddress,
         )
         object.__setattr__(self, '_behavior_map', bm)
 
