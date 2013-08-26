@@ -1,0 +1,16 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    i18n_domain="g24.elements">
+
+  <adapter factory=".jsonapi.SchemaSerializer"/>
+
+  <browser:page
+      for="g24.elements.interfaces.IBasetype"
+      name="json"
+      class=".jsonapi.JsonView"
+      permission="zope2.View"
+      layer="g24.elements.interfaces.IG24ElementsLayer"
+      />
+
+</configure>

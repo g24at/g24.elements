@@ -18,4 +18,6 @@ class IBasetypeContainer(model.Schema):
     """ g24.elements Basetype content.
     """
 
-
+class ISchemaSerializer(Interface):
+    """Dexterity schema serializer adapter interface.
+    """
