@@ -59,6 +59,19 @@
           <metal:slot define-slot="body">
             <div id="content">
               <metal:bodytext define-slot="main">
+
+                <metal:title define-slot="content-title">
+                  <h1 tal:content="context/Title" class="documentFirstHeading">
+                      Title or id
+                  </h1>
+                </metal:title>
+
+                <metal:description define-slot="content-description">
+                  <div class="documentDescription description" tal:define="desc context/Description|nothing" tal:condition="desc" tal:content="desc">
+                      Description
+                  </div>
+                </metal:description>
+
                 <div id="content-core">
                   <metal:text define-slot="content-core" tal:content="nothing">Page body text</metal:text>
                 </div>
