@@ -10,7 +10,7 @@
 <metal:custom_title fill-slot="content-title"></metal:custom_title>
 <metal:custom_desc fill-slot="content-description"></metal:custom_desc>
 
- <metal:content-core fill-slot="content-core"><metal:block define-macro="content-core">
+<metal:content-core fill-slot="content-core"><metal:block define-macro="content-core">
 
 <a href=""
     tal:condition="view/parent_url"
