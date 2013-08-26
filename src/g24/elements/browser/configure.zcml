@@ -9,11 +9,18 @@
       layer="g24.elements.interfaces.IG24ElementsLayer"
       />
 
+  <browser:page
+      for="*"
+      name="page_main"
+      template="page_main.pt"
+      permission="zope2.View" />
+
   <adapter
       name="element_provider"
       provides="zope.contentprovider.interfaces.IContentProvider"
       factory=".element_provider.ElementProvider"
       />
+
 
    <browser:page
       for="g24.elements.interfaces.IBasetype"

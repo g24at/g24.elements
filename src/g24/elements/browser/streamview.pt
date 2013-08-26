@@ -7,6 +7,9 @@
       i18n:domain="g24.elements">
 <body>
 
+<metal:custom_title fill-slot="content-title"></metal:custom_title>
+<metal:custom_desc fill-slot="content-description"></metal:custom_desc>
+
 <metal:content-core fill-slot="content-core">
 <metal:content-core define-macro="content-core"
     tal:define="batch view/items;

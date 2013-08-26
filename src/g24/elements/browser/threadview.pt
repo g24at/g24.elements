@@ -3,11 +3,14 @@
       xmlns:metal="http://xml.zope.org/namespaces/metal"
       xmlns:i18n="http://xml.zope.org/namespaces/i18n"
       lang="en"
-      metal:use-macro="context/main_template/macros/master"
+      metal:use-macro="context/page_main/macros/page"
       i18n:domain="g24.elements">
 <body>
 
-<metal:content-core fill-slot="content-core"><metal:block define-macro="content-core">
+<metal:custom_title fill-slot="content-title"></metal:custom_title>
+<metal:custom_desc fill-slot="content-description"></metal:custom_desc>
+
+ <metal:content-core fill-slot="content-core"><metal:block define-macro="content-core">
 
 <a href=""
     tal:condition="view/parent_url"

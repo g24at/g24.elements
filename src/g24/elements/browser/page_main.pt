@@ -1,0 +1,89 @@
+<metal:page define-macro="page">
+<tal:doctype tal:replace="structure string:&lt;!DOCTYPE html&gt;" />
+<html xmlns="http://www.w3.org/1999/xhtml"
+    tal:define="portal_state context/@@plone_portal_state;
+        context_state context/@@plone_context_state;
+        plone_view context/@@plone;
+        lang portal_state/language;
+        view nocall:view | nocall: plone_view;
+        dummy python: plone_view.mark_view(view);
+        portal_url portal_state/portal_url;
+        checkPermission nocall: context/portal_membership/checkPermission;
+        site_properties context/portal_properties/site_properties;
+        ajax_load request/ajax_load | nothing;
+        ajax_include_head request/ajax_include_head | nothing;
+        dummy python:request.RESPONSE.setHeader('X-UA-Compatible', 'IE=edge,chrome=1');"
+    tal:attributes="lang lang;">
+
+    <metal:cache use-macro="context/global_cache_settings/macros/cacheheaders">
+    Get the global cache headers located in global_cache_settings.
+    </metal:cache>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+    <metal:baseslot define-slot="base">
+        <base tal:attributes="href plone_view/renderBase" /><!--[if lt IE 7]></base><![endif]-->
+    </metal:baseslot>
+
+    <tal:notajax tal:condition="python:not ajax_load or ajax_include_head">
+        <div tal:replace="structure provider:plone.htmlhead" />
+        <link tal:replace="structure provider:plone.htmlhead.links" />
+        <metal:topslot define-slot="top_slot" />
+        <metal:headslot define-slot="head_slot" />
+        <metal:styleslot define-slot="style_slot" />
+        <metal:javascriptslot define-slot="javascript_head_slot" />
+        <meta name="viewport" content="width=device-width, initial-scale=0.6666, maximum-scale=1.0, minimum-scale=0.6666" />
+        <meta name="generator" content="Plone - http://plone.org" />
+    </tal:notajax>
+</head>
+
+<body>
+<div id="visual-portal-wrapper">
+
+  <div id="portal-top"
+      class="row"
+      i18n:domain="plone"
+      tal:condition="not:ajax_load">
+      <div tal:replace="structure provider:plone.portaltop" />
+  </div>
+  <div id="portal-columns" class="row">
+
+    <div id="portal-column-content" class="cell">
+      <div id="viewlet-above-content" tal:content="structure provider:plone.abovecontent" tal:condition="not:ajax_load" />
+      <metal:block define-slot="content">
+        <div metal:define-macro="content"
+            tal:define="show_border context/@@plone/showEditableBorder; show_border python:show_border and not ajax_load"
+            tal:attributes="class python:show_border and 'documentEditable' or ''">
+          <div metal:use-macro="context/global_statusmessage/macros/portal_message">Status message</div>
+          <metal:slot define-slot="body">
+            <div id="content">
+              <metal:bodytext define-slot="main">
+                <div id="content-core">
+                  <metal:text define-slot="content-core" tal:content="nothing">Page body text</metal:text>
+                </div>
+              </metal:bodytext>
+            </div>
+          </metal:slot>
+        </div>
+      </metal:block>
+    </div>
+
+    <tal:notajax tal:condition="not:ajax_load">
+      <div id="portal-column-one" class="cell" metal:define-slot="column_one_slot">
+        <metal:portlets define-slot="portlets_one_slot">
+          <tal:block replace="structure provider:plone.leftcolumn" />
+        </metal:portlets>
+      </div>
+    </tal:notajax>
+
+  </div>
+
+  <div id="portal-footer-wrapper" class="row" i18n:domain="plone" tal:condition="not:ajax_load">
+    <div tal:replace="structure provider:plone.portalfooter" />
+  </div>
+
+</div>
+</body>
+</html>
+</metal:page>
