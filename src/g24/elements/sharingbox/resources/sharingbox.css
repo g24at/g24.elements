@@ -13,7 +13,7 @@
 }
 .sharingbox form { margin:0; }
 
-.sharingbox .sharingbox-features>div {
+.sharingbox #features>div.field {
     display:inline-block;
     margin-right:0.5em;
 }

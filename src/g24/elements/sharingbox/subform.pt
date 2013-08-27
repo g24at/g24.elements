@@ -10,7 +10,7 @@
     <tal:block replace="structure error/render" />
   </li>
 </ul>
-<div class="row" tal:repeat="widget view/widgets/values">
+<div class="field" tal:repeat="widget view/widgets/values">
   <b tal:condition="widget/error"
      tal:content="structure widget/error/render"
   /><label for=""
