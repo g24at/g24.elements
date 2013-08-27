@@ -9,7 +9,7 @@
 
   <body>
 
-    <div class="form" metal:define-macro="form">
+    <div class="sharingbox" metal:define-macro="form">
 
       <metal:title-slot define-slot="title">
         <h3 tal:condition="view/label | nothing">
@@ -36,7 +36,7 @@
             <metal:define define-macro="fields">
 
               <tal:widgets repeat="widget view/widgets/values">
-                <div class="row"
+                <div class="field"
                      tal:define="hidden python:widget.mode == 'hidden'"
                      tal:omit-tag="hidden">
 

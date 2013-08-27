@@ -4,7 +4,7 @@
     border-left:1px solid #EAEAEA; }
 #content ul.threadview ul.threadview { margin-left:2em; }
 
-#sharingbox,
+.sharingbox,
 article.element {
     background-color:white;
     border-radius:0px 20px 5px 20px;
@@ -19,11 +19,10 @@ article.element header h1 {
     line-height:1.4em; }
 
 article.element {
-    box-shadow: 5px 5px 2px #888;
 }
 article.element:hover {
-    border-color:#0F0;
-    box-shadow: 5px 5px 2px #050;
+    background-color:#FF0;
+    /*box-shadow: 5px 5px 2px #888;*/
 }
 
 aside.tags { margin-bottom:0.2em; }

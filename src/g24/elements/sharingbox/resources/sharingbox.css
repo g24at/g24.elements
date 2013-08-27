@@ -1,23 +1,23 @@
 #sharingbox-facade-content { display:none; }
 
-#sharingbox fieldset:last-of-type {
+.sharingbox fieldset:last-of-type {
     margin:0;
 }
-#sharingbox fieldset {
+.sharingbox fieldset {
     margin:0 0 0.5em 0;
     border:none;
 }
 
-#sharingbox fieldset>div {
+.sharingbox fieldset>div {
     margin:0;
 }
-#sharingbox form { margin:0; }
+.sharingbox form { margin:0; }
 
-#sharingbox .sharingbox-features>div {
+.sharingbox .sharingbox-features>div {
     display:inline-block;
     margin-right:0.5em;
 }
-#sharingbox iframe {
+.sharingbox iframe {
     width:100% !important;
     margin:0 -4px !important; }
 

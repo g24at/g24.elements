@@ -10,4 +10,16 @@
   <stylesheet bundle="widgets" id="++resource++collective.js.leaflet/leaflet.css"/>
   <stylesheet bundle="widgets" id="++resource++collective.js.leaflet/leaflet.ie.css"/>
 
+  <!-- sharingbox -->
+  <stylesheet
+    bundle="g24"
+    id="++resource++g24.elements/views.css"
+    cacheable="True" compression="safe" cookable="True" enabled="True"
+    media="screen" rel="stylesheet" rendering="link"/>
+  <stylesheet
+    bundle="g24"
+    id="++resource++g24.elements.sharingbox/sharingbox.css"
+    cacheable="True" compression="safe" cookable="True" enabled="True"
+    media="screen" rel="stylesheet" rendering="link"/>
+
 </object>

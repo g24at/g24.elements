@@ -10,4 +10,18 @@
   <javascript bundle="widgets" id="++resource++collective.js.leaflet/leaflet.js"/>
   <javascript bundle="widgets" id="popupforms.js"/>
 
+  <!-- sharingbox -->
+  <javascript
+      bundle="g24"
+      id="++resource++g24.elements/views.js"
+      insert-after="*"
+      cacheable="True" compression="safe" cookable="True" inline="False"
+      enabled="True" />
+  <javascript
+      bundle="g24"
+      id="++resource++g24.elements.sharingbox/sharingbox.js"
+      insert-after="*"
+      cacheable="True" compression="safe" cookable="True" inline="False"
+      enabled="True" />
+
 </object>
