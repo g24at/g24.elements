@@ -4,6 +4,7 @@
            i18n_domain="g24.elements">
 
   <include package="plone.app.event"/>
+  <include package="plone.app.widgets"/>
   <include package="collective.venue"/>
   <include package="collective.geolocationbehavior"/>
 

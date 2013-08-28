@@ -36,6 +36,11 @@
         for=".interfaces.IBasetype"
         />
 
+    <adapter factory=".behaviors.SubjectsFieldWidget" />
+    <adapter factory=".behaviors.TimezoneFieldWidget" />
+    <adapter factory=".behaviors.CountryFieldWidget" />
+    <adapter factory=".behaviors.StartFieldWidget" />
+    <adapter factory=".behaviors.EndFieldWidget" />
     <adapter name="SearchableText" factory=".behaviors.searchable_text_indexer" />
     <adapter name="Subject" factory=".behaviors.keyword_indexer" />
     <adapter factory=".behaviors.BasetypeAccessor" />

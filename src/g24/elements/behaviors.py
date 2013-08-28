@@ -24,7 +24,7 @@ from zope.component import provideAdapter
 from z3c.form.widget import ComputedWidgetAttribute
 
 
-from g24.elements import safe_decode
+from g24.elements import safe_decode, safe_encode
 from g24.elements.instancebehaviors import disable_behaviors
 from g24.elements.instancebehaviors import enable_behaviors
 from g24.elements.interfaces import IBasetype
@@ -117,6 +117,7 @@ class IBase(model.Schema):
 alsoProvides(IBase, IFormFieldProvider)
 
 
+
 class IThread(Interface):
     """Behavior marker interface for threads."""
 
@@ -134,6 +135,55 @@ alsoProvides(IEvent, IFormFieldProvider)
 class IPlace(IAddress, IGeolocatable):
     """Behavior marker interface for places."""
 alsoProvides(IPlace, IFormFieldProvider)
+
+
+from z3c.form.widget import FieldWidget
+from z3c.form.interfaces import IFieldWidget
+from z3c.form.util import getSpecification
+from plone.app.widgets.interfaces import IWidgetsLayer
+from plone.app.widgets.dx import DatetimeWidget
+from plone.app.widgets.dx import Select2Widget
+from plone.app.widgets.dx import SelectWidget
+from zope.interface import implementer
+from zope.component import adapter
+@adapter(getSpecification(IBase['subjects']), IWidgetsLayer)
+@implementer(IFieldWidget)
+def SubjectsFieldWidget(field, request):
+    widget = FieldWidget(field, Select2Widget(request))
+    widget.ajax_vocabulary = 'plone.app.vocabularies.Keywords'
+    return widget
+
+
+@adapter(getSpecification(IEvent['timezone']), IWidgetsLayer)
+@implementer(IFieldWidget)
+def TimezoneFieldWidget(field, request):
+    widget = FieldWidget(field, SelectWidget(request))
+    widget.ajax_vocabulary = 'plone.app.event.Timezones'
+    return widget
+
+
+@adapter(getSpecification(IPlace['country']), IWidgetsLayer)
+@implementer(IFieldWidget)
+def CountryFieldWidget(field, request):
+    widget = FieldWidget(field, SelectWidget(request))
+    widget.ajax_vocabulary = 'collective.address.CountryVocabulary'
+    return widget
+
+
+@adapter(getSpecification(IEvent['start']), IWidgetsLayer)
+@implementer(IFieldWidget)
+def StartFieldWidget(field, request):
+    widget = FieldWidget(field, DatetimeWidget(request))
+    return widget
+
+
+@adapter(getSpecification(IEvent['end']), IWidgetsLayer)
+@implementer(IFieldWidget)
+def EndFieldWidget(field, request):
+    widget = FieldWidget(field, DatetimeWidget(request))
+    return widget
+
+
 
 
 #class IPlace(model.Schema):
@@ -333,10 +383,11 @@ class BasetypeAccessor(object):
         #    value = trans(value, 'text/plain')
 
         if value:
+            value = safe_encode(value)
             pt = getToolByName(self.context, 'portal_transforms')
             data = pt.convertTo('text/plain', value, mimetype='text/html')
             text = data.getData()
-            return text
+            return safe_decode(text)
         return None
 
     # ro properties
