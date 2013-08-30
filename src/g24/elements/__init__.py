@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from zope.i18nmessageid import MessageFactory
 packageName = __name__
 messageFactory = MessageFactory(packageName)
@@ -37,3 +38,48 @@ def safe_encode(value):
         return value.encode('utf-8')
     else:
         return value
+
+#from plone.app.widgets import browser
+##orig_permissions = browser._permissions
+#browser._permissions.update({
+#    'g24.elements.Locations': 'Modify portal content',
+#    'plone.app.event.AvailableTimezones': 'Modify portal content',
+#    'collective.address.CountryVocabulary': 'Modify portal content'
+#})
+
+
+from collective.address.behaviors import IAddress
+from collective.geolocationbehavior.geolocation import IGeolocatable
+from plone.formwidget.geolocation.geolocation import Geolocation
+from z3c.form.widget import ComputedWidgetAttribute
+from zope.component import provideAdapter
+
+
+# DEFAULT COUNTRY for IAddress behaviors in collective.venue
+DEFAULT_COUNTRY = "040"  # Austria
+provideAdapter(ComputedWidgetAttribute(
+    lambda data: DEFAULT_COUNTRY,
+    field=IAddress['country']), name='default')
+
+
+def default_city(data):
+    ret = u'Graz'
+    return ret
+provideAdapter(ComputedWidgetAttribute(
+    default_city,
+    field=IAddress['city']), name='default')
+
+
+def default_zip_code(data):
+    ret = u'8010'
+    return ret
+provideAdapter(ComputedWidgetAttribute(
+    default_zip_code,
+    field=IAddress['zip_code']), name='default')
+
+
+def default_geo(data):
+    ret = Geolocation(47.070714, 15.439503999999943)
+    return ret
+provideAdapter(ComputedWidgetAttribute(
+    default_geo, field=IGeolocatable['geolocation']), name='default')

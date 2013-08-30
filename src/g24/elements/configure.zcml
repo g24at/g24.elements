@@ -8,10 +8,12 @@
   <include package="collective.venue"/>
   <include package="collective.geolocationbehavior"/>
 
+
   <include file="behaviors.zcml" />
   <include file="permissions.zcml" />
   <include file="instancebehaviors.zcml" />
   <include file="namechooser.zcml" />
+  <include file="vocabularies.zcml" />
   <include package=".browser"/>
   <include package=".portlets"/>
   <include package=".sharingbox"/>

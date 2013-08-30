@@ -21,7 +21,6 @@
       factory=".element_provider.ElementProvider"
       />
 
-
    <browser:page
       for="g24.elements.interfaces.IBasetype"
       name="element"

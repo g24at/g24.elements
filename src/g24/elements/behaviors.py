@@ -1,5 +1,7 @@
 from Products.CMFCore.utils import getToolByName
 from Products.CMFPlone.i18nl10n import ulocalized_time
+from collective.address.behaviors import IAddress
+from collective.geolocationbehavior.geolocation import IGeolocatable
 from plone.app.event.base import DT
 from plone.app.event.dx.behaviors import IEventBasic
 from plone.app.event.dx.behaviors import IEventLocation
@@ -10,19 +12,15 @@ from plone.app.event.dx.interfaces import IDXEventLocation
 from plone.app.event.dx.interfaces import IDXEventRecurrence
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
-from plone.formwidget.recurrence.z3cform.widget import RecurrenceFieldWidget
 from plone.indexer import indexer
 from plone.supermodel import model
 from plone.uuid.interfaces import IUUID
 from z3c.form.browser.textlines import TextLinesFieldWidget
+from z3c.form.widget import ComputedWidgetAttribute
 from zope import schema
 from zope.component import adapts
-from zope.interface import alsoProvides, Interface, implements
-from collective.address.behaviors import IAddress
-from collective.geolocationbehavior.geolocation import IGeolocatable
 from zope.component import provideAdapter
-from z3c.form.widget import ComputedWidgetAttribute
-
+from zope.interface import alsoProvides, Interface, implements
 
 from g24.elements import safe_decode, safe_encode
 from g24.elements.instancebehaviors import disable_behaviors
@@ -30,13 +28,12 @@ from g24.elements.instancebehaviors import enable_behaviors
 from g24.elements.interfaces import IBasetype
 from g24.elements.interfaces import IBasetypeAccessor
 from g24.elements import messageFactory as _
-from plone.event.interfaces import IEvent as IPEvent
-from plone.app.event.dx.interfaces import IDXEvent
 
 #from zope.component.hooks import getSite
 #from plone.app.textfield import RichText
 #from plone.app.textfield.value import RichTextValue
 #from plone.app.textfield.interfaces import ITransformer
+
 
 def format_date(date, context):
     return ulocalized_time(DT(date), long_format=True, time_only=None,
@@ -67,6 +64,7 @@ class IFeatures(model.Schema):
         required = False
     )
 alsoProvides(IFeatures, IFormFieldProvider)
+
 
 def feature_thread(data):
     return IBasetypeAccessor(data.context).is_thread
@@ -117,11 +115,11 @@ class IBase(model.Schema):
 alsoProvides(IBase, IFormFieldProvider)
 
 
-
 class IThread(Interface):
     """Behavior marker interface for threads."""
 
-class IEvent(IPEvent, IDXEvent, IEventBasic, IEventRecurrence, IEventLocation):
+
+class IEvent(IEventBasic, IEventRecurrence, IEventLocation, IDXEvent, IDXEventRecurrence, IDXEventLocation):
     """Behavior marker interface for events."""
     # For Plone autoform based forms. Plain z3cforms get their properties set
     # within the form's update method.
@@ -131,6 +129,7 @@ class IEvent(IPEvent, IDXEvent, IEventBasic, IEventRecurrence, IEventLocation):
                 start_field='IEvent.start',
                 first_day=first_weekday_sun0)
 alsoProvides(IEvent, IFormFieldProvider)
+
 
 class IPlace(IAddress, IGeolocatable):
     """Behavior marker interface for places."""
@@ -157,8 +156,15 @@ def SubjectsFieldWidget(field, request):
 @adapter(getSpecification(IEvent['timezone']), IWidgetsLayer)
 @implementer(IFieldWidget)
 def TimezoneFieldWidget(field, request):
-    widget = FieldWidget(field, SelectWidget(request))
-    widget.ajax_vocabulary = 'plone.app.event.Timezones'
+    widget = FieldWidget(field, Select2Widget(request))
+    widget.ajax_vocabulary = 'plone.app.event.AvailableTimezones'
+    return widget
+
+@adapter(getSpecification(IEvent['location']), IWidgetsLayer)
+@implementer(IFieldWidget)
+def LocationFieldWidget(field, request):
+    widget = FieldWidget(field, Select2Widget(request))
+    widget.ajax_vocabulary = 'g24.elements.Locations'
     return widget
 
 
@@ -166,7 +172,7 @@ def TimezoneFieldWidget(field, request):
 @implementer(IFieldWidget)
 def CountryFieldWidget(field, request):
     widget = FieldWidget(field, SelectWidget(request))
-    widget.ajax_vocabulary = 'collective.address.CountryVocabulary'
+    #widget.ajax_vocabulary = 'collective.address.CountryVocabulary'
     return widget
 
 
@@ -182,8 +188,6 @@ def StartFieldWidget(field, request):
 def EndFieldWidget(field, request):
     widget = FieldWidget(field, DatetimeWidget(request))
     return widget
-
-
 
 
 #class IPlace(model.Schema):
