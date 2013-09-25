@@ -41,7 +41,7 @@
     </property>
     
     <alias from="(Default)" to="(selected layout)"/>
-    <alias from="edit" to="@@edit"/>
+    <alias from="edit" to="@@shbxedit"/>
     <alias from="sharing" to="@@sharing"/>
     <alias from="view" to="@@view"/>
 
@@ -50,7 +50,7 @@
         <permission value="View"/>
     </action>
     <action title="Edit" action_id="edit" category="object" condition_expr=""
-        url_expr="string:${object_url}/edit" visible="True">
+        url_expr="string:${object_url}/@@shbxedit" visible="True">
         <permission value="Modify portal content"/>
     </action>
 
