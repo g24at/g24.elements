@@ -141,30 +141,30 @@ from z3c.form.interfaces import IFieldWidget
 from z3c.form.util import getSpecification
 from plone.app.widgets.interfaces import IWidgetsLayer
 from plone.app.widgets.dx import DatetimeWidget
-from plone.app.widgets.dx import Select2Widget
+from plone.app.widgets.dx import AjaxSelectWidget
 from plone.app.widgets.dx import SelectWidget
 from zope.interface import implementer
 from zope.component import adapter
 @adapter(getSpecification(IBase['subjects']), IWidgetsLayer)
 @implementer(IFieldWidget)
 def SubjectsFieldWidget(field, request):
-    widget = FieldWidget(field, Select2Widget(request))
-    widget.ajax_vocabulary = 'plone.app.vocabularies.Keywords'
+    widget = FieldWidget(field, AjaxSelectWidget(request))
+    widget.vocabulary = 'plone.app.vocabularies.Keywords'
     return widget
 
 
 @adapter(getSpecification(IEvent['timezone']), IWidgetsLayer)
 @implementer(IFieldWidget)
 def TimezoneFieldWidget(field, request):
-    widget = FieldWidget(field, Select2Widget(request))
-    widget.ajax_vocabulary = 'plone.app.event.AvailableTimezones'
+    widget = FieldWidget(field, AjaxSelectWidget(request))
+    widget.vocabulary = 'plone.app.event.AvailableTimezones'
     return widget
 
 @adapter(getSpecification(IEvent['location']), IWidgetsLayer)
 @implementer(IFieldWidget)
 def LocationFieldWidget(field, request):
-    widget = FieldWidget(field, Select2Widget(request))
-    widget.ajax_vocabulary = 'g24.elements.Locations'
+    widget = FieldWidget(field, AjaxSelectWidget(request))
+    widget.vocabulary = 'g24.elements.Locations'
     return widget
 
 
