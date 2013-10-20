@@ -39,7 +39,7 @@
     <adapter factory=".behaviors.SubjectsFieldWidget" />
     <adapter factory=".behaviors.TimezoneFieldWidget" />
     <adapter factory=".behaviors.CountryFieldWidget" />
-    <!--adapter factory=".behaviors.LocationFieldWidget" /-->
+    <adapter factory=".behaviors.LocationFieldWidget" />
     <!--adapter factory=".behaviors.StartFieldWidget" />
     <adapter factory=".behaviors.EndFieldWidget" /-->
     <adapter name="SearchableText" factory=".behaviors.searchable_text_indexer" />

@@ -156,9 +156,9 @@ def SubjectsFieldWidget(field, request):
 @adapter(getSpecification(IEvent['timezone']), IWidgetsLayer)
 @implementer(IFieldWidget)
 def TimezoneFieldWidget(field, request):
-    widget = FieldWidget(field, AjaxSelectWidget(request))
-    widget.vocabulary = 'plone.app.event.AvailableTimezones'
+    widget = FieldWidget(field, SelectWidget(request))
     return widget
+
 
 @adapter(getSpecification(IEvent['location']), IWidgetsLayer)
 @implementer(IFieldWidget)
@@ -172,7 +172,7 @@ def LocationFieldWidget(field, request):
 @implementer(IFieldWidget)
 def CountryFieldWidget(field, request):
     widget = FieldWidget(field, SelectWidget(request))
-    #widget.ajax_vocabulary = 'collective.address.CountryVocabulary'
+    #widget.vocabulary = 'collective.address.CountryVocabulary'
     return widget
 
 
