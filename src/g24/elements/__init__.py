@@ -39,13 +39,13 @@ def safe_encode(value):
     else:
         return value
 
-#from plone.app.widgets import browser
-##orig_permissions = browser._permissions
-#browser._permissions.update({
-#    'g24.elements.Locations': 'Modify portal content',
-#    'plone.app.event.AvailableTimezones': 'Modify portal content',
-#    'collective.address.CountryVocabulary': 'Modify portal content'
-#})
+from plone.app.widgets.browser import vocabulary
+orig_permissions = vocabulary._permissions
+vocabulary._permissions.update({
+    'g24.elements.Locations': 'Modify portal content',
+    'plone.app.event.AvailableTimezones': 'Modify portal content',
+    'collective.address.CountryVocabulary': 'Modify portal content'
+})
 
 
 from collective.address.behaviors import IAddress
