@@ -87,8 +87,8 @@
   <hr />
 
   <aside class="element-controls" tal:define="can_edit view/can_edit; can_add view/can_add" tal:condition="python:can_edit or can_add">
-    <a class="sharingbox_edit btn btn-large btn-primary pat-modal" tal:condition="can_edit" href="" tal:attributes="href string:${base_url}/@@shbxedit?ajax_load=1">Edit</a>
-    <a class="sharingbox_add btn btn-large btn-primary pat-modal" tal:condition="can_add" href="" tal:attributes="href string:${base_url}/@@shbxadd?ajax_load=1">Reply</a>
+    <a class="sharingbox_edit btn btn-large btn-primary pat-modal" data-pat-modal='{"width":"80%"}' tal:condition="can_edit" href="" tal:attributes="href string:${base_url}/@@shbxedit?ajax_load=1">Edit</a>
+    <a class="sharingbox_add btn btn-large btn-primary pat-modal" data-pat-modal='{"width":"80%"}' tal:condition="can_add" href="" tal:attributes="href string:${base_url}/@@shbxadd?ajax_load=1">Reply</a>
   </aside>
 
   </footer>
