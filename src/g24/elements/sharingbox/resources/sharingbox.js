@@ -39,6 +39,7 @@ $(document).bind("ajaxComplete", function(){
     // TODO: bind tighter to shbx call - otherwise this is called with every
     // ajax request
     init_feature_toggle();
+    initialize_map();
 });
 
 $(document).ready(function() {
