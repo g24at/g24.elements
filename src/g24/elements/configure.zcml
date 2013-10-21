@@ -5,6 +5,7 @@
 
   <include package="plone.app.event"/>
   <include package="plone.app.widgets"/>
+  <include package="collective.address"/>
   <include package="collective.venue"/>
   <include package="collective.geolocationbehavior"/>
 

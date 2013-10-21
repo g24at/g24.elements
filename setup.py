@@ -33,6 +33,7 @@ setup(name='g24.elements',
           'plone.app.dexterity',
           'plone.app.widgets',
           'plone.dexterity',
+          'collective.address',
           'collective.venue',
       ],
       )
