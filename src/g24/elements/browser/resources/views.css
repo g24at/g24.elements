@@ -1,9 +1,19 @@
 #content ul, #content ul.threadview { margin:0; padding:0; }
 #content ul.threadview > li {
     list-style:none;
-    border-left:1px solid #EAEAEA; }
-#content ul.threadview ul.threadview { margin-left:2em; }
+    /*border-left:1px solid #EAEAEA;*/ }
+#content ul.threadview ul.threadview { margin-left:3em; }
 
+body a {
+    color: #0000FF;
+    text-decoration: none;
+}
+body a:hover {
+    color: #00FF00;
+    text-decoration: none;
+}
+
+/*
 .sharingbox,
 article.element {
     background-color:white;
@@ -17,13 +27,38 @@ article.element header h1 {
     margin:0 !important;
     font-size:1.4em;
     line-height:1.4em; }
-
-article.element {
-}
 article.element:hover {
     background-color:#FF0;
-    /*box-shadow: 5px 5px 2px #888;*/
 }
+*/
+article.element {
+    max-width:50em;
+    min-width:15em;
+    padding:0;
+    margin:1em 0;
+}
+article.element>* {
+    padding:1em;
+}
+article.element header {
+    background: #555;
+    color:white;
+}
+article.element:hover {
+    border-color: #gblack;
+}
+article.element header a {
+    background-color: #000;
+    color: #0000FF;
+}
+article.element header a:hover {
+    color: #000;
+    background-color: #000;
+    color: #00FF00;
+    text-decoration: none;
+}
+
+
 
 aside.tags { margin-bottom:0.2em; }
 

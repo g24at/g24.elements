@@ -39,13 +39,15 @@
           </fieldset>
           </tal:subforms>
 
+          <div class="actions">
           <metal:actions-slot define-slot="actions">
             <metal:define define-macro="actions">
-              <div class="action" tal:repeat="action view/actions/values|nothing">
+              <tal:rep repeat="action view/actions/values|nothing">
                 <input type="submit" tal:replace="structure action/render" />
-              </div>
+              </tal:rep>
             </metal:define>
           </metal:actions-slot>
+          </div>
 
           <metal:block define-slot="formbottom" />
 
