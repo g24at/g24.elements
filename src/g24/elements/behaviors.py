@@ -254,6 +254,12 @@ def keyword_indexer(obj):
     return acc.subjects
 
 
+@indexer(IBasetype)
+def location_indexer(obj):
+    acc = IBasetypeAccessor(obj)
+    return acc.location
+
+
 #EVENT_INTERFACES = [IDXEvent, IDXEventRecurrence, IDXEventLocation]
 #EVENT_BEHAVIORS = ['plone.app.event.dx.behaviors.IEventBasic',
 #                   'plone.app.event.dx.behaviors.IEventRecurrence',
@@ -455,6 +461,14 @@ class BasetypeAccessor(object):
     def last_modified(self):
         return format_date(self.context.modified(), self.context)
 
+    @property
+    def latitude(self):
+        return self.is_place and self.geolocation.latitude or None
+
+    @property
+    def longitude(self):
+        return self.is_place and self.geolocation.longitude or None
+
     # rw properties
     #
     @property
@@ -499,19 +513,3 @@ class BasetypeAccessor(object):
             enable_behaviors(self.context, PLACE_BEHAVIORS, PLACE_INTERFACES)
         else:
             disable_behaviors(self.context, PLACE_BEHAVIORS, PLACE_INTERFACES)
-
-    @property
-    def latitude(self):
-        return self.is_place and self.geolocation.latitude or None
-
-    @latitude.setter
-    def latitude(self, value):
-        self.geolocation.latitude = value
-
-    @property
-    def longitude(self):
-        return self.is_place and self.geolocation.longitude or None
-
-    @longitude.setter
-    def longitude(self, value):
-        self.geolocation.longitude = value
