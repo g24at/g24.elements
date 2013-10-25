@@ -10,17 +10,27 @@ from plone.app.event.dx.behaviors import first_weekday_sun0
 from plone.app.event.dx.interfaces import IDXEvent
 from plone.app.event.dx.interfaces import IDXEventLocation
 from plone.app.event.dx.interfaces import IDXEventRecurrence
+from plone.app.widgets.dx import AjaxSelectWidget
+from plone.app.widgets.dx import DatetimeWidget
+from plone.app.widgets.dx import SelectWidget
+from plone.app.widgets.interfaces import IWidgetsLayer
 from plone.autoform import directives as form
 from plone.autoform.interfaces import IFormFieldProvider
 from plone.indexer import indexer
 from plone.supermodel import model
 from plone.uuid.interfaces import IUUID
 from z3c.form.browser.textlines import TextLinesFieldWidget
+from z3c.form.interfaces import IFieldWidget
+from z3c.form.util import getSpecification
 from z3c.form.widget import ComputedWidgetAttribute
+from z3c.form.widget import FieldWidget
 from zope import schema
+from zope.component import adapter
 from zope.component import adapts
 from zope.component import provideAdapter
 from zope.interface import alsoProvides, Interface, implements
+from zope.interface import implementer
+
 
 from g24.elements import safe_decode, safe_encode
 from g24.elements.instancebehaviors import disable_behaviors
@@ -44,24 +54,24 @@ class IFeatures(model.Schema):
     """Sharingbox features marker interface."""
 
     is_thread = schema.Bool(
-        title = _(u'label_is_thread', default=u"I'm a Thread"),
-        description = _(u'help_thread', default=u"Start a new thread."),
-        required = False
+        title=_(u'label_is_thread', default=u"I'm a Thread"),
+        description=_(u'help_thread', default=u"Start a new thread."),
+        required=False
     )
 
     is_event = schema.Bool(
-        title = _(u'label_is_event', default=u"I'm an Event"),
-        description = _(u'help_event', default=u"Make me an event."),
-        required = False
+        title=_(u'label_is_event', default=u"I'm an Event"),
+        description=_(u'help_event', default=u"Make me an event."),
+        required=False
     )
 
     is_place = schema.Bool(
-        title = _(u'label_is_place', default=u"I'm a Place"),
-        description = _(
+        title=_(u'label_is_place', default=u"I'm a Place"),
+        description=_(
             u'help_is_place',
             default=u"Define a place with address and/or geolocation data."
         ),
-        required = False
+        required=False
     )
 alsoProvides(IFeatures, IFormFieldProvider)
 
@@ -70,10 +80,14 @@ def feature_thread(data):
     return IBasetypeAccessor(data.context).is_thread
 provideAdapter(ComputedWidgetAttribute(
     feature_thread, field=IFeatures['is_thread']), name='default')
+
+
 def feature_event(data):
     return IBasetypeAccessor(data.context).is_event
 provideAdapter(ComputedWidgetAttribute(
     feature_event, field=IFeatures['is_event']), name='default')
+
+
 def feature_place(data):
     return IBasetypeAccessor(data.context).is_place
 provideAdapter(ComputedWidgetAttribute(
@@ -83,33 +97,47 @@ provideAdapter(ComputedWidgetAttribute(
 class IBase(model.Schema):
 
     title = schema.TextLine(
-        title = _(u'label_title', default=u'Title'),
-        description = _(u'help_title', default=u'The title of your post.'),
-        required = True
+        title=_(u'label_title', default=u'Title'),
+        description=_(u'help_title', default=u'The title of your post.'),
+        required=True
         )
-    form.order_before(title = '*')
+    form.order_before(title='*')
 
     text = schema.Text(
-        title = _(u'label_richtext', default=u'Body text'),
-        description = _(u'help_richtext', default=u'Main text of this content node.'),
-        required = True,
+        title=_(u'label_richtext', default=u'Body text'),
+        description=_(
+            u'help_richtext',
+            default=u'Main text of this content node.'
+        ),
+        required=True,
     )
 
     #    text = RichText(
     #        title = _(u'label_richtext', default=u'Body text'),
-    #        description = _(u'help_richtext', default=u'Main text of this content node.'),
+    #        description = _(
+    #            u'help_richtext',
+    #            default=u'Main text of this content node.'
+    #        ),
     #        required = True,
     #        default_mime_type='text/html',
     #        output_mime_type='text/html',
-    #        allowed_mime_types=['text/html', 'text/plain', 'text/x-rst', 'text/restructured'],
-    #        )
+    #        allowed_mime_types=[
+    #            'text/html',
+    #            'text/plain',
+    #            'text/x-rst',
+    #            'text/restructured'
+    #        ],
+    #    )
 
     subjects = schema.Tuple(
-        title = _(u'label_categories', default=u'Categories'),
-        description = _(u'help_categories', default=u'Also known as keywords, tags or labels, these help you categorize your content.'),
-        value_type = schema.TextLine(),
-        required = False,
-        missing_value = (),
+        title=_(u'label_categories', default=u'Categories'),
+        description=_(
+            u'help_categories',
+            default=u'Also known as keywords, tags or labels, these help you '
+                    u'categorize your content.'),
+        value_type=schema.TextLine(),
+        required=False,
+        missing_value=(),
         )
     form.widget('subjects', TextLinesFieldWidget)
 alsoProvides(IBase, IFormFieldProvider)
@@ -119,7 +147,8 @@ class IThread(Interface):
     """Behavior marker interface for threads."""
 
 
-class IEvent(IEventBasic, IEventRecurrence, IEventLocation, IDXEvent, IDXEventRecurrence, IDXEventLocation):
+class IEvent(IEventBasic, IEventRecurrence, IEventLocation,
+             IDXEvent, IDXEventRecurrence, IDXEventLocation):
     """Behavior marker interface for events."""
     # For Plone autoform based forms. Plain z3cforms get their properties set
     # within the form's update method.
@@ -136,15 +165,8 @@ class IPlace(IAddress, IGeolocatable):
 alsoProvides(IPlace, IFormFieldProvider)
 
 
-from z3c.form.widget import FieldWidget
-from z3c.form.interfaces import IFieldWidget
-from z3c.form.util import getSpecification
-from plone.app.widgets.interfaces import IWidgetsLayer
-from plone.app.widgets.dx import DatetimeWidget
-from plone.app.widgets.dx import AjaxSelectWidget
-from plone.app.widgets.dx import SelectWidget
-from zope.interface import implementer
-from zope.component import adapter
+# plone.app.widgets integration
+
 @adapter(getSpecification(IBase['subjects']), IWidgetsLayer)
 @implementer(IFieldWidget)
 def SubjectsFieldWidget(field, request):
@@ -218,14 +240,14 @@ def keyword_indexer(obj):
 #                   'plone.app.event.dx.behaviors.IEventRecurrence',
 #                   'plone.app.event.dx.behaviors.IEventLocation']
 
-EVENT_INTERFACES = [IEvent,]
-EVENT_BEHAVIORS = ['g24.elements.behaviors.IEvent',]
+EVENT_INTERFACES = [IEvent, ]
+EVENT_BEHAVIORS = ['g24.elements.behaviors.IEvent', ]
 
-THREAD_INTERFACES =  [IThread,]
-THREAD_BEHAVIORS = ['g24.elements.behaviors.IThread',]
+THREAD_INTERFACES = [IThread, ]
+THREAD_BEHAVIORS = ['g24.elements.behaviors.IThread', ]
 
-PLACE_INTERFACES = [IPlace,]
-PLACE_BEHAVIORS = ['g24.elements.behaviors.IPlace',]
+PLACE_INTERFACES = [IPlace, ]
+PLACE_BEHAVIORS = ['g24.elements.behaviors.IPlace', ]
 
 
 class BasetypeAccessor(object):
@@ -288,7 +310,7 @@ class BasetypeAccessor(object):
         >>> acc.cleanup()
         >>> context.start
         Traceback (most recent call last):
-          File "/home/thet-data/dotfiles-thet/dotfiles.buildout/eggs/Paste-1.7.5.1-py2.7.egg/paste/evalexception/evalcontext.py", line 37, in exec_expr
+            ....
             exec code in self.namespace, self.globs
           File "<web>", line 1, in <module>
         AttributeError: start
@@ -335,19 +357,19 @@ class BasetypeAccessor(object):
 
     def __getattr__(self, name):
         bm = self._behavior_map
-        if name in bm: # adapt object with behavior and return the attribute
-           behavior = bm[name](self.context, None)
-           if behavior:
-               value = getattr(behavior, name, None)
-               return value
+        if name in bm:  # adapt object with behavior and return the attribute
+            behavior = bm[name](self.context, None)
+            if behavior:
+                value = getattr(behavior, name, None)
+                return value
         return None
 
     def __setattr__(self, name, value):
         fl = self._feature_list
         bm = self._behavior_map
-        if name in fl: # set the features by adding/removing behaviors
+        if name in fl:  # set the features by adding/removing behaviors
             object.__setattr__(self, name, value)
-        elif name in bm: # set the attributes on behaviors
+        elif name in bm:  # set the attributes on behaviors
             behavior = bm[name](self.context, None)
             if behavior:
                 # all strings go unicode
@@ -358,7 +380,8 @@ class BasetypeAccessor(object):
         bm = self._behavior_map
         if name in bm:
             behavior = bm[name](self.context, None)
-            if behavior: delattr(behavior, name)
+            if behavior:
+                delattr(behavior, name)
         try:
             # try ro delete the attribute also on the context
             delattr(self.context, name)
@@ -412,7 +435,6 @@ class BasetypeAccessor(object):
     def last_modified(self):
         return format_date(self.context.modified(), self.context)
 
-
     # rw properties
     #
     @property
@@ -423,16 +445,19 @@ class BasetypeAccessor(object):
         #   If posting has more than 2 children: True
         #   If not: False
         return IThread.providedBy(self.context)
+
     @is_thread.setter
     def is_thread(self, value):
         if value:
             enable_behaviors(self.context, THREAD_BEHAVIORS, THREAD_INTERFACES)
         else:
-            disable_behaviors(self.context, THREAD_BEHAVIORS, THREAD_INTERFACES)
+            disable_behaviors(self.context,
+                              THREAD_BEHAVIORS, THREAD_INTERFACES)
 
     @property
     def is_event(self):
         return IDXEvent.providedBy(self.context)
+
     @is_event.setter
     def is_event(self, value):
         if value:
@@ -447,6 +472,7 @@ class BasetypeAccessor(object):
     @property
     def is_place(self):
         return IPlace.providedBy(self.context)
+
     @is_place.setter
     def is_place(self, value):
         if value:
@@ -454,10 +480,11 @@ class BasetypeAccessor(object):
         else:
             disable_behaviors(self.context, PLACE_BEHAVIORS, PLACE_INTERFACES)
 
-
     def _delattrs(self, attrs):
         for attr in attrs:
             # self.context.title cannot be deleted. after deleting, it will be
             # instantly magically set to ''
-            try: delattr(self.context, attr)
-            except: pass
+            try:
+                delattr(self.context, attr)
+            except:
+                pass
