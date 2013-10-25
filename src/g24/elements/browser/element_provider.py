@@ -122,17 +122,18 @@ class ElementProvider(BrowserView):
     @view.memoize
     def events_at_location(self):
         data = self.data
-        if not data.is_place:
-            return None
-        cat = getToolByName(self.context, 'portal_catalog')
-        query = {
-            'object_provides': IEvent.__identifier__,
-            'location': IUUID(self.context),
-            'sort_on': 'start',
-            'sort_order': 'reverse'
-        }
-        res = cat.searchResults(**query)
-        return res
+        res = []
+        if data.is_place:
+            cat = getToolByName(self.context, 'portal_catalog')
+            query = {
+                'object_provides': IEvent.__identifier__,
+                'location': IUUID(self.context),
+                'sort_on': 'start',
+                'sort_order': 'reverse'
+            }
+            res = cat.searchResults(**query)
+        for brain in res[:20]:
+            yield IBasetypeAccessor(brain.getObject())
 
     ### manage
 

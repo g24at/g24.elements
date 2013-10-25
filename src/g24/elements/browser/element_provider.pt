@@ -88,9 +88,10 @@
   <div class="eventlist" tal:condition="data/is_place">
       <ul><tal:rep repeat="event view/events_at_location">
         <li>
+          <span class="date" tal:content="event/start">date</span>
           <a href=""
-              tal:attributes="href event/getURL"
-              tal:content="event/Title">event</a>
+              tal:attributes="href event/url"
+              tal:content="event/title">event</a>
         </li>
       </tal:rep></ul>
   </div>
