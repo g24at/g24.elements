@@ -9,6 +9,7 @@ from g24.elements.interfaces import IBasetype
 from g24.elements.behaviors import IPlace, IThread
 from plone.event.interfaces import IEvent
 
+
 class StreamView(BrowserView):
 
     def items(self, user=None, tag=None, search_all=False, type_=None):
@@ -36,7 +37,7 @@ class StreamView(BrowserView):
             elif ty == 'place':
                 type_ = IPlace.__identifier__
             else:
-                type_= None
+                type_ = None
         else:
             # if no other type is given, search for IBasetype
             type_ = IBasetype.__identifier__
