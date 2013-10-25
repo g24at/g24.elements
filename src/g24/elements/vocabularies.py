@@ -14,7 +14,7 @@ class LocationsVocabulary(object):
         query = {}
         query['object_provides'] = IPlace.__identifier__
         query['sort_on'] = 'sortable_title'
-        items = [SimpleTerm(it.id, it.id, it.Title) for it in cat(**query)]
+        items = [SimpleTerm(it.UID, title=it.Title) for it in cat(**query)]
         return SimpleVocabulary(items)
 
 LocationsVocabularyFactory = LocationsVocabulary()

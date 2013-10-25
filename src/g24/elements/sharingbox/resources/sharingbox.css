@@ -51,3 +51,12 @@ fieldset.sharingbox-features label.inactive { opacity:0.5; }
 fieldset.sharingbox-features input[type='checkbox'] { display:none; margin:0 0 0 0.2em; }
 
 div.tooltip { min-width:12em; }
+
+
+/* leaflet maps */
+.geomap {
+    height:440px;
+}
+.leaflet-popup-content p {
+    margin: 0;
+}

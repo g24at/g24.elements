@@ -4,11 +4,9 @@ from collective.address.behaviors import IAddress
 from collective.geolocationbehavior.geolocation import IGeolocatable
 from plone.app.event.base import DT
 from plone.app.event.dx.behaviors import IEventBasic
-from plone.app.event.dx.behaviors import IEventLocation
 from plone.app.event.dx.behaviors import IEventRecurrence
 from plone.app.event.dx.behaviors import first_weekday_sun0
 from plone.app.event.dx.interfaces import IDXEvent
-from plone.app.event.dx.interfaces import IDXEventLocation
 from plone.app.event.dx.interfaces import IDXEventRecurrence
 from plone.app.widgets.dx import AjaxSelectWidget
 from plone.app.widgets.dx import DatetimeWidget
@@ -99,7 +97,7 @@ class IBase(model.Schema):
         title=_(u'label_title', default=u'Title'),
         description=_(u'help_title', default=u'The title of your post.'),
         required=True
-        )
+    )
     form.order_before(title='*')
 
     text = schema.Text(
@@ -146,8 +144,8 @@ class IThread(Interface):
     """Behavior marker interface for threads."""
 
 
-class IEvent(IEventBasic, IEventRecurrence, IEventLocation,
-             IDXEvent, IDXEventRecurrence, IDXEventLocation):
+class IEvent(IEventBasic, IEventRecurrence,
+             IDXEvent, IDXEventRecurrence):
     """Behavior marker interface for events."""
     # For Plone autoform based forms. Plain z3cforms get their properties set
     # within the form's update method.
@@ -156,6 +154,29 @@ class IEvent(IEventBasic, IEventRecurrence, IEventLocation,
     form.widget('recurrence',
                 start_field='IEvent.start',
                 first_day=first_weekday_sun0)
+
+    location = schema.Choice(
+        title=_(
+            u'label_location',
+            default=u'Location'
+        ),
+        description=_(
+            u'help_location',
+            default=u'Select the location of the event.'
+        ),
+        required=True,
+        vocabulary='g24.elements.Locations'
+    )
+
+    location_notes = schema.TextLine(
+        title=_(u'label_location_notes', default=u'Location Notes'),
+        description=_(
+            u'help_location_notes',
+            default=u'Additional notes to a location.'
+        ),
+        required=True
+    )
+
 alsoProvides(IEvent, IFormFieldProvider)
 
 
@@ -181,12 +202,11 @@ def TimezoneFieldWidget(field, request):
     return widget
 
 
-@adapter(getSpecification(IEvent['location']), IWidgetsLayer)
-@implementer(IFieldWidget)
-def LocationFieldWidget(field, request):
-    widget = FieldWidget(field, AjaxSelectWidget(request))
-    widget.vocabulary = 'g24.elements.Locations'
-    return widget
+#@adapter(getSpecification(IEvent['location']), IWidgetsLayer)
+#@implementer(IFieldWidget)
+#def LocationFieldWidget(field, request):
+#    widget = FieldWidget(field, SelectWidget(request))
+#    return widget
 
 
 @adapter(getSpecification(IPlace['country']), IWidgetsLayer)
@@ -335,7 +355,7 @@ class BasetypeAccessor(object):
             open_end=IEventBasic,
             timezone=IEventBasic,
             recurrence=IEventRecurrence,
-            location=IEventLocation,
+            location=IEvent,
             geolocation=IGeolocatable,
             street=IAddress,
             zip_code=IAddress,

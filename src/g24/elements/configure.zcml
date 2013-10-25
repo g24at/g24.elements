@@ -6,9 +6,8 @@
   <include package="plone.app.event"/>
   <include package="plone.app.widgets"/>
   <include package="collective.address"/>
-  <include package="collective.venue"/>
   <include package="collective.geolocationbehavior"/>
-
+  <include package="collective.js.leaflet"/>
 
   <include file="behaviors.zcml" />
   <include file="permissions.zcml" />
@@ -23,9 +22,16 @@
 
   <genericsetup:registerProfile
       name="default"
-      title="g24.elements"
-      directory="profile"
+      title="g24.elements: default"
+      directory="profiles/default"
       description="Extension profile for g24.elements."
+      provides="Products.GenericSetup.interfaces.EXTENSION"
+      />
+  <genericsetup:registerProfile
+      name="addindex"
+      title="g24.elements: addindex"
+      directory="profiles/addindex"
+      description="Add catalog indices for g24.elements."
       provides="Products.GenericSetup.interfaces.EXTENSION"
       />
 

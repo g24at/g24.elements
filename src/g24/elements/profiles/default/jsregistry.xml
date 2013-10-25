@@ -6,7 +6,6 @@
   <!--javascript bundle="widgets" id="popupforms.js"/-->
 
   <javascript bundle="widgets_base" id="++resource++plone.app.widgets.js"/>
-  <javascript bundle="widgets_base" id="++resource++collective.venue/scripts.js"/>
   <javascript bundle="widgets_base" id="++resource++plone.app.event/event.js"/>
   <javascript bundle="widgets_base" id="++resource++plone.formwidget.recurrence/jquery.recurrenceinput.js"/>
   <javascript bundle="widgets_base" id="++resource++plone.formwidget.recurrence/jquery.tmpl-beta1.js"/>

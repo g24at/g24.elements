@@ -26,7 +26,7 @@
       <em>By</em>
       <a href="" tal:attributes="href string:${base_url}/stream?user=${context/Creator}" tal:content="context/Creator">Creator</a>
       <em>on</em>
-      <span tal:content="data/created" />
+      <span class="pat-moment created" tal:content="data/created" />
     </aside>
 
   </header>
