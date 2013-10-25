@@ -39,7 +39,7 @@
       />
 
   <browser:page
-      for="g24.elements.interfaces.IBasetype"
+      for="*"
       name="thread"
       class=".threadview.ThreadView"
       template="threadview.pt"
