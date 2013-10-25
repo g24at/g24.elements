@@ -31,7 +31,6 @@ from zope.component import provideAdapter
 from zope.interface import alsoProvides, Interface, implements
 from zope.interface import implementer
 
-
 from g24.elements import safe_decode, safe_encode
 from g24.elements.instancebehaviors import disable_behaviors
 from g24.elements.instancebehaviors import enable_behaviors
