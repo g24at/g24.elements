@@ -11,19 +11,19 @@ from plone.event.interfaces import IEvent
 
 class StreamView(BrowserView):
 
-    def items(self, user=None, tag=None, in_path=False, type_=None):
+    def items(self, user=None, tag=None, search_all=False, type_=None):
 
         # batch paging
         b_start = 'b_start' in self.request.form and int(self.request.form['b_start']) or 0
         b_size = 10
 
         # filter
-        if not user and 'user' in self.request.form:
-            user = safe_decode(self.request.form['user'])
-        if not tag and 'tag' in self.request.form:
-            tag = safe_decode(self.request.form['tag'])
-        if not in_path and 'in_path' in self.request.form:
-            in_path = self.request.form['in_path']
+        if not user:
+            user = safe_decode(self.request.form.get('user'))
+        if not tag:
+            tag = safe_decode(self.request.form.get('tag'))
+        if not search_all:
+            search_all = self.request.form.get('search_all')
 
         if not type_ and 'type' in self.request.form:
             type_ = self.request.form['type']
@@ -47,7 +47,7 @@ class StreamView(BrowserView):
         query['sort_on'] = 'created'
         query['sort_order'] = 'reverse'
 
-        if in_path:
+        if not search_all:
             query['path'] = {'query': '/'.join(self.context.getPhysicalPath())}
         if user:
             query['Creator'] = user
