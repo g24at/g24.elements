@@ -113,7 +113,7 @@ class SchemaSerializer(object):
         Begin face exploding sequence in 3,2,1...
         """
         behaviorAdapter = field.interface(self.content)
-        return getattr(behaviorAdapter, field.getName())
+        return getattr(behaviorAdapter, field.getName(), None)
 
 
 class JsonView(BrowserView):
