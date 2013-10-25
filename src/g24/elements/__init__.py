@@ -3,9 +3,10 @@ from zope.i18nmessageid import MessageFactory
 packageName = __name__
 messageFactory = MessageFactory(packageName)
 
-def safe_decode(value):
-    """ Return unicode object if value is a string.
-    Otherwise, just return the value.
+
+def safe_decode(value, encoding='utf-8'):
+    """Converts a value to unicode, even it is already a unicode string.
+    from Products.CMFPlone.utils.safe_unicode
 
     >>> from g24.elements import safe_decode
     >>> safe_decode('bla')
@@ -16,10 +17,15 @@ def safe_decode(value):
     123
 
     """
-    if isinstance(value, basestring):
-        return value.decode('utf-8')
-    else:
+    if isinstance(value, unicode):
         return value
+    elif isinstance(value, basestring):
+        try:
+            value = unicode(value, encoding)
+        except (UnicodeDecodeError):
+            value = value.decode('utf-8', 'replace')
+    return value
+
 
 def safe_encode(value):
     """ Return utf-8 encoded string if value is a unicode.
