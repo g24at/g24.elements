@@ -254,7 +254,7 @@ def keyword_indexer(obj):
     return acc.subjects
 
 
-@indexer(IBasetype)
+@indexer(IEvent)
 def location_indexer(obj):
     acc = IBasetypeAccessor(obj)
     return acc.location
