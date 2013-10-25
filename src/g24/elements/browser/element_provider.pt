@@ -1,4 +1,6 @@
 <article class="element well" id=""
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:tal="http://xml.zope.org/namespaces/tal"
     tal:define="data nocall:view/data; base_url data/url"
     tal:attributes="id data/uid">
   <header>
@@ -75,11 +77,13 @@
     </table>
   </div>
 
-  <div class="g24_place geolocation_wrapper" tal:condition="data/is_place">
-  <div class="geolocation" tal:attributes="data-latitude data/latitude;
-                                           data-longitude data/longitude;
+  <div class="g24_place geolocation_wrapper"
+      tal:define="lat data/latitude; lng data/longitude"
+      tal:condition="python: data.is_place and lat and lng">
+  <div class="geolocation" tal:attributes="data-latitude lat;
+                                           data-longitude lng;
                                            data-description data/title"></div>
-    <div id="map"></div>
+    <div class="geomap"></div>
   </div>
 
   <footer>

@@ -39,9 +39,10 @@ function initialize_map() {
     $('.geolocation_wrapper').each(function () {
         var $this = $(this);
         var $map = $('.geomap', $this);
+        if ($map.length < 1) { return; }
         var $geocodes = $('.geolocation', $this);
         var editable = $this.hasClass('edit');
-        var map = new L.Map($map, {});
+        var map = new L.Map($map[0], {});
 
         L.tileLayer.provider('OpenStreetMap.DE').addTo(map);
         var baseLayers = ['OpenStreetMap.DE', 'Esri.WorldImagery', 'Esri.WorldStreetMap', 'OpenCycleMap'];
