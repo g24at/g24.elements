@@ -14,8 +14,8 @@ class StreamView(BrowserView):
     def items(self, user=None, tag=None, search_all=False, type_=None):
 
         # batch paging
-        b_start = 'b_start' in self.request.form and int(self.request.form['b_start']) or 0
-        b_size = 10
+        b_start = int(self.request.form.get('b_start', 0))
+        b_size = int(self.request.form.get('b_size', 10))
 
         # filter
         if not user:

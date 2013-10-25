@@ -144,6 +144,50 @@ class JsonView(BrowserView):
         }
         return json.dumps(marshall, cls=IsoDateTimeEncoder)
 
+from g24.elements.browser.streamview import StreamView
+from g24.elements.interfaces import IBasetypeAccessor
+class GeoJsonView(StreamView):
+
+    def __call__(self):
+        items = self.items(type_='place')
+
+        # 200 items at most
+
+        def _make_feature(acc):
+            feature = {
+                "type": "Feature",
+                "properties": {
+                    "title": acc.title,
+                    "uuid": acc.uid,
+                    "link": acc.url
+                },
+                "geometry": {
+                    "type": "Point",
+                    "coordinates": [
+                        acc.longitude,
+                        acc.latitude
+                    ]
+                }
+            }
+            return feature
+
+        features = []
+        for item in items:
+            acc = IBasetypeAccessor(item.getObject())
+            if acc.latitude and acc.longitude:
+                features.append(_make_feature(acc))
+
+        feature_collection = None
+        if features:
+            feature_collection = {
+                "type": "FeatureCollection",
+                "features": features
+            }
+
+        self.request.response.setHeader('Content-Type',
+                                        'application/json; charset=utf-8')
+        return json.dumps(feature_collection)
+
 
 class IsoDateTimeEncoder(json.JSONEncoder):
     def default(self, obj):

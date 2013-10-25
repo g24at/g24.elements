@@ -12,5 +12,12 @@
       permission="zope2.View"
       layer="g24.elements.interfaces.IG24ElementsLayer"
       />
+  <browser:page
+      for="*"
+      name="geojson"
+      class=".jsonapi.GeoJsonView"
+      permission="zope2.View"
+      layer="g24.elements.interfaces.IG24ElementsLayer"
+      />
 
 </configure>
