@@ -389,13 +389,14 @@ class BasetypeAccessor(object):
             # attribute not set:
             pass
 
-    @property
-    def latitude(self):
-        return self.is_place and self.geolocation.latitude or None
-
-    @property
-    def longitude(self):
-        return self.is_place and self.geolocation.longitude or None
+    def _delattrs(self, attrs):
+        for attr in attrs:
+            # self.context.title cannot be deleted. after deleting, it will be
+            # instantly magically set to ''
+            try:
+                delattr(self.context, attr)
+            except:
+                pass
 
     @property
     def plaintext(self):
@@ -480,11 +481,18 @@ class BasetypeAccessor(object):
         else:
             disable_behaviors(self.context, PLACE_BEHAVIORS, PLACE_INTERFACES)
 
-    def _delattrs(self, attrs):
-        for attr in attrs:
-            # self.context.title cannot be deleted. after deleting, it will be
-            # instantly magically set to ''
-            try:
-                delattr(self.context, attr)
-            except:
-                pass
+    @property
+    def latitude(self):
+        return self.is_place and self.geolocation.latitude or None
+
+    @latitude.setter
+    def latitude(self, value):
+        self.geolocation.latitude = value
+
+    @property
+    def longitude(self):
+        return self.is_place and self.geolocation.longitude or None
+
+    @longitude.setter
+    def longitude(self, value):
+        self.geolocation.longitude = value
