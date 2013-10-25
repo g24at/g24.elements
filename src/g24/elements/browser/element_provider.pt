@@ -55,9 +55,9 @@
             </div>
           </td>
         </tr>
-        <tr tal:condition="data/location">
-          <th i18n:translate="event_when">Where</th>
-          <td tal:content="data/location"></td>
+        <tr tal:define="locdat view/location_data" tal:condition="locdat">
+          <th i18n:translate="event_where">Where</th>
+          <td><a href="" tal:attributes="href locdat/url" tal:content="locdat/title">location</a></td>
         </tr>
         <tr>
           <th i18n:translate="heading_add_to_calendar">Add event to calendar</th>
@@ -84,6 +84,15 @@
                                            data-longitude lng;
                                            data-description data/title"></div>
     <div class="geomap"></div>
+  </div>
+  <div class="eventlist" tal:condition="data/is_place">
+      <ul><tal:rep repeat="event view/events_at_location">
+        <li>
+          <a href=""
+              tal:attributes="href event/getURL"
+              tal:content="event/Title">event</a>
+        </li>
+      </tal:rep></ul>
   </div>
 
   <footer>

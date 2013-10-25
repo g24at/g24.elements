@@ -11,6 +11,7 @@ from zope.interface import implements
 from zope.publisher.interfaces.browser import IBrowserRequest
 from zope.publisher.interfaces.browser import IBrowserView
 from zope.security import checkPermission
+from Products.CMFPlone.utils import getToolByName
 
 from g24.elements.behaviors import IThread
 from g24.elements.interfaces import IBasetype, IBasetypeAccessor
@@ -42,13 +43,26 @@ def format_event_dates(context, start, end, whole_day=False):
                                   formated_dates['end_time'],
                                   formated_dates['end_time'])
 
+from g24.elements.behaviors import IEvent
+from plone.app.uuid.utils import uuidToObject
+from plone.memoize import view
+def data_from_uuid(uuid):
+    obj = uuidToObject(uuid)
+    data = None
+    if obj:
+        data = {
+            'title': obj.Title,
+            'url': obj.absolute_url()
+        }
+    return data
+
 
 # TODO: why does robert inherit vom Acquisition.Explicit?
 class ElementProvider(BrowserView):
     implements(IContentProvider)
     adapts(Interface, IBrowserRequest, IBrowserView)
     template = ViewPageTemplateFile(u'element_provider.pt')
-
+    
     def __init__(self, context, request, view):
         #self.__parent__ = view # TODO: from roberts Explicit example
         self.view = view
@@ -96,15 +110,42 @@ class ElementProvider(BrowserView):
         return IBasetypeAccessor(self.context)
 
     @property
+    @view.memoize
+    def location_data(self):
+        data = self.data
+        if not data.is_event:
+            return None
+        if data.location:
+            return data_from_uuid(data.location)
+
+    @property
+    @view.memoize
+    def events_at_location(self):
+        data = self.data
+        if not data.is_place:
+            return None
+        cat = getToolByName(self.context, 'portal_catalog')
+        query = {
+            'object_provides': IEvent.__identifier__,
+            'location': IUUID(self.context),
+            'sort_on': 'start',
+            'sort_order': 'reverse'
+        }
+        res = cat.searchResults(**query)
+        return res
+
+    ### manage
+
+    @property
     def can_add(self):
         return checkPermission('g24.AddBasetype', self.context)
 
     @property
     def can_edit(self):
-        #import pdb; pdb.set_trace()
         return checkPermission('g24.ModifyBasetype', self.context)
 
-    def update(self): pass
+    def update(self):
+        pass
 
     def render(self):
         return self.template(self)
