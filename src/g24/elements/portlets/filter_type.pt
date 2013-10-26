@@ -18,9 +18,9 @@
                   portal_url context/@@plone_portal_state/portal_url">
 
     <a href="" tal:attributes="href string:${portal_url}/@@stream">Alle</a>
-    <a href="" tal:attributes="href string:?type=thread">Threads</a>
-    <a href="" tal:attributes="href string:?type=event">Events</a>
-    <a href="" tal:attributes="href string:?type=place">Places</a>
+    <a href="" tal:attributes="href string:${portal_url}/?type=thread">Threads</a>
+    <a href="" tal:attributes="href string:${portal_url}/?type=event">Events</a>
+    <a href="" tal:attributes="href string:${portal_url}/?type=place">Places</a>
 
   </dd>
 </dl>

@@ -1,7 +1,8 @@
 <article class="element well" id=""
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:tal="http://xml.zope.org/namespaces/tal"
-    tal:define="data nocall:view/data; base_url data/url"
+    tal:define="data nocall:view/data; base_url data/url;
+                portal_url context/@@plone_portal_state/portal_url;"
     tal:attributes="id data/uid">
   <header>
 
@@ -10,23 +11,23 @@
       <tal:tags repeat="tag data/subjects">
         <tal:label condition="repeat/tag/start"><em>Tags:</em></tal:label>
         <tal:sep condition="not: repeat/tag/start">|</tal:sep>
-        <a href="" tal:attributes="href string:${base_url}/stream?tag=${tag}" tal:content="tag">Tag</a>
+        <a href="" tal:attributes="href string:${portal_url}/@@stream?tag=${tag}" tal:content="tag">Tag</a>
         <tal:brk condition="repeat/tag/end"><br/></tal:brk>
       </tal:tags>
     </aside>
 
     <h1 tal:condition="data/title">
-      <a href="" tal:attributes="href string:${base_url}/thread" tal:content="data/title">Title</a>
+      <a href="" tal:attributes="href string:${base_url}/@@thread" tal:content="data/title">Title</a>
     </h1>
 
     <i tal:define="parent view/get_parent_thread" tal:condition="python:parent is not None">
       Show in context:
-      <a href="" tal:attributes="href string:${parent/url}/thread" tal:content="parent/title">Title</a>
+      <a href="" tal:attributes="href string:${parent/url}/@@thread" tal:content="parent/title">Title</a>
     </i>
 
     <aside class="metadata pull-right">
       <em>By</em>
-      <a href="" tal:attributes="href string:${base_url}/stream?user=${context/Creator}" tal:content="context/Creator">Creator</a>
+      <a href="" tal:attributes="href string:${portal_url}/stream?user=${context/Creator}" tal:content="context/Creator">Creator</a>
       <em>on</em>
       <span class="pat-moment created" tal:content="data/created" />
     </aside>
@@ -61,10 +62,9 @@
         </tr>
         <tr>
           <th i18n:translate="heading_add_to_calendar">Add event to calendar</th>
-          <td tal:define="here_url context/@@plone_context_state/object_url;
-                          portal_url context/@@plone_portal_state/portal_url;">
+          <td>
             <a href="#"
-                tal:attributes="href string:$here_url/ics_view"
+                tal:attributes="href string:${base_url}/ics_view"
                 title="Download this event in iCal format"
                 i18n:attributes="title title_add_to_ical;">
               <img src="" alt=""
