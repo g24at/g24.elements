@@ -96,7 +96,7 @@ class IBase(model.Schema):
     title = schema.TextLine(
         title=_(u'label_title', default=u'Title'),
         description=_(u'help_title', default=u'The title of your post.'),
-        required=True
+        required=False
     )
     form.order_before(title='*')
 
@@ -106,7 +106,7 @@ class IBase(model.Schema):
             u'help_richtext',
             default=u'Main text of this content node.'
         ),
-        required=True,
+        required=False
     )
 
     #    text = RichText(
@@ -115,7 +115,7 @@ class IBase(model.Schema):
     #            u'help_richtext',
     #            default=u'Main text of this content node.'
     #        ),
-    #        required = True,
+    #        required = False,
     #        default_mime_type='text/html',
     #        output_mime_type='text/html',
     #        allowed_mime_types=[
@@ -164,18 +164,18 @@ class IEvent(IEventBasic, IEventRecurrence,
             u'help_location',
             default=u'Select the location of the event.'
         ),
-        required=True,
+        required=False,
         vocabulary='g24.elements.Locations'
     )
 
-    location_notes = schema.TextLine(
-        title=_(u'label_location_notes', default=u'Location Notes'),
-        description=_(
-            u'help_location_notes',
-            default=u'Additional notes to a location.'
-        ),
-        required=True
-    )
+    #location_notes = schema.TextLine(
+    #    title=_(u'label_location_notes', default=u'Location Notes'),
+    #    description=_(
+    #        u'help_location_notes',
+    #        default=u'Additional notes to a location.'
+    #    ),
+    #    required=False
+    #)
 
 alsoProvides(IEvent, IFormFieldProvider)
 
