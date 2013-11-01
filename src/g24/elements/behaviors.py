@@ -149,8 +149,8 @@ class IEvent(IEventBasic, IEventRecurrence,
     """Behavior marker interface for events."""
     # For Plone autoform based forms. Plain z3cforms get their properties set
     # within the form's update method.
-    form.widget('start', first_day=first_weekday_sun0)
-    form.widget('end', first_day=first_weekday_sun0)
+    #form.widget('start', first_day=first_weekday_sun0)
+    #form.widget('end', first_day=first_weekday_sun0)
     form.widget('recurrence',
                 start_field='IEvent.start',
                 first_day=first_weekday_sun0)
@@ -198,13 +198,18 @@ def SubjectsFieldWidget(field, request):
 @adapter(getSpecification(IEvent['timezone']), IWidgetsLayer)
 @implementer(IFieldWidget)
 def TimezoneFieldWidget(field, request):
-    widget = FieldWidget(field, SelectWidget(request))
+    # widget = FieldWidget(field, SelectWidget(request))
+    widget = FieldWidget(field, AjaxSelectWidget(request))
+    widget.vocabulary="plone.app.event.Timezones"
     return widget
 
 
-#@adapter(getSpecification(IEvent['location']), IWidgetsLayer)
-#@implementer(IFieldWidget)
-#def LocationFieldWidget(field, request):
+@adapter(getSpecification(IEvent['location']), IWidgetsLayer)
+@implementer(IFieldWidget)
+def LocationFieldWidget(field, request):
+    widget = FieldWidget(field, AjaxSelectWidget(request))
+    widget.vocabulary='g24.elements.Locations'
+    return widget
 #    widget = FieldWidget(field, SelectWidget(request))
 #    return widget
 
@@ -212,8 +217,10 @@ def TimezoneFieldWidget(field, request):
 @adapter(getSpecification(IPlace['country']), IWidgetsLayer)
 @implementer(IFieldWidget)
 def CountryFieldWidget(field, request):
-    widget = FieldWidget(field, SelectWidget(request))
+    #widget = FieldWidget(field, SelectWidget(request))
     #widget.vocabulary = 'collective.address.CountryVocabulary'
+    widget = FieldWidget(field, AjaxSelectWidget(request))
+    widget.vocabulary='collective.address.CountryVocabulary'
     return widget
 
 

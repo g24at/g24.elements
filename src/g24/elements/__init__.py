@@ -49,6 +49,7 @@ from plone.app.widgets.browser import vocabulary
 orig_permissions = vocabulary._permissions
 vocabulary._permissions.update({
     'g24.elements.Locations': 'Modify portal content',
+    'plone.app.event.Timezones': 'Modify portal content',
     'plone.app.event.AvailableTimezones': 'Modify portal content',
     'collective.address.CountryVocabulary': 'Modify portal content'
 })
