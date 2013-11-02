@@ -198,7 +198,6 @@ def SubjectsFieldWidget(field, request):
 @adapter(getSpecification(IEvent['timezone']), IWidgetsLayer)
 @implementer(IFieldWidget)
 def TimezoneFieldWidget(field, request):
-    # widget = FieldWidget(field, SelectWidget(request))
     widget = FieldWidget(field, AjaxSelectWidget(request))
     widget.vocabulary="plone.app.event.Timezones"
     return widget
