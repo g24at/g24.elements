@@ -16,6 +16,7 @@ from zope.interface import alsoProvides, noLongerProvides
 
 INSTANCE_BEHAVIORS_KEY = KEY = 'g24.elements.instance_behaviors'
 
+
 class DexterityInstanceBehaviorAssignable(DexterityBehaviorAssignable):
     """ Support per instance specification of plone.behavior behaviors
     """
@@ -26,7 +27,8 @@ class DexterityInstanceBehaviorAssignable(DexterityBehaviorAssignable):
         self.instance_behaviors = annotations.get(KEY, [])
 
     def enumerateBehaviors(self):
-        self.behaviors = list(self.fti.behaviors) + list(self.instance_behaviors)
+        self.behaviors = list(self.fti.behaviors) +\
+            list(self.instance_behaviors)
         for name in self.behaviors:
             behavior = queryUtility(IBehavior, name=name)
             if behavior is not None:

@@ -5,11 +5,9 @@ from collective.geolocationbehavior.geolocation import IGeolocatable
 from plone.app.event.base import DT
 from plone.app.event.dx.behaviors import IEventBasic
 from plone.app.event.dx.behaviors import IEventRecurrence
-from plone.app.event.dx.behaviors import first_weekday_sun0
 from plone.app.event.dx.interfaces import IDXEvent
 from plone.app.event.dx.interfaces import IDXEventRecurrence
 from plone.app.widgets.dx import AjaxSelectWidget
-from plone.app.widgets.dx import DatetimeWidget
 from plone.app.widgets.dx import SelectWidget
 from plone.app.widgets.interfaces import IWidgetsLayer
 from plone.autoform import directives as form
@@ -144,16 +142,8 @@ class IThread(Interface):
     """Behavior marker interface for threads."""
 
 
-class IEvent(IEventBasic, IEventRecurrence,
-             IDXEvent, IDXEventRecurrence):
-    """Behavior marker interface for events."""
-    # For Plone autoform based forms. Plain z3cforms get their properties set
-    # within the form's update method.
-    #form.widget('start', first_day=first_weekday_sun0)
-    #form.widget('end', first_day=first_weekday_sun0)
-    form.widget('recurrence',
-                start_field='IEvent.start',
-                first_day=first_weekday_sun0)
+class IEventLocation(model.Schema):
+    """Behavior interface for location of events."""
 
     location = schema.Choice(
         title=_(
@@ -177,7 +167,7 @@ class IEvent(IEventBasic, IEventRecurrence,
     #    required=False
     #)
 
-alsoProvides(IEvent, IFormFieldProvider)
+alsoProvides(IEventLocation, IFormFieldProvider)
 
 
 class IPlace(IAddress, IGeolocatable):
@@ -195,7 +185,7 @@ def SubjectsFieldWidget(field, request):
     return widget
 
 
-@adapter(getSpecification(IEvent['timezone']), IWidgetsLayer)
+@adapter(getSpecification(IEventBasic['timezone']), IWidgetsLayer)
 @implementer(IFieldWidget)
 def TimezoneFieldWidget(field, request):
     widget = FieldWidget(field, AjaxSelectWidget(request))
@@ -203,7 +193,7 @@ def TimezoneFieldWidget(field, request):
     return widget
 
 
-@adapter(getSpecification(IEvent['location']), IWidgetsLayer)
+@adapter(getSpecification(IEventLocation['location']), IWidgetsLayer)
 @implementer(IFieldWidget)
 def LocationFieldWidget(field, request):
     widget = FieldWidget(field, AjaxSelectWidget(request))
@@ -223,27 +213,6 @@ def CountryFieldWidget(field, request):
     return widget
 
 
-@adapter(getSpecification(IEvent['start']), IWidgetsLayer)
-@implementer(IFieldWidget)
-def StartFieldWidget(field, request):
-    widget = FieldWidget(field, DatetimeWidget(request))
-    return widget
-
-
-@adapter(getSpecification(IEvent['end']), IWidgetsLayer)
-@implementer(IFieldWidget)
-def EndFieldWidget(field, request):
-    widget = FieldWidget(field, DatetimeWidget(request))
-    return widget
-
-
-#class IPlace(model.Schema):
-#    """Behavior marker interface for places."""
-#    altitude = schema.Float(title = _(u'Altitude'))
-#    latitude = schema.Float(title = _(u'Latitude'))
-#    longitude = schema.Float(title = _(u'Longitude'))
-
-
 @indexer(IBasetype)
 def searchable_text_indexer(obj):
     acc = IBasetypeAccessor(obj)
@@ -260,19 +229,18 @@ def keyword_indexer(obj):
     return acc.subjects
 
 
-@indexer(IEvent)
+@indexer(IEventLocation)
 def location_indexer(obj):
     acc = IBasetypeAccessor(obj)
     return acc.location
 
 
-#EVENT_INTERFACES = [IDXEvent, IDXEventRecurrence, IDXEventLocation]
-#EVENT_BEHAVIORS = ['plone.app.event.dx.behaviors.IEventBasic',
-#                   'plone.app.event.dx.behaviors.IEventRecurrence',
-#                   'plone.app.event.dx.behaviors.IEventLocation']
-
-EVENT_INTERFACES = [IEvent, ]
-EVENT_BEHAVIORS = ['g24.elements.behaviors.IEvent', ]
+EVENT_INTERFACES = [IDXEvent,
+                    IDXEventRecurrence,
+                    IEventLocation]
+EVENT_BEHAVIORS = ['plone.app.event.dx.behaviors.IEventBasic',
+                   'plone.app.event.dx.behaviors.IEventRecurrence',
+                   'g24.elements.behaviors.IEventLocation']
 
 THREAD_INTERFACES = [IThread, ]
 THREAD_BEHAVIORS = ['g24.elements.behaviors.IThread', ]
@@ -367,7 +335,7 @@ class BasetypeAccessor(object):
             open_end=IEventBasic,
             timezone=IEventBasic,
             recurrence=IEventRecurrence,
-            location=IEvent,
+            location=IEventLocation,
             geolocation=IGeolocatable,
             street=IAddress,
             zip_code=IAddress,

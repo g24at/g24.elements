@@ -2,7 +2,9 @@ from Acquisition import aq_inner
 from Products.Five.browser.pagetemplatefile import ViewPageTemplateFile
 from Products.statusmessages.interfaces import IStatusMessage
 from g24.elements.behaviors import IBase
-from g24.elements.behaviors import IEvent
+from g24.elements.behaviors import IEventLocation
+from plone.app.event.dx.behaviors import IEventBasic
+from plone.app.event.dx.behaviors import IEventRecurrence
 from g24.elements.behaviors import IFeatures
 from g24.elements.behaviors import IPlace
 from g24.elements.interfaces import IBasetype
@@ -39,13 +41,23 @@ FEATURES = [
 
 class ASubForm(subform.EditSubForm):
     template = ViewPageTemplateFile('subform.pt', template_path)
+    behaviors = []
 
-    def __init__(self, context, request, form, iface, ignore_ctx):
-        self.fields = field.Fields(iface)
-        if not ignore_ctx:
-            # if not addform (ignore_ctx=True)
-            # ignore_ctx, if not provided
-            ignore_ctx = not iface.providedBy(context)
+    def __init__(self, context, request, form, ignore_ctx):
+        # TODO: allow self.fields to be made of multiple interfaces
+        fields = None
+        for behavior in self.behaviors:
+            morefields = field.Fields(behavior)
+            if fields:
+                fields = fields + morefields
+            else:
+                fields = morefields
+            if not ignore_ctx:
+                # Check if the context really provides any of the behaviors.
+                # If not, we have to ignore the context for the whole subform.
+                ignore_ctx = ignore_ctx or not behavior.providedBy(context)
+
+        self.fields = fields
         self.ignoreContext = ignore_ctx
         super(ASubForm, self).__init__(context, request, form)
 
@@ -54,17 +66,19 @@ class FeaturesSubForm(ASubForm):
     """z3cform based Features subform"""
     title = u"Features"
     prefix = 'features'
-
+    behaviors = [IFeatures, ]
 
 class BaseSubForm(ASubForm):
     """z3cform based Place subform"""
     title = u"Base"
     prefix = 'base'
+    behaviors = [IBase, ]
 
 
 class EventSubForm(ASubForm):
     title = u"Event"
     prefix = 'event'
+    behaviors = [IEventBasic, IEventRecurrence, IEventLocation, ]
 
     def update(self):
         super(EventSubForm, self).update()
@@ -81,6 +95,7 @@ class EventSubForm(ASubForm):
 class PlaceSubForm(ASubForm):
     title = u"Place"
     prefix = 'place'
+    behaviors = [IPlace, ]
 
 
 class ASharingboxForm(form.Form):
@@ -101,10 +116,10 @@ class ASharingboxForm(form.Form):
 
     def update_subforms(self, context, request, ignore_ctx):
         self.subforms = [
-            FeaturesSubForm(context, request, self, IFeatures, ignore_ctx),
-            BaseSubForm(context, request, self, IBase, ignore_ctx),
-            EventSubForm(context, request, self, IEvent, ignore_ctx),
-            PlaceSubForm(context, request, self, IPlace, ignore_ctx),
+            FeaturesSubForm(context, request, self, ignore_ctx),
+            BaseSubForm(context, request, self, ignore_ctx),
+            EventSubForm(context, request, self, ignore_ctx),
+            PlaceSubForm(context, request, self, ignore_ctx),
         ]
         [subform.update() for subform in self.subforms]
 

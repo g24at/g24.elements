@@ -43,7 +43,7 @@ def format_event_dates(context, start, end, whole_day=False):
                                   formated_dates['end_time'],
                                   formated_dates['end_time'])
 
-from g24.elements.behaviors import IEvent
+from plone.event.interfaces import IEvent
 from plone.app.uuid.utils import uuidToObject
 from plone.memoize import view
 def data_from_uuid(uuid):
