@@ -37,7 +37,9 @@ article.element {
     padding:0;
     margin:1em 0;
 }
-article.element>* {
+article.element>header,
+article.element>footer,
+article.element>div.body>* {
     padding:1em;
 }
 article.element header {

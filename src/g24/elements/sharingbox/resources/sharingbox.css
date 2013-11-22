@@ -55,7 +55,7 @@ div.tooltip { min-width:12em; }
 
 /* leaflet maps */
 .geomap {
-    height:440px;
+    height:200px;
 }
 .leaflet-popup-content p {
     margin: 0;

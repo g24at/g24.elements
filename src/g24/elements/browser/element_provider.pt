@@ -5,8 +5,6 @@
                 portal_url context/@@plone_portal_state/portal_url;"
     tal:attributes="id data/uid">
   <header>
-
-
     <aside class="tags">
       <tal:tags repeat="tag data/subjects">
         <tal:label condition="repeat/tag/start"><em>Tags:</em></tal:label>
@@ -17,7 +15,8 @@
     </aside>
 
     <h1 tal:condition="data/title">
-      <a href="" tal:attributes="href string:${base_url}/@@thread" tal:content="data/title">Title</a>
+      <a href="" data-toggle="collapse" tal:attributes="href string:#body-${data/uid}" tal:content="data/title">Title</a>
+      <!--a href="" tal:attributes="href string:${base_url}/@@thread" tal:content="data/title">Title</a-->
     </h1>
 
     <i tal:define="parent view/get_parent_thread" tal:condition="python:parent is not None">
@@ -31,77 +30,78 @@
       <em>on</em>
       <span class="pat-moment created" tal:content="data/created" />
     </aside>
-
   </header>
-  <p tal:content="structure data/text|nothing">Text</p>
 
-  <div tal:condition="data/is_event" class="eventDetails">
-    <table class="vertical listing" summary="Event details">
-      <tbody>
-        <tr>
-          <th i18n:translate="event_when">When</th>
-          <td>
-            <tal:date replace="python:view.format_event_dates(data.start,
-                                                              data.end)"/>
+  <div class="body collapse" tal:attributes="id string:body-${data/uid}">
+    <p tal:content="structure data/text|nothing">Text</p>
 
-            <div tal:define="occs view/occurrences;
-                             occs python:occs and occs[1:] or None"
-                 tal:condition="occs">
-              <tal:occurrences i18n:translate="">More occurrences of this event:</tal:occurrences>
-              <ul>
-                <li tal:repeat="occ occs">
-                  <tal:date replace="python:view.format_event_dates(occ[0], occ[1])"/>
-                </li>
-              </ul>
-            </div>
-          </td>
-        </tr>
-        <tr tal:define="locdat view/location_data" tal:condition="locdat">
-          <th i18n:translate="event_where">Where</th>
-          <td><a href="" tal:attributes="href locdat/url" tal:content="locdat/title">location</a></td>
-        </tr>
-        <tr>
-          <th i18n:translate="heading_add_to_calendar">Add event to calendar</th>
-          <td>
-            <a href="#"
-                tal:attributes="href string:${base_url}/ics_view"
-                title="Download this event in iCal format"
-                i18n:attributes="title title_add_to_ical;">
-              <img src="" alt=""
-                  tal:attributes="src string:${portal_url}/++resource++plone.app.event/icon_export_ical.png"/>
-              <span i18n:translate="label_add_to_ical">iCal</span>
-            </a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
+    <div tal:condition="data/is_event" class="eventDetails">
+      <table class="vertical listing" summary="Event details">
+        <tbody>
+          <tr>
+            <th i18n:translate="event_when">When</th>
+            <td>
+              <tal:date replace="python:view.format_event_dates(data.start,
+                                                                data.end)"/>
 
-  <div class="g24_place geolocation_wrapper"
-      tal:define="lat data/latitude; lng data/longitude"
-      tal:condition="python: data.is_place and lat and lng">
-  <div class="geolocation" tal:attributes="data-latitude lat;
-                                           data-longitude lng;
-                                           data-description data/title"></div>
-    <div class="geomap"></div>
-  </div>
-  <div class="eventlist" tal:condition="data/is_place">
-      <ul><tal:rep repeat="event view/events_at_location">
-        <li>
-          <span class="date" tal:content="event/start">date</span>
-          <a href=""
-              tal:attributes="href event/url"
-              tal:content="event/title">event</a>
-        </li>
-      </tal:rep></ul>
+              <div tal:define="occs view/occurrences;
+                               occs python:occs and occs[1:] or None"
+                   tal:condition="occs">
+                <tal:occurrences i18n:translate="">More occurrences of this event:</tal:occurrences>
+                <ul>
+                  <li tal:repeat="occ occs">
+                    <tal:date replace="python:view.format_event_dates(occ[0], occ[1])"/>
+                  </li>
+                </ul>
+              </div>
+            </td>
+          </tr>
+          <tr tal:define="locdat view/location_data" tal:condition="locdat">
+            <th i18n:translate="event_where">Where</th>
+            <td><a href="" tal:attributes="href locdat/url" tal:content="locdat/title">location</a></td>
+          </tr>
+          <tr>
+            <th i18n:translate="heading_add_to_calendar">Add event to calendar</th>
+            <td>
+              <a href="#"
+                  tal:attributes="href string:${base_url}/ics_view"
+                  title="Download this event in iCal format"
+                  i18n:attributes="title title_add_to_ical;">
+                <img src="" alt=""
+                    tal:attributes="src string:${portal_url}/++resource++plone.app.event/icon_export_ical.png"/>
+                <span i18n:translate="label_add_to_ical">iCal</span>
+              </a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="g24_place geolocation_wrapper"
+        tal:define="lat data/latitude; lng data/longitude"
+        tal:condition="python: data.is_place and lat and lng">
+    <div class="geolocation" tal:attributes="data-latitude lat;
+                                             data-longitude lng;
+                                             data-description data/title"></div>
+      <div class="geomap"></div>
+    </div>
+    <div class="eventlist" tal:condition="data/is_place">
+        <ul><tal:rep repeat="event view/events_at_location">
+          <li>
+            <span class="date" tal:content="event/start">date</span>
+            <a href=""
+                tal:attributes="href event/url"
+                tal:content="event/title">event</a>
+          </li>
+        </tal:rep></ul>
+    </div>
+
   </div>
 
   <footer>
-
-  <aside class="element-controls" tal:define="can_edit view/can_edit; can_add view/can_add" tal:condition="python:can_edit or can_add">
-    <a class="sharingbox_edit btn btn-warning pat-modal" data-pat-modal='{"width":"80%"}' tal:condition="can_edit" href="" tal:attributes="href string:${base_url}/@@shbxedit?ajax_load=1">Edit</a>
-    <a class="sharingbox_add btn btn-primary pat-modal" data-pat-modal='{"width":"80%"}' tal:condition="can_add" href="" tal:attributes="href string:${base_url}/@@shbxadd?ajax_load=1">Reply</a>
-  </aside>
-
+    <aside class="element-controls" tal:define="can_edit view/can_edit; can_add view/can_add" tal:condition="python:can_edit or can_add">
+      <a class="sharingbox_edit btn btn-warning pat-modal" data-pat-modal='{"width":"80%"}' tal:condition="can_edit" href="" tal:attributes="href string:${base_url}/@@shbxedit?ajax_load=1">Edit</a>
+      <a class="sharingbox_add btn btn-primary pat-modal" data-pat-modal='{"width":"80%"}' tal:condition="can_add" href="" tal:attributes="href string:${base_url}/@@shbxadd?ajax_load=1">Reply</a>
+    </aside>
   </footer>
 </article>
