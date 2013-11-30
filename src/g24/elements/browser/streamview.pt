@@ -17,13 +17,11 @@
 
   <tal:batchnav replace="structure python:batchnavigation(batch)" />
 
-  <tal:items repeat="item batch">
+  <div class="listing infinite-scroll isotope">
 
-    <tal:article replace="structure python:view.element_provider(item.getObject())"/>
+    <tal:article repeat="item batch" replace="structure python:view.element_provider(item.getObject())"/>
 
-  </tal:items>
-
-  <tal:batchnav replace="structure python:batchnavigation(batch)" />
+  </div>
 
   </metal:content-core>
 </metal:content-core>

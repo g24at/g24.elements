@@ -5,6 +5,7 @@
                 portal_url context/@@plone_portal_state/portal_url;"
     tal:attributes="id data/uid">
   <header>
+    <a class="close_element" title="close element"><i class="icon-ban-circle"/></a>
     <aside class="tags">
       <tal:tags repeat="tag data/subjects">
         <tal:label condition="repeat/tag/start"><em>Tags:</em></tal:label>
