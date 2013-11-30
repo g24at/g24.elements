@@ -84,11 +84,11 @@ class EventSubForm(ASubForm):
         super(EventSubForm, self).update()
         # Set widget parameters, as plone.autoform doesn't support subforms yet
         # (not: ObjectSubForm, which is something else).
-        widgets = self.widgets
-        widgets['start'].first_day = first_weekday_sun0
-        widgets['end'].first_day = first_weekday_sun0
-        widgets['recurrence'].first_day = first_weekday_sun0
-        widgets['recurrence'].start_field = 'start'  # Plain z3cform seems not
+        #widgets = self.widgets
+        #widgets['start'].first_day = first_weekday_sun0
+        #widgets['end'].first_day = first_weekday_sun0
+        #widgets['recurrence'].first_day = first_weekday_sun0
+        #widgets['recurrence'].start_field = 'start'  # Plain z3cform seems not
                                                      # to prefix schema fields
 
 
