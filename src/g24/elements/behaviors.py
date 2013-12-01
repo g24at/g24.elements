@@ -176,6 +176,22 @@ alsoProvides(IPlace, IFormFieldProvider)
 
 
 # plone.app.widgets integration
+from plone.formwidget.recurrence.z3cform.widget import RecurrenceWidget
+from plone.app.event.dx.behaviors import first_weekday_sun0
+
+@adapter(getSpecification(IEventRecurrence['recurrence']), IWidgetsLayer)
+@implementer(IFieldWidget)
+def RecurrenceFieldWidget(field, request):
+    # Please note: If you create a new behavior with superclasses IEventBasic
+    # and IRecurrence, then you have to reconfigure the dotted path value of
+    # the start_field parameter for the RecurrenceWidget to the new
+    # behavior name, like: IMyNewBehaviorName.start.
+    widget = FieldWidget(field, RecurrenceWidget(request))
+    widget.start_field = 'start'
+    widget.first_day = first_weekday_sun0
+    widget.show_repeat_forever = False
+    return widget
+
 
 @adapter(getSpecification(IBase['subjects']), IWidgetsLayer)
 @implementer(IFieldWidget)
