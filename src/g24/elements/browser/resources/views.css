@@ -1,18 +1,3 @@
-#content ul, #content ul.threadview { margin:0; padding:0; }
-#content ul.threadview > li {
-    list-style:none;
-    /*border-left:1px solid #EAEAEA;*/ }
-#content ul.threadview ul.threadview { margin-left:3em; }
-
-body a {
-    color: #0000FF;
-    text-decoration: none;
-}
-body a:hover {
-    color: #00FF00;
-    text-decoration: none;
-}
-
 /*
 .sharingbox,
 article.element {
