@@ -25,7 +25,7 @@
       <a href="" tal:attributes="href string:${parent/url}/@@thread" tal:content="parent/title">Title</a>
     </i>
 
-    <aside class="metadata pull-right">
+    <aside class="metadata">
       <em>By</em>
       <a href="" tal:attributes="href string:${portal_url}/stream?user=${context/Creator}" tal:content="context/Creator">Creator</a>
       <em>on</em>
