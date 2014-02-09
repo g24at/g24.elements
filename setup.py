@@ -32,7 +32,7 @@ setup(
         'collective.geolocationbehavior',
         'plone.app.event[dexterity]',
         'plone.app.dexterity',
-        'plone.app.widgets',
+        'plone.app.widgets [dexterity]',
         'plone.dexterity',
         'collective.address',
         'collective.js.leaflet',
